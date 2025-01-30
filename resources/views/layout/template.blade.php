@@ -1,88 +1,124 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
-<!-- Mirrored from techzaa.in/reback/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 30 Jan 2025 01:28:55 GMT -->
-
 <head>
-  <!-- Title Meta -->
-  <meta charset="utf-8" />
-  <title>Analytics | Reback - Responsive Admin Dashboard Template</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="A fully responsive premium admin dashboard template" />
-  <meta name="author" content="Techzaa" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <!--Title-->
+  <title>Mophy - Payment Admin Dashboard Bootstrap Template + FrontEnd | DexignZone</title>
+
+  <!-- MOBILE SPECIFIC -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <x-link></x-link>
 
 </head>
 
 <body>
-  <!-- START Wrapper -->
-  <div class="wrapper">
 
-    <x-header></x-header>
-
-    <x-theme></x-theme>
-
-    <x-sidebar></x-sidebar>
-
-    <!-- ==================================================== -->
-    <!-- Start right Content here -->
-    <!-- ==================================================== -->
-    <div class="page-content">
-      <!-- Start Container -->
-      <div class="container-xxl">
-        <!-- ========== Page Title Start ========== -->
-        <div class="row">
-          <div class="col-12">
-            <div class="page-title-box">
-              <h4 class="mb-0 fw-semibold">Analytics</h4>
-              <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item">
-                  <a href="javascript: void(0);">Dashboards</a>
-                </li>
-                <li class="breadcrumb-item active">Analytics</li>
-              </ol>
-            </div>
-          </div>
-        </div>
-        <!-- ========== Page Title End ========== -->
-
-        <!-- ========== Start Content ========== -->
-        @yield('content')
-        <!-- ========== End Content ========== -->
-
-      </div>
-      <!-- End Container -->
-
-      <!-- ========== Footer Start ========== -->
-      <footer class="footer">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12 text-center">
-              <script>
-                document.write(new Date().getFullYear())
-              </script>
-              &copy; Reback. Crafted by
-              <iconify-icon icon="iconamoon:heart-duotone" class="fs-18 align-middle text-danger"></iconify-icon>
-              <a href="https://1.envato.market/techzaa" class="fw-bold footer-text" target="_blank">Techzaa</a>
-            </div>
-          </div>
-        </div>
-      </footer>
-      <!-- ========== Footer End ========== -->
-
+  <!--*******************
+        Preloader start
+    ********************-->
+  <div id="preloader">
+    <div class="sk-three-bounce">
+      <div class="sk-child sk-bounce1"></div>
+      <div class="sk-child sk-bounce2"></div>
+      <div class="sk-child sk-bounce3"></div>
     </div>
-    <!-- ==================================================== -->
-    <!-- End Page Content -->
-    <!-- ==================================================== -->
   </div>
-  <!-- END Wrapper -->
+  <!--*******************
+        Preloader end
+    ********************-->
 
+  <!--**********************************
+        Main wrapper start
+    ***********************************-->
+  <div id="main-wrapper">
+
+    <!--**********************************
+            Nav header start
+        ***********************************-->
+    <div class="nav-header">
+      <a href="index.html" class="brand-logo">
+        <img class="logo-abbr" src="{{ asset('assets') }}/images/logo.png" alt="">
+        <img class="logo-compact" src="{{ asset('assets') }}/images/logo-text.png" alt="">
+        <img class="brand-title" src="{{ asset('assets') }}/images/logo-text.png" alt="">
+      </a>
+
+      <div class="nav-control">
+        <div class="hamburger">
+          <span class="line"></span><span class="line"></span><span class="line"></span>
+        </div>
+      </div>
+    </div>
+    <!--**********************************
+            Nav header end
+        ***********************************-->
+
+    <!--**********************************
+            Header start
+        ***********************************-->
+    <x-header></x-header>
+    <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+
+    <!--**********************************
+            Seeder start
+        ***********************************-->
+    <x-seeder></x-seeder>
+    <!--**********************************
+            Seeder end
+        ***********************************-->
+
+    <!--**********************************
+            Content body start
+        ***********************************-->
+    <div class="content-body default-height">
+      <!-- row -->
+      <div class="container-fluid">
+        <div class="form-head mb-4">
+          <h2 class="text-black font-w600 mb-0">Dashboard</h2>
+        </div>
+        {{-- Content --}}
+        @yield('content')
+      </div>
+    </div>
+    <!--**********************************
+            Content body end
+        ***********************************-->
+
+    <!--**********************************
+            Footer start
+        ***********************************-->
+    <div class="footer">
+      <div class="copyright">
+        <p>Copyright © Designed &amp; Developed by <a href="http://dexignzone.com/" target="_blank">DexignZone</a>
+          <span class="current-year">2024</span>
+        </p>
+      </div>
+    </div>
+    <!--**********************************
+            Footer end
+        ***********************************-->
+
+    <!--**********************************
+           Support ticket button start
+        ***********************************-->
+
+    <!--**********************************
+           Support ticket button end
+        ***********************************-->
+
+
+  </div>
+  <!--**********************************
+        Main wrapper end
+    ***********************************-->
+
+  <!--**********************************
+        Scripts
+    ***********************************-->
   <x-script></x-script>
 
 </body>
-
-<!-- Mirrored from techzaa.in/reback/admin/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 30 Jan 2025 01:29:44 GMT -->
 
 </html>
