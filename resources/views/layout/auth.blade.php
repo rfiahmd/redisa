@@ -3,7 +3,7 @@
 
 <head>
   <!--Title-->
-  <title>{{ $title }}</title>
+  <title>Login</title>
 
   <!-- Meta -->
   <meta charset="utf-8">

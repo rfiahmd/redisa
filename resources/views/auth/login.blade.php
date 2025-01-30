@@ -1,10 +1,7 @@
-@php
-  $title = 'Login';
-@endphp
 @extends('layout.auth')
 
 @section('form')
-  <form action="" method="post">
+  <form action="{{route('login')}}" method="post">
     @csrf
     <div class="mb-4">
       <label class="form-label required">Email</label>
