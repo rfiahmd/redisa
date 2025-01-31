@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Route untuk adminpusat dan superadmin
     Route::middleware(['role:adminpusat|superadmin'])->group(function () {
-        Route::get('/verivikator', [VerifikatorController::class, 'index'])->name('data.verifikator');
+        Route::get('/verifikator', [VerifikatorController::class, 'index'])->name('data.verifikator');
     });
 
     // Route untuk petugasdesa
