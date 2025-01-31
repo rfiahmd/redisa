@@ -32,7 +32,7 @@
             <h1 class="error-text text-primary">403</h1>
             <h4> Forbidden Error!</h4>
             <p>You do not have permission to view this resource.</p>
-            <a class="btn btn-primary" href="{{ url()->previous() }}">Back to Previous</a>
+            <a class="btn btn-primary" href="{{ route(Auth::user()->getRoleNames()->first() . '.dashboard') }}">Back to Dashboard</a>
           </div>
         </div>
         <div class="col-lg-6 col-sm-12">
@@ -42,8 +42,8 @@
     </div>
   </div>
   <!--**********************************
- Scripts
-***********************************-->
+    Scripts
+  ***********************************-->
   <!-- Required vendors -->
   <script src="{{ asset('assets') }}/vendor/global/global.min.js"></script>
   <script src="{{ asset('assets') }}/vendor/bootstrap-select/dist/js/bootstrap-select.min.js"></script>

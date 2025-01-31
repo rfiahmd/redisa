@@ -20,3 +20,6 @@
 <link rel="stylesheet" href="{{ asset('assets') }}/vendor/pickadate/themes/default.css">
 <link rel="stylesheet" href="{{ asset('assets') }}/vendor/pickadate/themes/default.date.css">
 <link rel="stylesheet" href="{{ asset('assets') }}/vendor/toastr/css/toastr.min.css">
+
+<!-- SweetAlert CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

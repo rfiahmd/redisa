@@ -32,7 +32,12 @@
             <h1 class="error-text text-primary">404</h1>
             <h4>The page you were looking for is not found!</h4>
             <p>You may have mistyped the address or the page may have moved.</p>
-            <a class="btn btn-primary" href="{{ url()->previous() }}">Back to Previous</a>
+            @if (Auth::check())
+              <a class="btn btn-primary" href="{{ route(Auth::user()->getRoleNames()->first() . '.dashboard') }}">Back
+                to Dashboard</a>
+            @else
+              <a class="btn btn-primary" href="{{ route('login') }}">Back to Login</a>
+            @endif
           </div>
         </div>
         <div class="col-lg-6 col-sm-12">

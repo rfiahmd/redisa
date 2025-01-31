@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -12,34 +13,50 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login_action(Request $request)
+    public function login_action(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-
-        $infoLogin = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
+        $infoLogin = $request->only('email', 'password');
 
         if (Auth::attempt($infoLogin)) {
+            // Ambil data pengguna yang sudah login
             $user = Auth::user();
 
-            if ($user->hasRole('adminpusat')) {
-                return redirect('/adminpusat');
-            } elseif ($user->hasRole('superadmin')) {
-                return redirect('/superadmin');
+            // Cek role pengguna dan arahkan sesuai role
+            if ($user->hasRole('superadmin')) {
+                session()->flash('login_success', 'Selamat Anda berhasil login sebagai Super Admin!');
+                return redirect()->route('superadmin.dashboard');
+            } elseif ($user->hasRole('adminpusat')) {
+                session()->flash('login_success', 'Selamat Anda berhasil login sebagai Admin Pusat!');
+                return redirect()->route('adminpusat.dashboard');
             } elseif ($user->hasRole('petugasdesa')) {
-                return redirect('/petugasdesa');
+                session()->flash('login_success', 'Selamat Anda berhasil login sebagai Petugas Desa!');
+                return redirect()->route('petugasdesa.dashboard');
             } elseif ($user->hasRole('verifikator')) {
-                return redirect('/verifikator');
+                session()->flash('login_success', 'Selamat Anda berhasil login sebagai Verifikator!');
+                return redirect()->route('verifikator.dashboard');
             } elseif ($user->hasRole('kadis')) {
-                return redirect('/kadis');
-            } else {
-                return redirect('/login');
+                session()->flash('login_success', 'Selamat Anda berhasil login sebagai Kepala Dinas!');
+                return redirect()->route('kadis.dashboard');
             }
+
+            return redirect()->route('login');
         }
+
+        // Jika login gagal, tampilkan pesan error
+        return back()
+            ->withErrors([
+                'email' => 'Email atau password salah.',
+            ])
+            ->withInput();
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        session()->flash('logout_success', 'Anda telah berhasil logout.');
+
+        return redirect()->route('login');
     }
 }

@@ -1,15 +1,23 @@
 @extends('layout.auth')
 
 @section('form')
-  <form action="{{route('login')}}" method="post">
+  <form action="{{ route('login') }}" method="post">
     @csrf
     <div class="mb-4">
       <label class="form-label required">Email</label>
-      <input type="email" class="form-control" placeholder="hello@example.com" name="email" required>
+      <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="hello@example.com"
+        name="email" required>
+      @error('email')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
     </div>
     <div class="mb-4 position-relative">
       <label class="mb-1 form-label required">Password</label>
-      <input type="password" id="password-field" class="form-control" placeholder="123456" name="password" required>
+      <input type="password" id="password-field" class="form-control @error('password') is-invalid @enderror"
+        placeholder="123456" name="password" required>
+      @error('password')
+        <div class="invalid-feedback">{{ $message }}</div>
+      @enderror
     </div>
     <div class="form-row d-flex justify-content-between mt-4 mb-2">
       <div class="mb-4">
@@ -26,6 +34,16 @@
       <button type="submit" class="btn btn-primary btn-block">Masuk</button>
     </div>
   </form>
+
+  @if ($errors->any())
+    <script>
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "{{ $errors->first() }}",
+      });
+    </script>
+  @endif
 
   <script>
     document.getElementById("show-password").addEventListener("change", function() {

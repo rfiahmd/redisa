@@ -3,10 +3,16 @@
 
 <head>
   <!--Title-->
-  <title>Mophy - Payment Admin Dashboard Bootstrap Template + FrontEnd | DexignZone</title>
+  <title>{{ $title }}</title>
 
   <!-- MOBILE SPECIFIC -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    .swal2-select {
+      display: none !important;
+    }
+  </style>
 
   <x-link></x-link>
 
@@ -76,7 +82,7 @@
       <!-- row -->
       <div class="container-fluid">
         <div class="form-head mb-4">
-          <h2 class="text-black font-w600 mb-0">Dashboard</h2>
+          <h2 class="text-black font-w600 mb-0">{{ $breadcrumb }}</h2>
         </div>
         {{-- Content --}}
         @yield('content')
@@ -91,7 +97,7 @@
         ***********************************-->
     <div class="footer">
       <div class="copyright">
-        <p>Copyright © Designed &amp; Developed by <a href="http://dexignzone.com/" target="_blank">DexignZone</a>
+        <p>Copyright © Designed &amp; Developed by <a href="http://turbo-main.com/" target="_blank">TurboMain</a>
           <span class="current-year">2024</span>
         </p>
       </div>
@@ -117,6 +123,7 @@
   <!--**********************************
         Scripts
     ***********************************-->
+  <x-alert></x-alert>
   <x-script></x-script>
 
 </body>
