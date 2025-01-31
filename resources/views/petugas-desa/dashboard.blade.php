@@ -6,5 +6,5 @@ $breadcrumb = 'Dashboard';
 @extends('layout.template')
 
 @section('content')
-    <h1>admin pusat</h1>
+    <h1>petugas desa/h1>
 @endsection

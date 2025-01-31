@@ -4,17 +4,17 @@
   <form action="{{ route('login') }}" method="post">
     @csrf
     <div class="mb-4">
-      <label class="form-label required">Email</label>
-      <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="hello@example.com"
-        name="email" required>
+      <label class="form-label">Email</label>
+      <input type="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" placeholder="hello@example.com"
+        name="email">
       @error('email')
         <div class="invalid-feedback">{{ $message }}</div>
       @enderror
     </div>
     <div class="mb-4 position-relative">
-      <label class="mb-1 form-label required">Password</label>
+      <label class="mb-1 form-label">Password</label>
       <input type="password" id="password-field" class="form-control @error('password') is-invalid @enderror"
-        placeholder="123456" name="password" required>
+        placeholder="123456" name="password">
       @error('password')
         <div class="invalid-feedback">{{ $message }}</div>
       @enderror

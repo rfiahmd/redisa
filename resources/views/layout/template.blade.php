@@ -124,6 +124,7 @@
         Scripts
     ***********************************-->
   <x-alert></x-alert>
+  <x-datetime></x-datetime>
   <x-script></x-script>
 
 </body>
