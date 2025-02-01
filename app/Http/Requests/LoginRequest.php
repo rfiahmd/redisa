@@ -14,7 +14,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email',
+            'login' => 'required|string', // Bisa username atau email
             'password' => 'required',
         ];
     }
@@ -22,8 +22,7 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Format email tidak valid.',
+            'login.required' => 'Email atau username wajib diisi.',
             'password.required' => 'Password wajib diisi.',
         ];
     }

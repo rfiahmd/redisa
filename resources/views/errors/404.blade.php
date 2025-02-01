@@ -30,13 +30,13 @@
         <div class="col-lg-6 col-sm-12">
           <div class="form-input-content  error-page">
             <h1 class="error-text text-primary">404</h1>
-            <h4>The page you were looking for is not found!</h4>
-            <p>You may have mistyped the address or the page may have moved.</p>
+            <h4>Halaman yang Anda cari tidak ditemukan!</h4>
+            <p>Anda mungkin salah mengetik alamat atau halaman tersebut sudah dipindahkan.</p>
             @if (Auth::check())
-              <a class="btn btn-primary" href="{{ route(Auth::user()->getRoleNames()->first() . '.dashboard') }}">Back
-                to Dashboard</a>
+              <a class="btn btn-primary"
+                href="{{ route(Auth::user()->getRoleNames()->first() . '.dashboard') }}">Kembali ke Dashboard</a>
             @else
-              <a class="btn btn-primary" href="{{ route('login') }}">Back to Login</a>
+              <a class="btn btn-primary" href="{{ route('login') }}">Kembali ke Login</a>
             @endif
           </div>
         </div>

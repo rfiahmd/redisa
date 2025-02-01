@@ -4,10 +4,10 @@
   <form action="{{ route('login') }}" method="post">
     @csrf
     <div class="mb-4">
-      <label class="form-label">Email</label>
-      <input type="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" placeholder="hello@example.com"
-        name="email">
-      @error('email')
+      <label class="form-label">Email atau Username</label>
+      <input type="text" value="{{ old('login') }}" class="form-control @error('login') is-invalid @enderror"
+        placeholder="Masukkan email atau username" name="login">
+      @error('login')
         <div class="invalid-feedback">{{ $message }}</div>
       @enderror
     </div>
@@ -34,6 +34,7 @@
       <button type="submit" class="btn btn-primary btn-block">Masuk</button>
     </div>
   </form>
+
 
   @if ($errors->any())
     <script>

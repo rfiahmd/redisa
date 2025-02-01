@@ -15,10 +15,15 @@ class AuthController extends Controller
 
     public function login_action(LoginRequest $request)
     {
-        $infoLogin = $request->only('email', 'password');
+        // Cek apakah input adalah email atau username
+        $loginType = filter_var($request->login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        if (Auth::attempt($infoLogin)) {
-            // Ambil data pengguna yang sudah login
+        $credentials = [
+            $loginType => $request->login,
+            'password' => $request->password,
+        ];
+
+        if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
             // Cek role pengguna dan arahkan sesuai role
@@ -42,11 +47,8 @@ class AuthController extends Controller
             return redirect()->route('login');
         }
 
-        // Jika login gagal, tampilkan pesan error
         return back()
-            ->withErrors([
-                'email' => 'Email atau password salah.',
-            ])
+            ->withErrors(['login' => 'Email/Username atau Password salah.'])
             ->withInput();
     }
 

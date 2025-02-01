@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -16,7 +17,9 @@ class UserSeeder extends Seeder
         // Membuat pengguna untuk super-admin
         $superAdmin = User::create(
             [
-                'name' => 'Super Admin',
+                'token_users' => Str::random(12),
+                'nama_lengkap' => 'Super Admin',
+                'username' => 'superadmin',
                 'email' => 'superadmin@gmail.com',
                 'password' => bcrypt('123'),
             ]
@@ -24,7 +27,9 @@ class UserSeeder extends Seeder
         $superAdmin->assignRole('superadmin');
         $adminpusat = User::create(
             [
-                'name' => 'Admin Pusat',
+                'token_users' => Str::random(12),
+                'nama_lengkap' => 'Admin Pusat',
+                'username' => 'adminpusat',
                 'email' => 'adminpusat@gmail.com',
                 'password' => bcrypt('123'),
             ]
@@ -32,7 +37,9 @@ class UserSeeder extends Seeder
         $adminpusat->assignRole('adminpusat');
         $petugasdesa = User::create(
             [
-                'name' => 'Petugas Desa',
+                'token_users' => Str::random(12),
+                'nama_lengkap' => 'Petugas Desa',
+                'username' => 'petugasdesa',
                 'email' => 'petugasdesa@gmail.com',
                 'password' => bcrypt('123'),
             ]
@@ -40,7 +47,9 @@ class UserSeeder extends Seeder
         $petugasdesa->assignRole('petugasdesa');
         $verifikator = User::create(
             [
-                'name' => 'Verifikator',
+                'token_users' => Str::random(12),
+                'nama_lengkap' => 'Verifikator',
+                'username' => 'verifikator',
                 'email' => 'verifikator@gmail.com',
                 'password' => bcrypt('123'),
             ]
@@ -48,7 +57,9 @@ class UserSeeder extends Seeder
         $verifikator->assignRole('verifikator');
         $kadis = User::create(
             [
-                'name' => 'Kepala Dinas',
+                'token_users' => Str::random(12),
+                'nama_lengkap' => 'Kepala Dinas',
+                'username' => 'kadis',
                 'email' => 'kadis@gmail.com',
                 'password' => bcrypt('123'),
             ]
