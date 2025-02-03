@@ -64,6 +64,9 @@ class AuthController extends Controller
 
     public function profile()
     {
-        return view('profile.profile');
+        $data=[
+            'user' => Auth::user()
+        ];
+        return view('profile.profile', $data);
     }
 }

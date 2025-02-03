@@ -31,12 +31,36 @@ $breadcrumb = ' Verifikator';
   </div>
   <div class="row">
     <div class="col-xl-4">
-        {{-- row pertama --}}
+      {{-- row pertama --}}
       <div class="row">
         <div class="col-xl-12">
           <div class="card">
             <div class="card-body">
-                <h2 class="text-primary">Profile</h2>
+              <h2 class="text-primary">Profile</h2>
+              <form action="">
+                <div class="mb-3 vertical-radius">
+                  <label class="text-label form-label">Nama Lengkap</label>
+                  <div class="input-group">
+                    <span class="input-group-text"> <i class="fa fa-user"></i></span>
+                    <input type="text" class="form-control" placeholder="Masukkan Nama Lengkap" value="{{ $user->nama_lengkap }}">
+                  </div>
+                </div>
+                <div class="mb-3 vertical-radius">
+                  <label class="text-label form-label">Username</label>
+                  <div class="input-group">
+                    <span class="input-group-text"> <i class="fa fa-user"></i></span>
+                    <input type="text" class="form-control" placeholder="Masukkan Username Baru" value="{{ $user->username }}">
+                  </div>
+                </div>
+                <div class="mb-3 vertical-radius">
+                  <label class="text-label form-label">Email</label>
+                  <div class="input-group">
+                    <span class="input-group-text"> <i class="fa-regular fa-envelope"></i></span>
+                    <input type="text" class="form-control" placeholder="Masukkan Email Baru" value="{{ $user->email }}">
+                  </div>
+                </div>
+                <button class="btn btn-primary">Simpan</button>
+              </form>
             </div>
           </div>
         </div>
@@ -46,7 +70,31 @@ $breadcrumb = ' Verifikator';
       <div class="card h-auto">
         <div class="card-body">
           <div class="profile-tab">
-            <h1>haloooo</h1>
+            <h2 class="text-primary">Ubah Password</h2>
+            <form action="">
+                <div class="mb-3 vertical-radius">
+                  <label class="text-label form-label">Masukkan Password Lama</label>
+                  <div class="input-group">
+                    <span class="input-group-text"> <i class="fa-solid fa-lock"></i></span>
+                    <input type="text" class="form-control" placeholder="Masukkan Password Lama">
+                  </div>
+                </div>
+                <div class="mb-3 vertical-radius">
+                  <label class="text-label form-label">Masukkan Password Baru</label>
+                  <div class="input-group">
+                    <span class="input-group-text"> <i class="fa-solid fa-lock"></i></span>
+                    <input type="text" class="form-control" placeholder="Masukkan Password baru">
+                  </div>
+                </div>
+                <div class="mb-3 vertical-radius">
+                  <label class="text-label form-label">Konfirmasi Password Baru</label>
+                  <div class="input-group">
+                    <span class="input-group-text"> <i class="fa-solid fa-lock"></i></span>
+                    <input type="text" class="form-control" placeholder="Konfirmasi Password Baru">
+                  </div>
+                </div>
+                <button class="btn btn-primary">Simpan</button>
+            </form>
           </div>
         </div>
       </div>
