@@ -2,13 +2,14 @@
   function updateDateTime() {
     const now = new Date();
 
-    // Format waktu (HH:MM)
+    // Format waktu (HH:MM:SS)
     const timeOptions = {
       hour: '2-digit',
       minute: '2-digit',
+      second: '2-digit',
       hour12: false
     };
-    const formattedTime = now.toLocaleTimeString('id-ID', timeOptions);
+    const formattedTime = now.toLocaleTimeString('id-ID', timeOptions).replace(/\./g, ':');
 
     // Format tanggal lengkap (Hari, DD MMMM YYYY)
     const dateOptions = {
@@ -38,6 +39,6 @@
   // Jalankan saat halaman dimuat
   window.onload = updateDateTime;
 
-  // Perbarui waktu setiap menit
-  setInterval(updateDateTime, 60000);
+  // Perbarui waktu setiap detik agar real-time
+  setInterval(updateDateTime, 1000);
 </script>
