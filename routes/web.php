@@ -16,6 +16,9 @@ Route::middleware(['auth'])->group(function () {
     // Route logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+    //Profile
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+
     // Route untuk superadmin
     Route::middleware(['role:superadmin'])->group(function () {
         Route::get('/dashboard/superadmin', [DashboardController::class, 'dssuperadmin'])->name('superadmin.dashboard');
