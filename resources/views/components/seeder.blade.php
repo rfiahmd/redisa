@@ -16,7 +16,52 @@
       <li>
         <a href="{{ route('data.verifikator') }}" aria-expanded="false">
           <i class="la la-user-check" style="font-size: 24px;"></i>
-          <span class="nav-text">Verifikator</span>
+          <span class="nav-text">Operator</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" aria-expanded="false">
+          <i class="la la-user-tie" style="font-size: 24px;"></i>
+          <span class="nav-text">Petugas Desa</span>
+        </a>
+      </li>
+      <li>
+        <a href="{{ route('jenis_disabilitas') }}" aria-expanded="false">
+          <i class="la la-wheelchair" style="font-size: 24px;"></i>
+          <span class="nav-text">Jenis Disabilitas</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" aria-expanded="false">
+          <i class="la la-map-marker" style="font-size: 24px;"></i>
+          <span class="nav-text">Data Desa</span>
+        </a>
+      </li>
+      <li class="px-4 pt-4 mt-4 border-top border-primary">
+        <h4 class="fw-bold nav-text">Operasional</h4>
+      </li>
+      <li>
+        <a href="#" aria-expanded="false">
+          <i class="la la-users" style="font-size: 24px;"></i>
+          <span class="nav-text">Data Disabilitas</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" aria-expanded="false">
+          <i class="la la-hand-holding-heart" style="font-size: 24px;"></i>
+          <span class="nav-text">Bantuan</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" aria-expanded="false">
+          <i class="la la-check-circle" style="font-size: 24px;"></i>
+          <span class="nav-text">Verifikasi Data</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" aria-expanded="false">
+          <i class="la la-chart-bar" style="font-size: 24px;"></i>
+          <span class="nav-text">Laporan</span>
         </a>
       </li>
     </ul>

@@ -32,6 +32,12 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk adminpusat dan superadmin
     Route::middleware(['role:adminpusat|superadmin'])->group(function () {
         Route::get('/verifikator', [VerifikatorController::class, 'index'])->name('data.verifikator');
+        Route::get('/jenis_disabilitas', function () {
+            return view('admin.jenis-disabilitas.jenis_disabilitas_view');
+        })->name('jenis_disabilitas');
+        Route::get('/sub_jenis_disabilitas', function () {
+            return view('admin.jenis-disabilitas.sub-jenis.sub_jenis_view');
+        })->name('sub_jenis_disabilitas');
     });
 
     // Route untuk petugasdesa
