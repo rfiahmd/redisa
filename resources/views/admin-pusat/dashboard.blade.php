@@ -1,5 +1,5 @@
 <?php
-$title = 'Dashboard » ' . Str::ucfirst(Auth::user()->name);
+$title = 'Dashboard » ' . Str::ucfirst(Auth::user()->nama_lengkap);
 $breadcrumb = 'Dashboard';
 ?>
 

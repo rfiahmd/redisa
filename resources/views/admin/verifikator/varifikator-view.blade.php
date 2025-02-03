@@ -6,8 +6,6 @@ $breadcrumb = ' Verifikator';
 @extends('layout.template')
 
 @section('content')
-
-    
   <div class="card">
     <div class="card-header">
       <h3>Data Verifikator</h3>
@@ -22,61 +20,59 @@ $breadcrumb = ' Verifikator';
         <div class="offcanvas-body">
           <form class="form-valide-with-icon needs-validation" novalidate>
             <div class="mb-3 vertical-radius">
-              <label class="text-label form-label required" for="validationCustomUsername">Nama</label>
-              <div class="input-group validate-username">
-                <span class="input-group-text search_icon"> <i class="fa fa-user"></i>
-                </span>
-                <input type="text" class="form-control br-style" id="validationCustomUsername"
-                  placeholder="Masukkan Nama Anda.." required>
-                <div class="invalid-feedback">
-                  Masukkan Nama Anda
-                </div>
+              <label class="text-label form-label required">Nama</label>
+              <div class="input-group">
+                <span class="input-group-text"> <i class="fa fa-user"></i></span>
+                <input type="text" class="form-control" placeholder="Masukkan Nama Anda.." required>
               </div>
+              <div class="invalid-feedback">Masukkan Nama Anda</div>
             </div>
+
             <div class="mb-3 vertical-radius">
-              <label class="text-label form-label required" for="validationCustomUsername">Email</label>
-              <div class="input-group validate-username">
-                <span class="input-group-text search_icon"> <i class="fa fa-user"></i>
-                </span>
-                <input type="email" class="form-control br-style" id="validationCustomUsername"
-                  placeholder="Masukkan Email Anda.." required>
-                <div class="invalid-feedback">
-                  Harap Masukkan Email Dengan Benar
-                </div>
+              <label class="text-label form-label required">Email</label>
+              <div class="input-group">
+                <span class="input-group-text"> <i class="fa fa-envelope"></i></span>
+                <input type="email" class="form-control" placeholder="Masukkan Email Anda.." required>
               </div>
+              <div class="invalid-feedback">Harap Masukkan Email Dengan Benar</div>
             </div>
+
             <div class="mb-3 vertical-radius">
-              <label class="text-label form-label required" for="validationCustomUsername">Jabatan</label>
-              <div class="input-group validate-username">
-                <span class="input-group-text search_icon"> <i class="fa fa-user"></i>
-                </span>
-                <input type="text" class="form-control br-style" id="validationCustomUsername"
-                  placeholder="Masukkan Jabatan Anda.." required>
-                <div class="invalid-feedback">
-                  Masukkan Jabatan Anda
+              <label class="text-label form-label required">Jabatan</label>
+              <div class="input-group">
+                <span class="input-group-text"> <i class="fa fa-briefcase"></i></span>
+                <input type="text" class="form-control" placeholder="Masukkan Jabatan Anda.." required>
+              </div>
+              <div class="invalid-feedback">Masukkan Jabatan Anda</div>
+            </div>
+
+            <!-- Wrapper untuk Select Desa -->
+            <div id="desa-container">
+              <div class="mb-3 vertical-radius desa-group">
+                <label class="text-label form-label required">Desa</label>
+                <div class="input-group">
+                  <select class="form-control" name="desa[]">
+                    <option value="AL">Alabama</option>
+                    <option value="WY">Wyoming</option>
+                    <option value="UI">dlf</option>
+                  </select>
+                  <button type="button" class="btn btn-danger remove-desa ms-2 d-none">Hapus</button>
                 </div>
               </div>
             </div>
-            <div class="mb-3 vertical-radius ">
-              <label class="text-label form-label required" for="dz-password">Desa</label>
-              <div class="input-group transparent-append  validate-password">
-                <select class="multi-select form-control" name="states[]" multiple="multiple">
-									<option value="AL">Alabama</option>
-									<option value="WY">Wyoming</option>
-									<option value="UI">dlf</option>
-								</select>
-              </div>
-            </div>
+
+            <!-- Tombol Tambah Desa -->
+            <button type="button" id="tambah-desa" class="btn btn-success">Tambah Desa</button>
+
             <div class="mb-3">
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-                <label class="form-check-label" for="invalidCheck2">
-                  Check Me out
-                </label>
+                <input class="form-check-input" type="checkbox" id="invalidCheck2" required>
+                <label class="form-check-label" for="invalidCheck2">Check Me out</label>
               </div>
             </div>
-            <button type="submit" class="btn me-2 btn-primary">Submit</button>
-            <button type="submit" class="btn btn-danger light">Cancel</button>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-danger light">Cancel</button>
           </form>
         </div>
       </div>
@@ -125,4 +121,30 @@ $breadcrumb = ' Verifikator';
       </div>
     </div>
   </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $("#tambah-desa").click(function() {
+        let desaForm = `
+            <div class="mb-3 vertical-radius desa-group">
+                <label class="text-label form-label required">Desa</label>
+                <div class="input-group">
+                    <select class="form-control" name="desa[]">
+                        <option value="AL">Alabama</option>
+                        <option value="WY">Wyoming</option>
+                        <option value="UI">dlf</option>
+                    </select>
+                    <button type="button" class="btn btn-danger remove-desa ms-2">Hapus</button>
+                </div>
+            </div>
+        `;
+        $("#desa-container").append(desaForm);
+      });
+      $(document).on("click", ".remove-desa", function() {
+        $(this).closest(".desa-group").remove();
+      });
+    });
+  </script>
 @endsection

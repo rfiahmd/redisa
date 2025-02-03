@@ -24,6 +24,8 @@
   <link href="{{ asset('') }}assets/vendor/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
   <link href="{{ asset('') }}assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
   <link class="main-css" href="{{ asset('') }}assets/css/style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     .swal2-select {
       display: none !important;
@@ -37,18 +39,21 @@
       <div class="col-lg-6 align-self-start">
         <div class="account-info-area" style="background-image: url({{ asset('') }}assets/images/rainbow.gif)">
           <div class="login-content">
-            <p class="sub-title">Log in to your admin dashboard with your credentials</p>
-            <h1 class="title">The Evolution of <span>Mophy</span></h1>
-            <p class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+            <p style="font-size: 20px; font-style: italic; font-family: 'Merriweather', sans-serif;" class="sub-title">
+              "Bersama REDISA, Ciptakan Akses yang Setara untuk Penyandang Disabilitas"
             </p>
+            <h1 class="title">Selamat datang di <span>REDISA</span></h1>
+            <p class="text">Sistem pendataan disabilitas yang memudahkan pemerintah dan masyarakat dalam mengakses
+              informasi yang akurat dan inklusif</p>
           </div>
         </div>
       </div>
       <div class="col-lg-6 col-md-7 col-sm-12 mx-auto align-self-center">
         <div class="login-form">
           <div class="login-head">
-            <h3 class="title">Welcome Back</h3>
-            <p>Login page allows users to enter login credentials for authentication and access to secure content.</p>
+            <h3 class="title">Selamat Datang Kembali</h3>
+            <p>Halaman login memungkinkan pengguna untuk memasukkan kredensial dan mengakses informasi disabilitas yang
+              terverifikasi.</p>
           </div>
           @yield('form')
         </div>
