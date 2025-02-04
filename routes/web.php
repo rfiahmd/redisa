@@ -38,6 +38,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/sub_jenis_disabilitas', function () {
             return view('admin.jenis-disabilitas.sub-jenis.sub_jenis_view');
         })->name('sub_jenis_disabilitas');
+        Route::get('/bantuan', function () {
+            return view('admin.bantuan-disabilitas.bantuan_view');
+        })->name('bantuan_disabilitas');
+        Route::get('/cutomer_service', function () {
+            return view('admin.customer-service.cs_view');
+        })->name('customer_service');
     });
 
     // Route untuk petugasdesa

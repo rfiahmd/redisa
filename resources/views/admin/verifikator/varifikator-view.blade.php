@@ -121,30 +121,4 @@ $breadcrumb = ' Verifikator';
       </div>
     </div>
   </div>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <script>
-    $(document).ready(function() {
-      $("#tambah-desa").click(function() {
-        let desaForm = `
-            <div class="mb-3 vertical-radius desa-group">
-                <label class="text-label form-label required">Desa</label>
-                <div class="input-group">
-                    <select class="form-control" name="desa[]">
-                        <option value="AL">Alabama</option>
-                        <option value="WY">Wyoming</option>
-                        <option value="UI">dlf</option>
-                    </select>
-                    <button type="button" class="btn btn-danger remove-desa ms-2">Hapus</button>
-                </div>
-            </div>
-        `;
-        $("#desa-container").append(desaForm);
-      });
-      $(document).on("click", ".remove-desa", function() {
-        $(this).closest(".desa-group").remove();
-      });
-    });
-  </script>
 @endsection

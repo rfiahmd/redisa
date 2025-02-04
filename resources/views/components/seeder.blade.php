@@ -20,6 +20,12 @@
         </a>
       </li>
       <li>
+        <a href="{{ route('customer_service') }}" aria-expanded="false">
+          <i class="la la-user-check" style="font-size: 24px;"></i>
+          <span class="nav-text">Suctomer Service</span>
+        </a>
+      </li>
+      <li>
         <a href="#" aria-expanded="false">
           <i class="la la-user-tie" style="font-size: 24px;"></i>
           <span class="nav-text">Petugas Desa</span>
@@ -47,7 +53,7 @@
         </a>
       </li>
       <li>
-        <a href="#" aria-expanded="false">
+        <a href="{{ route('bantuan_disabilitas') }}" aria-expanded="false">
           <i class="la la-hand-holding-heart" style="font-size: 24px;"></i>
           <span class="nav-text">Bantuan</span>
         </a>
