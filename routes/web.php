@@ -44,6 +44,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/cutomer_service', function () {
             return view('admin.customer-service.cs_view');
         })->name('customer_service');
+
+        //desa
+        Route::get('/desa', function () {
+            return view('admin.desa.desa-view');
+        })->name('desa');
+
+        //pendidikan
+        Route::get('/pendidikan', function () {
+            return view('admin.pendidikan.pendidikan-view');
+        })->name('pendidikan');
     });
 
     // Route untuk petugasdesa
