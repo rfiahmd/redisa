@@ -43,6 +43,16 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk petugasdesa
     Route::middleware(['role:petugasdesa'])->group(function () {
         Route::get('/dashboard/petugasdesa', [DashboardController::class, 'dspetugasdesa'])->name('petugasdesa.dashboard');
+
+        Route::get('/datadisabilitas', function () {
+            return view('petugas-desa.disabilitas.disabilitas-view');
+        })->name('disabilitas');
+        Route::get('/disabilitas-create', function () {
+            return view('petugas-desa.disabilitas.disabilitas-create');
+        })->name('disabilitas.create');
+        Route::get('/disabilitas-edit', function () {
+            return view('petugas-desa.disabilitas.disabilitas-edit');
+        })->name('disabilitas.edit');
     });
 
     // Route untuk verifikator

@@ -41,7 +41,7 @@
         <h4 class="fw-bold nav-text">Operasional</h4>
       </li>
       <li>
-        <a href="#" aria-expanded="false">
+        <a href="{{ route('disabilitas') }}" aria-expanded="false">
           <i class="la la-users" style="font-size: 24px;"></i>
           <span class="nav-text">Data Disabilitas</span>
         </a>
