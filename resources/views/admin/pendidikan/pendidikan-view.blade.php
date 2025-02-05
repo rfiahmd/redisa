@@ -1,5 +1,5 @@
 <?php
-$title = 'Data Desa » ' . Str::ucfirst(Auth::user()->name);
+$title = 'Data Desa » ' . Str::ucfirst(Auth::user()->nama_lengkap);
 $breadcrumb = ' Verifikator';
 ?>
 

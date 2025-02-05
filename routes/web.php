@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DesaController;
 use App\Http\Controllers\VerifikatorController;
 
 // Route untuk guest (pengguna yang belum login)
@@ -46,9 +47,10 @@ Route::middleware(['auth'])->group(function () {
         })->name('customer_service');
 
         //desa
-        Route::get('/desa', function () {
-            return view('admin.desa.desa-view');
-        })->name('desa');
+        Route::get('/desa', [DesaController::class, 'index'])->name('desa');
+        Route::post('/desa-create', [DesaController::class, 'store'])->name('desa.store');
+        Route::get('/desa/delete/{id}', [DesaController::class, 'destroy'])->name('desa.delete');
+        Route::post('/desa/update/{id}', [DesaController::class, 'update'])->name('desa.update');
 
         //pendidikan
         Route::get('/pendidikan', function () {
