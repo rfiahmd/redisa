@@ -99,8 +99,12 @@ $breadcrumb = ' Verifikator';
                         </form>
                       </div>
                     </div>
-                    <a href="{{ route('desa.delete', $get->kode_desa) }}" class="btn btn-danger shadow btn-xs sharp"><i
-                        class="fas fa-trash-alt"></i></a>
+                    {{-- <a href="{{ route('desa.delete', $get->kode_desa) }}" class="btn btn-danger shadow btn-xs sharp"><i
+                        class="fas fa-trash-alt"></i></a> --}}
+                    <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"
+                      onclick="deleteEntity('desa', '{{ $get->kode_desa }}', '{{ $get->nama_desa }}', null, null)">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
                   </div>
                 </td>
               </tr>

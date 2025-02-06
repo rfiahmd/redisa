@@ -21,6 +21,10 @@
       entityName = 'Sub Jenis Disabilitas';
       entityRoute = '/subjenis/' + param3 + '/' + token + '/delete';
       warningText = entityName + " '" + name + "' akan dihapus secara permanen!";
+    } else if (entity === 'desa') {
+      entityName = 'Desa';
+      entityRoute = '/desa/delete/' + token;
+      warningText = entityName + " '" + name + "' akan dihapus secara permanen!";
     }
 
     // Konfirmasi penghapusan

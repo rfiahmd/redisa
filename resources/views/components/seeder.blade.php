@@ -14,21 +14,9 @@
         <h4 class="fw-bold nav-text">Master</h4>
       </li>
       <li>
-        <a href="{{ route('data.verifikator') }}" aria-expanded="false">
-          <i class="la la-user-check" style="font-size: 24px;"></i>
-          <span class="nav-text">Operator</span>
-        </a>
-      </li>
-      <li>
         <a href="{{ route('customer_service') }}" aria-expanded="false">
           <i class="la la-user-check" style="font-size: 24px;"></i>
           <span class="nav-text">Suctomer Service</span>
-        </a>
-      </li>
-      <li>
-        <a href="#" aria-expanded="false">
-          <i class="la la-user-tie" style="font-size: 24px;"></i>
-          <span class="nav-text">Petugas Desa</span>
         </a>
       </li>
       <li>

@@ -98,6 +98,6 @@ class DesaController extends Controller
     public function destroy($id)
     {
         Desa::where('kode_desa', $id)->delete();
-        return redirect()->route('desa')->with('success', 'Data desa berhasil dihapus');
+        return redirect()->route('desa')->with('delete_success', 'Data desa berhasil dihapus');
     }
 }
