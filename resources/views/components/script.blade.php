@@ -72,7 +72,7 @@
 
 <!-- All init script -->
 <script src="{{ asset('assets') }}/js/plugins-init/toastr-init.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
   function carouselReview() {
     /*  testimonial one function by = owl.carousel.js */

@@ -32,7 +32,7 @@
         </a>
       </li>
       <li>
-        <a href="{{ route('jenis_disabilitas') }}" aria-expanded="false">
+        <a href="{{ route('jenis.index') }}" aria-expanded="false">
           <i class="la la-wheelchair" style="font-size: 24px;"></i>
           <span class="nav-text">Jenis Disabilitas</span>
         </a>

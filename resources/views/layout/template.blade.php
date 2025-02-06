@@ -7,6 +7,8 @@
 
   <!-- MOBILE SPECIFIC -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
   <style>
     .swal2-select {
@@ -125,6 +127,7 @@
     ***********************************-->
   <x-alert></x-alert>
   <x-datetime></x-datetime>
+  <x-delete></x-delete>
   <x-script></x-script>
 
 </body>
