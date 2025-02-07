@@ -1,5 +1,5 @@
 <?php
-$title = 'Jenis Disabilitas » Sub Jenis Disabilitas';
+$title = 'Jenis Disabilitas » Sub Jenis Disabilitas » ' . Str::ucfirst(Auth::user()->getRoleNames()->first());
 $breadcrumb = 'Sub Jenis Disabilitas';
 ?>
 

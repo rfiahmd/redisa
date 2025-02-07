@@ -1,6 +1,6 @@
 <?php
-$title = 'Data Desa » ' . Str::ucfirst(Auth::user()->nama_lengkap);
-$breadcrumb = ' Verifikator';
+$title = 'Data Desa » ' . Str::ucfirst(Auth::user()->getRoleNames()->first());
+$breadcrumb = ' Data Desa';
 ?>
 
 @extends('layout.template')

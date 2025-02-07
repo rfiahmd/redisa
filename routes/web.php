@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\Jenis\JenisDisabilitasController;
 use App\Http\Controllers\admin\Jenis\SubJenis\SubJenisDisabilitasController;
+use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -38,9 +39,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/bantuan', function () {
             return view('admin.bantuan-disabilitas.bantuan_view');
         })->name('bantuan_disabilitas');
-        Route::get('/cutomer_service', function () {
-            return view('admin.customer-service.cs_view');
-        })->name('customer_service');
 
         //desa
         Route::get('/desa', [DesaController::class, 'index'])->name('desa');
@@ -67,6 +65,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/pendidikan', function () {
             return view('admin.pendidikan.pendidikan-view');
         })->name('pendidikan');
+
+        Route::prefix('users')->group(function () {
+            Route::get('/', [UserController::class, 'index'])->name('users.index');
+            Route::post('/', [UserController::class, 'store'])->name('users.store');
+            Route::put('/{users}', [UserController::class, 'update'])->name('users.update');
+            Route::get('/{users}/delete', [UserController::class, 'destroy'])->name('users.destroy');
+        });
     });
 
     // Route untuk petugasdesa

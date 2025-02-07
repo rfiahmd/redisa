@@ -41,7 +41,11 @@
                 <span class="text-black"><strong>@cptl(Auth::user()->nama_lengkap)</strong></span>
                 <p class="fs-12 mb-0">@cptl(Auth::user()->getRoleNames()->first())</p>
               </div>
-              <img src="{{ asset('assets') }}/images/profile/17.jpg" width="20" alt="">
+              <div class="profile-initials"
+                style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+                    background-color: {{ '#' . substr(md5(Auth::user()->nama_lengkap), 0, 6) }}; color: white; font-weight: bold; font-size: 30px;">
+                {{ strtoupper(substr(Auth::user()->nama_lengkap, 0, 1)) }}
+              </div>
             </a>
             <div class="dropdown-menu dropdown-menu-end">
               <a href="{{ route('profile') }}" class="dropdown-item ai-icon">
@@ -51,7 +55,7 @@
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                <span class="ms-2">Profile </span>
+                <span class="ms-2">Profile</span>
               </a>
               <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
@@ -68,6 +72,7 @@
               </form>
             </div>
           </li>
+
         </ul>
       </div>
     </nav>

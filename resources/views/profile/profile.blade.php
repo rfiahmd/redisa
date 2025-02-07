@@ -1,6 +1,6 @@
 <?php
-$title = 'Data Verifikator » ' . Str::ucfirst(Auth::user()->name);
-$breadcrumb = ' Verifikator';
+$title = 'Profil » ' . Str::ucfirst(Auth::user()->getRoleNames()->first());
+$breadcrumb = ' Profil';
 ?>
 
 @extends('layout.template')

@@ -1,17 +1,22 @@
 <?php
-$title = 'Customer Service » ' . Str::ucfirst(Auth::user()->nama_lengkap);
+$title = 'Customer Service » ' . Str::ucfirst(Auth::user()->getRoleNames()->first());
 $breadcrumb = 'Customer Service';
 ?>
 
 @extends('layout.template')
 
 @section('content')
+  <style>
+    table {
+      min-width: 850px;
+    }
+  </style>
   <div class="card">
     <div class="card-body">
       <div class="default-tab">
         <ul class="nav nav-tabs" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" data-bs-toggle="tab" href="#admin">
+            <a class="nav-link active" data-bs-toggle="tab" href="#adminpusat">
               <i class="la la-user-shield me-2 text-primary"></i> Admin
             </a>
           </li>
@@ -36,7 +41,7 @@ $breadcrumb = 'Customer Service';
           </li>
         </ul>
         <div class="tab-content">
-          <div class="tab-pane fade show active" id="admin" role="tabpanel">
+          <div class="tab-pane fade show active" id="adminpusat" role="tabpanel">
             <div class="pt-4">
               <div class="table-responsive table-hover">
                 <table id="example3" class="display min-w850 mb-4 border-bottom border-top">
@@ -49,17 +54,19 @@ $breadcrumb = 'Customer Service';
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
-                            class="fas fa-pencil-alt"></i></a>
-                        <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
-                            class="fas fa-trash-alt"></i></a>
-                      </td>
-                    </tr>
+                    @foreach ($adminpusat as $user)
+                      <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $user->nama_lengkap }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1">
+                            <i class="fas fa-pencil-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp">
+                            <i class="fas fa-trash-alt"></i></a>
+                        </td>
+                      </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -78,17 +85,19 @@ $breadcrumb = 'Customer Service';
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
-                            class="fas fa-pencil-alt"></i></a>
-                        <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
-                            class="fas fa-trash-alt"></i></a>
-                      </td>
-                    </tr>
+                    @foreach ($verifikator as $user)
+                      <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $user->nama_lengkap }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
+                              class="fas fa-pencil-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
+                              class="fas fa-trash-alt"></i></a>
+                        </td>
+                      </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -107,17 +116,19 @@ $breadcrumb = 'Customer Service';
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
-                            class="fas fa-pencil-alt"></i></a>
-                        <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
-                            class="fas fa-trash-alt"></i></a>
-                      </td>
-                    </tr>
+                    @foreach ($petugasdesa as $user)
+                      <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $user->nama_lengkap }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
+                              class="fas fa-pencil-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
+                              class="fas fa-trash-alt"></i></a>
+                        </td>
+                      </tr>
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -136,17 +147,19 @@ $breadcrumb = 'Customer Service';
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td></td>
-                      <td></td>
-                      <td></td>
-                      <td>
-                        <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
-                            class="fas fa-pencil-alt"></i></a>
-                        <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
-                            class="fas fa-trash-alt"></i></a>
-                      </td>
-                    </tr>
+                    @foreach ($kadis as $user)
+                      <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $user->nama_lengkap }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>
+                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
+                              class="fas fa-pencil-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
+                              class="fas fa-trash-alt"></i></a>
+                        </td>
+                      </tr>
+                      @endforeach
                   </tbody>
                 </table>
               </div>
@@ -165,63 +178,59 @@ $breadcrumb = 'Customer Service';
     </div>
     <div class="offcanvas-body">
       <!-- Form dengan action dinamis -->
-      <form id="formTambahCS" method="POST" class="form-valide-with-icon needs-validation" novalidate>
+      <form method="POST" action="{{ route('users.store') }}" class="form-valide-with-icon needs-validation" novalidate>
         @csrf
-        <input type="hidden" name="role" id="role"> <!-- Role disimpan di sini -->
+
+        <input type="hidden" name="role" id="role">
+        <input type="hidden" name="password" id="password">
 
         <div class="mb-3 vertical-radius">
-              <label class="text-label form-label required">Nama</label>
-              <div class="input-group">
-                <span class="input-group-text"> <i class="fa fa-user"></i></span>
-                <input type="text" class="form-control" placeholder="Masukkan Nama Anda.." required>
-              </div>
-              <div class="invalid-feedback">Masukkan Nama Anda</div>
-            </div>
-
-            <div class="mb-3 vertical-radius">
-              <label class="text-label form-label required">Email</label>
-              <div class="input-group">
-                <span class="input-group-text"> <i class="fa fa-envelope"></i></span>
-                <input type="email" class="form-control" placeholder="Masukkan Email Anda.." required>
-              </div>
-              <div class="invalid-feedback">Harap Masukkan Email Dengan Benar</div>
-            </div>
-
-        <!-- Tambahan khusus untuk Verifikator -->
-        <div id="extraVerifikator" style="display: none;">
-          <div class="mb-3 vertical-radius">
-            <label class="text-label form-label required">Jabatan</label>
-            <div class="input-group">
-              <span class="input-group-text"> <i class="fa fa-briefcase"></i></span>
-              <input type="text" class="form-control" placeholder="Masukkan Jabatan Anda.." required>
-            </div>
-            <div class="invalid-feedback">Masukkan Jabatan Anda</div>
+          <label class="text-label form-label required">Nama</label>
+          <div class="input-group">
+            <span class="input-group-text"> <i class="fa fa-user"></i></span>
+            <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control"
+              placeholder="Masukkan Nama Anda.." required>
           </div>
-
-          <!-- Wrapper untuk Select Desa -->
-          <div id="desa-container">
-            <div class="mb-3 vertical-radius desa-group">
-              <label class="text-label form-label required">Desa</label>
-              <div class="input-group">
-                <select class="form-control" name="desa[]">
-                  <option value="AL">Alabama</option>
-                  <option value="WY">Wyoming</option>
-                  <option value="UI">dlf</option>
-                </select>
-                <button type="button" class="btn btn-danger remove-desa ms-2 d-none">Hapus</button>
-              </div>
-            </div>
-          </div>
-          <!-- Tombol Tambah Desa -->
-          <button type="button" id="tambah-desa" class="btn btn-success">Tambah Desa</button>
+          <div class="invalid-feedback">Masukkan Nama Anda</div>
         </div>
 
+        <div class="mb-3 vertical-radius">
+          <label class="text-label form-label required">Email</label>
+          <div class="input-group">
+            <span class="input-group-text"> <i class="fa fa-envelope"></i></span>
+            <input type="email" name="email" id="email" class="form-control"
+              placeholder="Masukkan Email Anda.." required>
+          </div>
+          <div class="invalid-feedback">Harap Masukkan Email Dengan Benar</div>
+        </div>
 
         <button type="submit" class="btn btn-primary w-100 mt-3">Simpan</button>
       </form>
+
     </div>
   </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+  <script>
+    $(document).ready(function() {
+      $('.nav-link').on('click', function() {
+        var role = $(this).attr('href').replace('#', '');
+        $('#role').val(role);
+      });
+
+      $('#role').val('adminpusat');
+    });
+
+    function generateRandomPassword() {
+      const characters = 'abcdefghijklmnopqrstuvwxyz1234567890';
+      let password = '';
+      for (let i = 0; i < 8; i++) {
+        password += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      document.getElementById('password').value = password;
+    }
+
+    generateRandomPassword();
+  </script>
 @endsection

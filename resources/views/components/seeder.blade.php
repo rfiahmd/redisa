@@ -14,7 +14,7 @@
         <h4 class="fw-bold nav-text">Master</h4>
       </li>
       <li>
-        <a href="{{ route('customer_service') }}" aria-expanded="false">
+        <a href="{{ route('users.index') }}" aria-expanded="false">
           <i class="la la-user-check" style="font-size: 24px;"></i>
           <span class="nav-text">Suctomer Service</span>
         </a>

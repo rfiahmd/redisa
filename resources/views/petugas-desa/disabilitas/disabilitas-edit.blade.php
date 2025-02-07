@@ -1,5 +1,5 @@
 <?php
-$title = 'Data Verifikator » ' . Str::ucfirst(Auth::user()->name);
+$title = 'Data Verifikator » ' . Str::ucfirst(Auth::user()->getRoleNames()->first());
 $breadcrumb = ' Verifikator';
 ?>
 
