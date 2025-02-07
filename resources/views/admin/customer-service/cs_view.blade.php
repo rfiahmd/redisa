@@ -56,8 +56,8 @@ $breadcrumb = 'Customer Service';
                   <tbody>
                     @foreach ($adminpusat as $user)
                       <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->nama_lengkap }}</td>
+                        <td>{{ $loop->iteration }}.</td>
+                        <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
                           <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1">
@@ -87,8 +87,8 @@ $breadcrumb = 'Customer Service';
                   <tbody>
                     @foreach ($verifikator as $user)
                       <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->nama_lengkap }}</td>
+                        <td>{{ $loop->iteration }}.</td>
+                        <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
                           <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
@@ -118,8 +118,8 @@ $breadcrumb = 'Customer Service';
                   <tbody>
                     @foreach ($petugasdesa as $user)
                       <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->nama_lengkap }}</td>
+                        <td>{{ $loop->iteration }}.</td>
+                        <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
                           <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
@@ -149,8 +149,8 @@ $breadcrumb = 'Customer Service';
                   <tbody>
                     @foreach ($kadis as $user)
                       <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $user->nama_lengkap }}</td>
+                        <td>{{ $loop->iteration }}.</td>
+                        <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
                           <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
