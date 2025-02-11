@@ -61,12 +61,4 @@ class AuthController extends Controller
 
         return redirect()->route('login');
     }
-
-    public function profile()
-    {
-        $data=[
-            'user' => Auth::user()
-        ];
-        return view('profile.profile', $data);
-    }
 }

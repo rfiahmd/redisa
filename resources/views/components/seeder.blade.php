@@ -14,7 +14,7 @@
         <h4 class="fw-bold nav-text">Master</h4>
       </li>
       <li>
-        <a href="{{ route('customer_service') }}" aria-expanded="false">
+        <a href="{{ route('users.index') }}" aria-expanded="false">
           <i class="la la-user-check" style="font-size: 24px;"></i>
           <span class="nav-text">Suctomer Service</span>
         </a>
@@ -31,12 +31,15 @@
           <span class="nav-text">Data Desa</span>
         </a>
       </li>
+<<<<<<< HEAD
       <li>
         <a href="{{ route('pendidikan') }}" aria-expanded="false">
           <i class="fa-solid fa-book" style="font-size: 20px;"></i>
           <span class="nav-text">Pendidikan</span>
         </a>
       </li>
+=======
+>>>>>>> d916d4ff3776fed1682ab9aebdea564cfa7d8491
       <li class="px-4 pt-4 mt-4 border-top border-primary">
         <h4 class="fw-bold nav-text">Operasional</h4>
       </li>

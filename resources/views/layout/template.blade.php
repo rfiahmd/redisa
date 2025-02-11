@@ -3,7 +3,7 @@
 
 <head>
   <!--Title-->
-  <title>{{ $title }}</title>
+  <title>ReDisa » {{ $title }}</title>
 
   <!-- MOBILE SPECIFIC -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,6 +13,31 @@
   <style>
     .swal2-select {
       display: none !important;
+    }
+
+    .logo-abbr,
+    .logo-compact,
+    .brand-title {
+      height: auto !important;
+      max-width: none !important;
+      max-height: none !important;
+    }
+
+    .logo-abbr {
+      margin-left: -8px !important;
+      width: 63px !important;
+      height: auto !important;
+    }
+
+    .logo-compact {
+      width: 200px !important;
+      height: auto !important;
+    }
+
+    .brand-title {
+      margin-left: -10px !important;
+      width: 160px !important;
+      height: auto !important;
     }
   </style>
 
@@ -46,9 +71,9 @@
         ***********************************-->
     <div class="nav-header">
       <a href="index.html" class="brand-logo">
-        <img class="logo-abbr" src="{{ asset('assets') }}/images/logo.png" alt="">
-        <img class="logo-compact" src="{{ asset('assets') }}/images/logo-text.png" alt="">
-        <img class="brand-title" src="{{ asset('assets') }}/images/logo-text.png" alt="">
+        <img class="logo-abbr" src="{{ asset('assets') }}/images/logo1.png" alt="">
+        <img class="logo-compact" src="{{ asset('assets') }}/images/text.png" alt="">
+        <img class="brand-title" src="{{ asset('assets') }}/images/text.png" alt="">
       </a>
 
       <div class="nav-control">

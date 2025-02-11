@@ -38,20 +38,31 @@
           <li class="nav-item dropdown header-profile">
             <a class="nav-link" href="javascript:void(0)" role="button" data-bs-toggle="dropdown">
               <div class="header-info">
-                <span class="text-black"><strong>@cptl(Auth::user()->nama_lengkap)</strong></span>
+                <span class="text-black"><strong>@formatNama(Auth::user()->nama_lengkap)</strong></span>
                 <p class="fs-12 mb-0">@cptl(Auth::user()->getRoleNames()->first())</p>
               </div>
-              <img src="{{ asset('assets') }}/images/profile/17.jpg" width="20" alt="">
+              <div class="profile-initials"
+                style="width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+                      background-color: {{ '#' . substr(md5(Auth::user()->nama_lengkap), 0, 6) }}; color: white; font-weight: bold; font-size: 25px;">
+                @php
+                  $nama = explode(' ', Auth::user()->nama_lengkap);
+                  $initials = strtoupper(substr($nama[0], 0, 1));
+                  if (count($nama) > 1) {
+                      $initials .= strtoupper(substr($nama[1], 0, 1));
+                  }
+                @endphp
+                {{ $initials }}
+              </div>
             </a>
             <div class="dropdown-menu dropdown-menu-end">
-              <a href="{{ route('profile') }}" class="dropdown-item ai-icon">
+              <a href="{{ route('profil.index') }}" class="dropdown-item ai-icon">
                 <svg id="icon-user1" xmlns="http://www.w3.org/2000/svg" class="text-primary" width="18"
                   height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                   stroke-linecap="round" stroke-linejoin="round">
                   <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                   <circle cx="12" cy="7" r="4"></circle>
                 </svg>
-                <span class="ms-2">Profile </span>
+                <span class="ms-2">Profile</span>
               </a>
               <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
@@ -68,6 +79,7 @@
               </form>
             </div>
           </li>
+
         </ul>
       </div>
     </nav>
