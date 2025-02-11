@@ -59,7 +59,7 @@ $breadcrumb = ' Verifikator';
                       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
-                      <form class="form-valide-with-icon needs-validation" novalidate>
+                      <form class="form-valide-with-icon needs-validation" method="POST">
                         <div class="mb-3 vertical-radius">
                           <label class="text-label form-label required">Nama Jenjang Pendidikan</label>
                           <div class="input-group">

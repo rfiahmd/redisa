@@ -34,7 +34,7 @@
       <li>
         <a href="{{ route('pendidikan') }}" aria-expanded="false">
           <i class="fa-solid fa-book" style="font-size: 20px;"></i>
-          <span class="nav-text">Jenjang Pendidikan</span>
+          <span class="nav-text">Pendidikan</span>
         </a>
       </li>
       <li class="px-4 pt-4 mt-4 border-top border-primary">

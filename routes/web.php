@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DesaController;
+use App\Http\Controllers\DisabilitasController;
 use App\Http\Controllers\VerifikatorController;
 
 // Route untuk guest (pengguna yang belum login)
@@ -78,12 +79,10 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:petugasdesa|superadmin'])->group(function () {
         Route::get('/dashboard/petugasdesa', [DashboardController::class, 'dspetugasdesa'])->name('petugasdesa.dashboard');
 
-        Route::get('/datadisabilitas', function () {
-            return view('petugas-desa.disabilitas.disabilitas-view');
-        })->name('disabilitas');
-        Route::get('/disabilitas-create', function () {
-            return view('petugas-desa.disabilitas.disabilitas-create');
-        })->name('disabilitas.create');
+        Route::get('/datadisabilitas', [DisabilitasController::class, 'index'])->name('disabilitas');
+        Route::get('/disabilitas-create', [DisabilitasController::class, 'create'])->name('disabilitas.create');
+        Route::post('/getsubjenis', [DisabilitasController::class, 'getSubJenis'])->name('getSubJenis');
+
         Route::get('/disabilitas-edit', function () {
             return view('petugas-desa.disabilitas.disabilitas-edit');
         })->name('disabilitas.edit');
