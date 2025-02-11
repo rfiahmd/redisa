@@ -31,12 +31,6 @@
           <span class="nav-text">Data Desa</span>
         </a>
       </li>
-      <li>
-        <a href="{{ route('pendidikan') }}" aria-expanded="false">
-          <i class="fa-solid fa-book" style="font-size: 20px;"></i>
-          <span class="nav-text">Jenjang Pendidikan</span>
-        </a>
-      </li>
       <li class="px-4 pt-4 mt-4 border-top border-primary">
         <h4 class="fw-bold nav-text">Operasional</h4>
       </li>

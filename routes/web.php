@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\Jenis\JenisDisabilitasController;
 use App\Http\Controllers\admin\Jenis\SubJenis\SubJenisDisabilitasController;
+use App\Http\Controllers\admin\ProfilController;
 use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -21,7 +22,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     //Profile
-    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::prefix('profil')->group(function () {
+        Route::get('/', [ProfilController::class, 'index'])->name('profil.index');
+        Route::post('/update', [ProfilController::class, 'update'])->name('profil.update');
+        Route::post('/password', [ProfilController::class, 'updatePassword'])->name('profil.update-password');
+    });
 
     // Route untuk superadmin
     Route::middleware(['role:superadmin'])->group(function () {

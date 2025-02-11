@@ -3,7 +3,7 @@
 
 <head>
   <!--Title-->
-  <title>Login</title>
+  <title>ReDisa » Login</title>
 
   <!-- Meta -->
   <meta charset="utf-8">

@@ -1,5 +1,5 @@
 <!-- Favicon icon -->
-<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets') }}/images/favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets') }}/images/fav.png">
 <link href="{{ asset('assets') }}/vendor/jqvmap/css/jqvmap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('assets') }}/vendor/chartist/css/chartist.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
