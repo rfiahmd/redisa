@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nama_kecamatan')->nullable();
             $table->string('kode_kabupaten')->nullable();
             $table->string('nama_kabupaten')->nullable();
+            $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
         });
     }

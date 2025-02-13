@@ -3,9 +3,12 @@
 namespace App\Console\Commands;
 
 use App\Models\Desa;
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ImportDesaSumenep extends Command
 {
@@ -21,7 +24,7 @@ class ImportDesaSumenep extends Command
      *
      * @var string
      */
-    protected $description = 'Mengimpor data desa di Kabupaten Sumenep dari API Emsifa';
+    protected $description = 'Mengimpor data desa di Kabupaten Sumenep dari API Emsifa dan membuat akun untuk setiap desa.';
 
     /**
      * Execute the console command.
@@ -43,18 +46,48 @@ class ImportDesaSumenep extends Command
                     $desas = $desaResponse->json();
 
                     foreach ($desas as $desa) {
-                        Desa::updateOrCreate(
-                            ['kode_desa' => $desa['id']],
-                            [
-                                'nama_desa' => $desa['name'],
-                                'kode_kecamatan' => $kecamatan['id'],
-                                'nama_kecamatan' => $kecamatan['name'],
-                                'kode_kabupaten' => $kabupatenId,
-                                'nama_kabupaten' => 'Sumenep'
-                            ]
-                        );
+                        DB::transaction(function () use ($desa, $kecamatan, $kabupatenId) {
+                            $kodeDesa = substr($desa['id'], -3);
+
+                            $email = strtolower(str_replace(' ', '', $desa['name'])) . $kodeDesa . '@gmail.com';
+
+                            $baseUsername = strtolower(str_replace(' ', '', $desa['name']));
+                            $username = $baseUsername;
+                            $counter = 1;
+                            while (User::where('username', $username)->exists()) {
+                                $username = $baseUsername . $counter;
+                                $counter++;
+                            }
+
+                            $user = User::updateOrCreate(
+                                ['email' => $email],
+                                [
+                                    'token_users' => Str::random(12),
+                                    'nama_lengkap' => $desa['name'],
+                                    'username' => $username,
+                                    'password' => 'redisa123',
+                                ]
+                            );
+
+                            if ($user->wasRecentlyCreated) {
+                                $user->assignRole('petugasdesa');
+                            }
+
+                            Desa::updateOrCreate(
+                                ['kode_desa' => $kodeDesa], // Menggunakan kode desa 3 karakter
+                                [
+                                    'nama_desa' => $desa['name'],
+                                    'kode_kecamatan' => $kecamatan['id'],
+                                    'nama_kecamatan' => $kecamatan['name'],
+                                    'kode_kabupaten' => $kabupatenId,
+                                    'nama_kabupaten' => 'Sumenep',
+                                    'user_id' => $user->id,
+                                ]
+                            );
+                        });
+
+                        $this->info("Data desa '{$desa['name']}' berhasil disimpan beserta akun user.");
                     }
-                    $this->info("Berhasil menyimpan desa untuk kecamatan: {$kecamatan['name']}");
                 } else {
                     $this->error("Gagal mengambil data desa untuk Kecamatan: {$kecamatan['name']}");
                 }

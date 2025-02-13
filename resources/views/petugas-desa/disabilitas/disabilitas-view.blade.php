@@ -26,16 +26,17 @@ $breadcrumb = ' Verifikator';
             </tr>
           </thead>
           <tbody>
+            @foreach ($disabilitas as $get)
             <tr>
-              <td>1</td>
-              <td>123459473</td>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{ $get->nik }}</td>
               <td>
-                <strong>jeki seryodi</strong><br>
+                <strong>{{ $get->nama }}</strong><br>
                 <a role="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Selengkapnya...</a>
               </td>
-              <td>34 tahun</td>
+              <td>{{ $get->usia }} tahun</td>
               <td>Lobuk</td>
-              <td>Berat</td>
+              <td>{{ $get->tingkat_disabilitas }}</td>
               <td>
                 <div class="d-flex">
                   <a href="{{ route('disabilitas.edit') }}" class="btn btn-primary shadow btn-xs sharp me-1"><i
@@ -79,6 +80,7 @@ $breadcrumb = ' Verifikator';
                 </div>
               </div>
             </tr>
+            @endforeach
           </tbody>
           <tfoot>
             <tr>

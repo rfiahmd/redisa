@@ -54,6 +54,10 @@ class User extends Authenticatable
         }
     }
 
+    public function desa(){
+        return $this->hasOne(Desa::class, 'user_id', 'id');
+    }
+
     /**
      * Event: Beri role default saat user baru dibuat.
      */
