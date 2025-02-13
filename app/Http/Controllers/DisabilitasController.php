@@ -11,12 +11,16 @@ use Illuminate\Http\Request;
 class DisabilitasController extends Controller
 {
     public function index()
-    {
-        $data = [
-            'disabilitas' => DisabilitasModel::with('user', 'jenisDisabilitas', 'subJenisDisabilitas')->get()
-        ];
-        return view('petugas-desa.disabilitas.disabilitas-view', $data);
-    }
+{
+    $data = [
+        'disabilitas' => DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas')
+            ->whereHas('desa', function ($query) {
+                $query->where('nama_desa', auth()->user()->nama_lengkap);
+            })
+            ->get()
+    ];
+    return view('petugas-desa.disabilitas.disabilitas-view', $data);
+}
 
     public function create()
     {
@@ -65,7 +69,7 @@ class DisabilitasController extends Controller
             'keterangan' => $request->keterangan
         ];
 
-        dd($data);
+        // dd($data);
 
         DisabilitasModel::create($data);
         return redirect('/datadisabilitas')->with('success', 'Berhasil Menambahkan data');
