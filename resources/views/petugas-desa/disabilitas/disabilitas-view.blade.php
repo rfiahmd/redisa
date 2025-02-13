@@ -12,7 +12,7 @@ $breadcrumb = ' Verifikator';
       <a class="btn btn-primary" href="{{ route('disabilitas.create') }}">Tambah Data</a>
     </div>
     <div class="card-body">
-      <div class="table-resonsive">
+      <div class="table-responsive">
         <table id="example" class="display min-w850">
           <thead>
             <tr>
@@ -27,72 +27,81 @@ $breadcrumb = ' Verifikator';
           </thead>
           <tbody>
             @foreach ($disabilitas as $get)
-            <tr>
-              <td>{{ $loop->iteration }}</td>
-              <td>{{ $get->nik }}</td>
-              <td>
-                <strong>{{ $get->nama }}</strong><br>
-                <a role="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Selengkapnya...</a>
-              </td>
-              <td>{{ $get->usia }} tahun</td>
-              <td>Lobuk</td>
-              <td>{{ $get->tingkat_disabilitas }}</td>
-              <td>
-                <div class="d-flex">
-                  <a href="{{ route('disabilitas.edit') }}" class="btn btn-primary shadow btn-xs sharp me-1"><i
-                      class="fas fa-pencil-alt"></i></a>
-                  <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
-                      class="fas fa-trash-alt"></i></a>
-                </div>
-              </td>
-              {{-- modal detail --}}
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
+              <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $get->nik }}</td>
+                <td>
+                  <strong>{{ $get->nama }}</strong><br>
+                  <a role="button" data-bs-toggle="modal" data-bs-target="#detail{{ $get->nik }}"
+                    class="text-primary">Selengkapnya...</a>
+                </td>
+                <td>{{ $get->usia }} tahun</td>
+                <td>Lobuk</td>
+                <td>{{ $get->tingkat_disabilitas }}</td>
+                <td>
+                  <div class="d-flex">
+                    <a href="{{ route('disabilitas.edit') }}" class="btn btn-primary shadow btn-xs sharp me-1">
+                      <i class="fas fa-pencil-alt"></i>
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp">
+                      <i class="fas fa-trash-alt"></i>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+
+              {{-- Modal Detail (Tanpa Tabel) --}}
+              <div class="modal fade" id="detail{{ $get->nik }}" tabindex="-1"
+                aria-labelledby="modalLabel{{ $get->nik }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
                   <div class="modal-content">
-                    <div class="modal-header">
-                      <h3 class="modal-title" id="exampleModalLabel">Detail Data Jeki Seryodi</h3>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="modal-header bg-primary">
+                      <h3 class="modal-title text-light" id="modalLabel{{ $get->nik }}">Detail Data
+                        {{ $get->nama }}</h3>
+                      <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <h6><strong>NIK:</strong> 1193819831</h6>
-                          <h6><strong>Alamat:</strong> kqdkwjdq</h6>
-                          <h6><strong>Jenjang Pendidikan:</strong> SD</h6>
-                          <h6><strong>Usia:</strong> 25 Tahun</h6>
-                          <h6><strong>Jenis Kelamin:</strong> Laki-laki</h6>
-                          <h6><strong>Jenis Cacat:</strong> Kecil</h6>
-                          <h6><strong>Tingkat Cacat:</strong> Sedang</h6>
-                        </div>
-                        <div class="col-md-6">
-                          <h6><Strong>Keterangan:</Strong></h6>
-                            <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatem
-                              consequatur. Quisquam, voluptatem consequatur.</h6>
+                      <div class="card shadow">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <p><strong>NIK:</strong> {{ $get->nik }}</p>
+                              <p><strong>Alamat:</strong> {{ $get->alamat }}</p>
+                              <p><strong>Usia:</strong> {{ $get->usia }} Tahun</p>
+                              <p><strong>Jenis Kelamin:</strong> {{ $get->kelamin }}</p>
+                            </div>
+                            <div class="col-md-6">
+                              <p><strong>Tingkat Cacat:</strong> {{ $get->tingkat_disabilitas }}</p>
+                              <p><strong>Jenis Cacat:</strong> {{ $get->jenisDisabilitas->nama_jenis }},
+                                {{ $get->subJenisDisabilitas->nama_sub_jenis }}</p>
+                              <p><strong>Jenjang Pendidikan:</strong>
+                                @if ($get->pendidikan == 'tidak')
+                                  Tidak Dalam Pendidikan
+                                @else
+                                  {{ $get->pendidikan }}
+                                @endif
+                              </p>
+                              <p><strong>Keterangan:</strong>
+                                @if ($get->keterangan == null)
+                                  Tidak Ada Keterangan
+                                @else
+                                  {{ $get->keterangan }}
+                                @endif
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                     </div>
                   </div>
                 </div>
               </div>
-            </tr>
             @endforeach
           </tbody>
-          <tfoot>
-            <tr>
-              <th>#</th>
-              <th>NIK</th>
-              <th>Nama</th>
-              <th>Usia</th>
-              <th>Asal Desa</th>
-              <th>Tingkat Kecacatan</th>
-              <th>Action</th>
-            </tr>
-          </tfoot>
         </table>
       </div>
     </div>

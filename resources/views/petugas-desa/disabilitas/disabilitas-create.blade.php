@@ -106,7 +106,7 @@ $breadcrumb = ' Verifikator';
               <div class="input-group">
                 <span class="input-group-text"><i class="fa-solid fa-wheelchair"></i></span>
                 <select class="form-control" name="jenis" id="jenis">
-                  <option value="" disabled>-- Pilih Jenis Disabilitas --</option>
+                  <option value="">-- Pilih Jenis Disabilitas --</option>
                   @foreach ($jenis as $get)
                     <option value="{{ $get->id }}">{{ $get->nama_jenis }}</option>
                   @endforeach
