@@ -91,6 +91,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/datadisabilitas', [DisabilitasController::class, 'index'])->name('disabilitas');
         Route::get('/disabilitas-create', [DisabilitasController::class, 'create'])->name('disabilitas.create');
+        Route::post('/disabilitas-create', [DisabilitasController::class, 'store'])->name('disabilitas.store');
         Route::post('/getsubjenis', [DisabilitasController::class, 'getSubJenis'])->name('getSubJenis');
 
         Route::get('/disabilitas-edit', function () {

@@ -54,6 +54,14 @@ class User extends Authenticatable
         }
     }
 
+    public function dataDisabilitas(){
+        return $this->hasMany(DisabilitasModel::class, 'user_id', 'id');
+    }
+
+    public function desa(){
+        return $this->hasOne(Desa::class, 'user_id', 'id');
+    }
+
     /**
      * Event: Beri role default saat user baru dibuat.
      */
