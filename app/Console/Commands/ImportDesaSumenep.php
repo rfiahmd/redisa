@@ -47,10 +47,8 @@ class ImportDesaSumenep extends Command
 
                     foreach ($desas as $desa) {
                         DB::transaction(function () use ($desa, $kecamatan, $kabupatenId) {
-                            // Ambil 3 karakter terakhir dari kode desa
                             $kodeDesa = substr($desa['id'], -3);
 
-                            // Buat akun user
                             $email = strtolower(str_replace(' ', '', $desa['name'])) . $kodeDesa . '@gmail.com';
 
                             $baseUsername = strtolower(str_replace(' ', '', $desa['name']));
@@ -71,12 +69,10 @@ class ImportDesaSumenep extends Command
                                 ]
                             );
 
-                            // Assign role ke user
                             if ($user->wasRecentlyCreated) {
                                 $user->assignRole('petugasdesa');
                             }
 
-                            // Simpan data desa
                             Desa::updateOrCreate(
                                 ['kode_desa' => $kodeDesa], // Menggunakan kode desa 3 karakter
                                 [

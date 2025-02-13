@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Desa;
 use App\Models\DisabilitasModel;
 use App\Models\Jenis\JenisDisabilitas;
 use App\Models\Jenis\SubJenis\SubJenisDisabilitas;
@@ -48,8 +49,10 @@ class DisabilitasController extends Controller
             'subjenis' => 'required'
         ]);
 
+        $desa = Desa::where('nama_desa', auth()->user()->nama_lengkap)->first();
+
         $data = [
-            'user_id' => auth()->user()->id,
+            'desa_id' => $desa->id,
             'nik' => $request->nik,
             'nama' => $request->nama,
             'kelamin' => $request->jeniskelamin,
@@ -61,6 +64,8 @@ class DisabilitasController extends Controller
             'id_sub_jenis_disabilitas' => $request->subjenis,
             'keterangan' => $request->keterangan
         ];
+
+        dd($data);
 
         DisabilitasModel::create($data);
         return redirect('/datadisabilitas')->with('success', 'Berhasil Menambahkan data');

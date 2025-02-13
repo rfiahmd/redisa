@@ -15,15 +15,15 @@ class DisabilitasModel extends Model
 
     protected $guarded = [];
 
-    public function user(){
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
     public function jenisDisabilitas(){
         return $this->belongsTo(JenisDisabilitas::class, 'id_jenis_disabilitas', 'id');
     }
 
     public function subJenisDisabilitas(){
         return $this->belongsTo(SubJenisDisabilitas::class, 'id_sub_jenis_disabilitas', 'id');
+    }
+
+    public function desa(){
+        return $this->belongsTo(Desa::class, 'desa_id', 'id');
     }
 }

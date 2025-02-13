@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('data_disabilitas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('desa_id')->constrained('desa')->cascadeOnDelete();
             $table->enum('status', ['diterima', 'ditolak', 'direvisi', 'diproses'])->default('diproses');
             $table->string('nik')->unique();
             $table->string('nama');
