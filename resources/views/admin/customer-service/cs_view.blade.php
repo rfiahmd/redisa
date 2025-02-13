@@ -60,8 +60,10 @@ $breadcrumb = 'Customer Service';
                         <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1">
-                            <i class="fas fa-pencil-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
+                            data-user='@json($user)'>
+                            <i class="fas fa-pencil-alt"></i>
+                          </a>
                           <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp">
                             <i class="fas fa-trash-alt"></i></a>
                         </td>
@@ -91,8 +93,10 @@ $breadcrumb = 'Customer Service';
                         <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
-                              class="fas fa-pencil-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
+                            data-user='@json($user)'>
+                            <i class="fas fa-pencil-alt"></i>
+                          </a>
                           <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
                               class="fas fa-trash-alt"></i></a>
                         </td>
@@ -122,8 +126,10 @@ $breadcrumb = 'Customer Service';
                         <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
-                              class="fas fa-pencil-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
+                            data-user='@json($user)'>
+                            <i class="fas fa-pencil-alt"></i>
+                          </a>
                           <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
                               class="fas fa-trash-alt"></i></a>
                         </td>
@@ -153,13 +159,15 @@ $breadcrumb = 'Customer Service';
                         <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1"><i
-                              class="fas fa-pencil-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
+                            data-user='@json($user)'>
+                            <i class="fas fa-pencil-alt"></i>
+                          </a>
                           <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
                               class="fas fa-trash-alt"></i></a>
                         </td>
                       </tr>
-                      @endforeach
+                    @endforeach
                   </tbody>
                 </table>
               </div>
@@ -170,25 +178,60 @@ $breadcrumb = 'Customer Service';
     </div>
   </div>
 
-  {{-- offcanvas tambah cs --}}
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasTambahCS" aria-labelledby="offcanvasLabel">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title" id="offcanvasLabel">Tambah CS</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-      <!-- Form dengan action dinamis -->
-      <form method="POST" action="{{ route('users.store') }}" class="form-valide-with-icon needs-validation" novalidate>
+      <!-- Form Default (Admin, Petugas Desa, Kepala Dinas) -->
+      <form method="POST" action="{{ route('users.store') }}" id="form-default"
+        class="form-valide-with-icon needs-validation" novalidate>
         @csrf
-
         <input type="hidden" name="role" id="role">
         <input type="hidden" name="password" id="password">
 
         <div class="mb-3 vertical-radius">
           <label class="text-label form-label required">Nama</label>
           <div class="input-group">
-            <span class="input-group-text"> <i class="fa fa-user"></i></span>
+            <span class="input-group-text"><i class="fa fa-user"></i></span>
             <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control"
+              placeholder="Masukkan Nama Anda.." value="{{ old('nama_lengkap') }}">
+          </div>
+          @error('nama_lengkap')
+            <div class="text-danger">{{ $message }}</div>
+          @enderror
+          <div class="invalid-feedback">Masukkan Nama Anda</div>
+        </div>
+
+        <div class="mb-3 vertical-radius">
+          <label class="text-label form-label required">Email</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+            <input type="email" name="email" id="email" class="form-control"
+              placeholder="Masukkan Email Anda.." value="{{ old('email') }}">
+          </div>
+          @error('email')
+            <div class="text-danger">{{ $message }}</div>
+          @enderror
+          <div class="invalid-feedback">Harap Masukkan Email Dengan Benar</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-3">Simpan</button>
+      </form>
+
+      <!-- Form Verifikator (Dengan Jabatan & Desa) -->
+      <form method="POST" action="{{ route('users.store') }}" id="form-verifikator"
+        class="form-valide-with-icon needs-validation" novalidate style="display: none;">
+        @csrf
+        <input type="hidden" name="role" id="role-verifikator">
+        <input type="hidden" name="password" id="password-verifikator">
+
+        <div class="mb-3 vertical-radius">
+          <label class="text-label form-label required">Nama</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa fa-user"></i></span>
+            <input type="text" name="nama_lengkap" id="nama_lengkap_verifikator" class="form-control"
               placeholder="Masukkan Nama Anda.." required>
           </div>
           <div class="invalid-feedback">Masukkan Nama Anda</div>
@@ -197,16 +240,35 @@ $breadcrumb = 'Customer Service';
         <div class="mb-3 vertical-radius">
           <label class="text-label form-label required">Email</label>
           <div class="input-group">
-            <span class="input-group-text"> <i class="fa fa-envelope"></i></span>
-            <input type="email" name="email" id="email" class="form-control"
+            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+            <input type="email" name="email" id="email_verifikator" class="form-control"
               placeholder="Masukkan Email Anda.." required>
           </div>
           <div class="invalid-feedback">Harap Masukkan Email Dengan Benar</div>
         </div>
 
+        <div class="mb-3 vertical-radius">
+          <label class="text-label form-label required">Jabatan</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+            <input type="text" name="jabatan" id="jabatan" class="form-control"
+              placeholder="Masukkan Jabatan Anda.." required>
+          </div>
+          <div class="invalid-feedback">Masukkan Jabatan Anda</div>
+        </div>
+
+        <div class="mb-3 vertical-radius">
+          <label class="text-label form-label required">Desa</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+            <input type="text" name="desa" id="desa" class="form-control"
+              placeholder="Masukkan Desa Anda.." required>
+          </div>
+          <div class="invalid-feedback">Masukkan Desa Anda</div>
+        </div>
+
         <button type="submit" class="btn btn-primary w-100 mt-3">Simpan</button>
       </form>
-
     </div>
   </div>
 
@@ -232,5 +294,26 @@ $breadcrumb = 'Customer Service';
     }
 
     generateRandomPassword();
+
+    document.addEventListener("DOMContentLoaded", function() {
+      // Tangkap elemen form
+      let formDefault = document.getElementById("form-default");
+      let formVerifikator = document.getElementById("form-verifikator");
+
+      // Tambahkan event listener untuk tab change
+      document.querySelectorAll(".nav-link").forEach(tab => {
+        tab.addEventListener("shown.bs.tab", function(event) {
+          let targetTab = event.target.getAttribute("href"); // Ambil ID tab aktif
+
+          if (targetTab === "#verifikator") {
+            formDefault.style.display = "none";
+            formVerifikator.style.display = "block";
+          } else {
+            formDefault.style.display = "block";
+            formVerifikator.style.display = "none";
+          }
+        });
+      });
+    });
   </script>
 @endsection

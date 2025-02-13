@@ -63,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('subjenis/{jenisDisabilitas}')->group(function () {
             Route::get('/', [SubJenisDisabilitasController::class, 'index'])->name('subjenis.index');
             Route::post('/', [SubJenisDisabilitasController::class, 'store'])->name('subjenis.store');
-            Route::put('/{subJenisDisabilitas}', [SubJenisDisabilitasController::class, 'update'])->name('subjenis.update');
+            Route::post('/{subJenisDisabilitas}', [SubJenisDisabilitasController::class, 'update'])->name('subjenis.update');
             Route::get('/{token}/delete', [SubJenisDisabilitasController::class, 'destroy'])->name('subjenis.destroy');
         });
 
@@ -75,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('users')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('users.index');
             Route::post('/', [UserController::class, 'store'])->name('users.store');
-            Route::put('/{users}', [UserController::class, 'update'])->name('users.update');
+            Route::post('/{users}', [UserController::class, 'update'])->name('users.update');
             Route::get('/{users}/delete', [UserController::class, 'destroy'])->name('users.destroy');
         });
     });
