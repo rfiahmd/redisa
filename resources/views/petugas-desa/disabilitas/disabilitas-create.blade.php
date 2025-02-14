@@ -62,6 +62,10 @@ $breadcrumb = ' Verifikator';
               </div>
             </div>
 
+          </div>
+
+          <!-- Bagian Kanan -->
+          <div class="col-md-6">
             <div class="mb-3">
               <label class="text-label form-label required">Pilih Jenjang Pendidikan</label>
               <div class="input-group">
@@ -84,10 +88,6 @@ $breadcrumb = ' Verifikator';
               </div>
             </div>
 
-          </div>
-
-          <!-- Bagian Kanan -->
-          <div class="col-md-6">
             <div class="mb-3">
               <label class="text-label form-label required">Tingkat Disabilitas</label>
               <div class="input-group">
@@ -124,7 +124,7 @@ $breadcrumb = ' Verifikator';
               </div>
             </div>
 
-            <div class="mb-3">
+            {{-- <div class="mb-3">
               <label class="text-label form-label required">Masukkan Keterangan</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
@@ -132,7 +132,7 @@ $breadcrumb = ' Verifikator';
               </div>
             </div>
           </div>
-        </div>
+        </div> --}}
 
         <div class="text-end mt-3">
           <button class="btn btn-primary" type="submit">Submit</button>

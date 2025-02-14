@@ -76,7 +76,6 @@ class DisabilitasController extends Controller
             'tingkat_disabilitas' => $request->tingkat,
             'id_jenis_disabilitas' => $request->jenis,
             'id_sub_jenis_disabilitas' => $request->subjenis,
-            'keterangan' => $request->keterangan,
         ];
 
         // dd($data);
