@@ -20,8 +20,8 @@ $breadcrumb = ' Verifikator';
               <th>NIK</th>
               <th>Nama</th>
               <th>Usia</th>
-              <th>Asal Desa</th>
               <th>Tingkat Kecacatan</th>
+              <th>Status</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -36,8 +36,8 @@ $breadcrumb = ' Verifikator';
                     class="text-primary">Selengkapnya...</a>
                 </td>
                 <td>{{ $get->usia }} tahun</td>
-                <td>Lobuk</td>
                 <td>{{ $get->tingkat_disabilitas }}</td>
+                <td>Lobuk</td>
                 <td>
                   <div class="d-flex">
                     <a href="{{ route('disabilitas.edit') }}" class="btn btn-primary shadow btn-xs sharp me-1">
