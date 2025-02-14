@@ -11,16 +11,24 @@ use Illuminate\Http\Request;
 class DisabilitasController extends Controller
 {
     public function index()
-{
-    $data = [
-        'disabilitas' => DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas')
-            ->whereHas('desa', function ($query) {
-                $query->where('nama_desa', auth()->user()->nama_lengkap);
-            })
-            ->get()
-    ];
-    return view('petugas-desa.disabilitas.disabilitas-view', $data);
-}
+    {
+        $userId = auth()->user()->id; // Ambil ID user yang sedang login
+
+        // Ambil desa yang terkait dengan user
+        $desa = Desa::where('user_id', $userId)->first();
+
+        if (!$desa) {
+            return abort(403, 'Anda tidak memiliki akses ke data ini.');
+        }
+
+        $data = [
+            'disabilitas' => DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas')
+                ->where('desa_id', $desa->id) // Gunakan desa_id untuk filter
+                ->get(),
+        ];
+
+        return view('petugas-desa.disabilitas.disabilitas-view', $data);
+    }
 
     public function create()
     {
@@ -30,7 +38,8 @@ class DisabilitasController extends Controller
         return view('petugas-desa.disabilitas.disabilitas-create', $data);
     }
 
-    public function getSubJenis(request $request){
+    public function getSubJenis(request $request)
+    {
         $id_jenis = $request->id_jenis;
 
         $subjenis = SubJenisDisabilitas::where('jenis_disabilitas_id', $id_jenis)->get();
@@ -40,7 +49,8 @@ class DisabilitasController extends Controller
         }
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'nik' => 'required|unique:data_disabilitas,nik|min:16',
             'nama' => 'required',
@@ -50,7 +60,7 @@ class DisabilitasController extends Controller
             'pendidikan' => 'required',
             'tingkat' => 'required',
             'jenis' => 'required',
-            'subjenis' => 'required'
+            'subjenis' => 'required',
         ]);
 
         $desa = Desa::where('nama_desa', auth()->user()->nama_lengkap)->first();
@@ -66,7 +76,7 @@ class DisabilitasController extends Controller
             'tingkat_disabilitas' => $request->tingkat,
             'id_jenis_disabilitas' => $request->jenis,
             'id_sub_jenis_disabilitas' => $request->subjenis,
-            'keterangan' => $request->keterangan
+            'keterangan' => $request->keterangan,
         ];
 
         // dd($data);
