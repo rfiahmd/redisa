@@ -60,7 +60,7 @@ class ImportDesaSumenep extends Command
                         $kodeDesa = $desa['id']; // Gunakan ID asli desa agar unik
 
                         // **1. Email Unik** (Tambahkan kode kecamatan supaya unik)
-                        $email = strtolower(str_replace(' ', '', $desa['name'])) . $kecamatan['id'] . '@gmail.com';
+                        $email = strtolower(str_replace(' ', '', $desa['name'] . '_'.$kecamatan['name'])) . '@gmail.com';
 
                         // **2. Username Unik** (Tambahkan kode kecamatan jika ada yang sama)
                         $baseUsername = strtolower(str_replace(' ', '', $desa['name']));
