@@ -32,11 +32,9 @@ class ImportDesaSumenep extends Command
     public function handle()
     {
         ini_set('max_execution_time', 600); // Set batas waktu eksekusi ke 10 menit
-        ini_set('memory_limit', '512M'); // Set batas memori agar cukup besar
+        ini_set('memory_limit', '1024M'); // Set batas memori agar cukup besar
 
         $kabupatenId = '3529'; // Kode Kabupaten Sumenep
-
-        // Ambil data kecamatan di Sumenep
         $response = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/districts/{$kabupatenId}.json");
 
         if (!$response->successful()) {
@@ -51,7 +49,7 @@ class ImportDesaSumenep extends Command
 
             if (!$desaResponse->successful()) {
                 $this->error("Gagal mengambil data desa untuk Kecamatan: {$kecamatan['name']} (ID: {$kecamatan['id']})");
-                continue; // Lanjut ke kecamatan berikutnya
+                continue;
             }
 
             $desas = $desaResponse->json();
@@ -61,37 +59,42 @@ class ImportDesaSumenep extends Command
                     DB::transaction(function () use ($desa, $kecamatan, $kabupatenId) {
                         $kodeDesa = $desa['id']; // Gunakan ID asli desa agar unik
 
-                        // Membuat email unik berdasarkan nama desa
-                        $email = strtolower(str_replace(' ', '', $desa['name'])) . '@gmail.com';
+                        // **1. Email Unik** (Tambahkan kode kecamatan supaya unik)
+                        $email = strtolower(str_replace(' ', '', $desa['name'])) . $kecamatan['id'] . '@gmail.com';
 
-                        // Pastikan username unik
+                        // **2. Username Unik** (Tambahkan kode kecamatan jika ada yang sama)
                         $baseUsername = strtolower(str_replace(' ', '', $desa['name']));
-                        $username = $baseUsername;
+                        $username = $baseUsername . $kecamatan['id'];
                         $counter = 1;
                         while (User::where('username', $username)->exists()) {
-                            $username = $baseUsername . $counter;
+                            $username = $baseUsername . $kecamatan['id'] . $counter;
                             $counter++;
                         }
 
-                        // Buat user baru atau perbarui jika sudah ada
+                        // **3. Nama Lengkap Unik** (Tambahkan nama kecamatan jika ada yang sama)
+                        $namaLengkap = $desa['name'];
+                        if (User::where('nama_lengkap', $namaLengkap)->exists()) {
+                            $namaLengkap = $desa['name'] . ' - ' . $kecamatan['name'];
+                        }
+
+                        // Buat atau update user
                         $user = User::updateOrCreate(
                             ['email' => $email],
                             [
                                 'token_users' => Str::random(12),
-                                'nama_lengkap' => $desa['name'],
+                                'nama_lengkap' => $namaLengkap,
                                 'username' => $username,
                                 'password' => 'redisa123',
                             ]
                         );
 
-                        // Berikan role jika user baru
                         if ($user->wasRecentlyCreated) {
                             $user->assignRole('petugasdesa');
                         }
 
                         // Simpan data desa
                         Desa::updateOrCreate(
-                            ['kode_desa' => $kodeDesa], // Pastikan unik
+                            ['kode_desa' => $kodeDesa],
                             [
                                 'nama_desa' => $desa['name'],
                                 'kode_kecamatan' => $kecamatan['id'],
