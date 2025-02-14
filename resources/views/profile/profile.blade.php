@@ -17,10 +17,11 @@ $breadcrumb = ' Profil';
           <div class="profile-info">
             <div class="profile-photo"
               style="margin: -30px 0 0 10px; width: 110px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-            background-color: {{ '#' . substr(md5(Auth::user()->nama_lengkap), 0, 6) }}; 
-            color: white; font-weight: bold; font-size: 45px; border: 8px solid #fff;">
+                      background-color: {{ '#' . substr(md5(preg_replace('/[^a-zA-Z0-9. ]/', '', Auth::user()->nama_lengkap)), 0, 6) }}; 
+                      color: white; font-weight: bold; font-size: 45px; border: 8px solid #fff;">
               @php
-                $nama = explode(' ', Auth::user()->nama_lengkap);
+                $nama_bersih = preg_replace('/[^a-zA-Z0-9. ]/', '', Auth::user()->nama_lengkap);
+                $nama = explode(' ', $nama_bersih);
                 $initials = strtoupper(substr($nama[0], 0, 1));
                 if (count($nama) > 1) {
                     $initials .= strtoupper(substr($nama[1], 0, 1));
@@ -28,7 +29,6 @@ $breadcrumb = ' Profil';
               @endphp
               {{ $initials }}
             </div>
-
             <div class="profile-details">
               <div class="profile-name px-3 pt-2">
                 <h4 class="text-primary mb-0">@cptl(Auth::user()->nama_lengkap)</h4>
@@ -55,7 +55,7 @@ $breadcrumb = ' Profil';
                   <div class="input-group">
                     <span class="input-group-text"> <i class="fa fa-user"></i></span>
                     <input type="text" name="nama_lengkap" class="form-control" value="{{ $user->nama_lengkap }}"
-                      required>
+                      @if(Auth::user()->hasRole('petugasdesa')) readonly @endif required>
                   </div>
                 </div>
                 <div class="mb-3 vertical-radius">
