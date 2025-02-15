@@ -35,16 +35,16 @@ class UserSeeder extends Seeder
             ]
         );
         $adminpusat->assignRole('adminpusat');
-        $petugasdesa = User::create(
-            [
-                'token_users' => Str::random(12),
-                'nama_lengkap' => 'Petugas Desa',
-                'username' => 'petugasdesa',
-                'email' => 'petugasdesa@gmail.com',
-                'password' => '123',
-            ]
-        );
-        $petugasdesa->assignRole('petugasdesa');
+        // $petugasdesa = User::create(
+        //     [
+        //         'token_users' => Str::random(12),
+        //         'nama_lengkap' => 'Petugas Desa',
+        //         'username' => 'petugasdesa',
+        //         'email' => 'petugasdesa@gmail.com',
+        //         'password' => '123',
+        //     ]
+        // );
+        // $petugasdesa->assignRole('petugasdesa');
         $verifikator = User::create(
             [
                 'token_users' => Str::random(12),

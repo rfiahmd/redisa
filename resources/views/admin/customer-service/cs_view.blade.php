@@ -60,14 +60,63 @@ $breadcrumb = 'Customer Service';
                         <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
-                            data-user='@json($user)'>
+                          <a type="button" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
+                            data-bs-toggle="offcanvas" data-bs-target="#editCSadmin{{ $user->id }}">
                             <i class="fas fa-pencil-alt"></i>
                           </a>
                           <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp">
-                            <i class="fas fa-trash-alt"></i></a>
+                            <i class="fas fa-trash-alt"></i>
+                          </a>
                         </td>
                       </tr>
+                      <div class="offcanvas offcanvas-end" tabindex="-1" id="editCSadmin{{ $user->id }}"
+                        aria-labelledby="offcanvasLabel">
+                        <div class="offcanvas-header">
+                          <h5 class="offcanvas-title" id="offcanvasLabel">Edit CS</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                          <form method="POST" action="{{ route('users.update', $user->id) }}" class="needs-validation"
+                            novalidate>
+                            @csrf
+                            <input type="hidden" name="role" value="{{ auth()->user()->getRoleNames()->first() }}">
+
+                            <div class="mb-3">
+                              <label class="form-label">Nama</label>
+                              <input type="text" name="nama_lengkap" class="form-control"
+                                value="{{ $user->nama_lengkap }}" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                              <label class="form-label">Username</label>
+                              <input type="text" name="username" class="form-control"
+                                value="{{ $user->username }}" required>
+                            </div>
+
+                            <div class="mb-3">
+                              <label class="form-label">Email</label>
+                              <input type="email" name="email" class="form-control" value="{{ $user->email }}"
+                                required>
+                            </div>
+
+                            <div class="form-check mb-3">
+                              <input class="form-check-input" type="checkbox" id="ubahSandi{{ $user->id }}"
+                                onchange="togglePasswordInput({{ $user->id }})">
+                              <label class="form-check-label" for="ubahSandi{{ $user->id }}">
+                                Ubah Sandi
+                              </label>
+                            </div>
+
+                            <div class="mb-3" id="passwordInput{{ $user->id }}" style="display: none;">
+                              <label class="form-label">Password Baru</label>
+                              <input type="password" name="password" class="form-control">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Simpan</button>
+                          </form>
+                        </div>
+                      </div>
                     @endforeach
                   </tbody>
                 </table>
@@ -224,7 +273,7 @@ $breadcrumb = 'Customer Service';
       <form method="POST" action="{{ route('users.store') }}" id="form-verifikator"
         class="form-valide-with-icon needs-validation" novalidate style="display: none;">
         @csrf
-        <input type="hidden" name="role" id="role-verifikator">
+        <input type="hidden" name="role" id="role-verifikator" value="verifikator">
         <input type="hidden" name="password" id="password-verifikator">
 
         <div class="mb-3 vertical-radius">
@@ -261,10 +310,12 @@ $breadcrumb = 'Customer Service';
           <label class="text-label form-label required">Desa</label>
           <div class="input-group">
             <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
-            <input type="text" name="desa" id="desa" class="form-control"
-              placeholder="Masukkan Desa Anda.." required>
+            <input type="text" id="search-desa" class="form-control" placeholder="Cari desa..."
+              autocomplete="off">
           </div>
-          <div class="invalid-feedback">Masukkan Desa Anda</div>
+          <div id="desa-list" class="dropdown-menu show" style="display: none; width: 100%;"></div>
+          <div id="selected-desa" class="mt-2"></div>
+          <div id="selected-desa-container"></div>
         </div>
 
         <button type="submit" class="btn btn-primary w-100 mt-3">Simpan</button>
@@ -274,46 +325,5 @@ $breadcrumb = 'Customer Service';
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <script>
-    $(document).ready(function() {
-      $('.nav-link').on('click', function() {
-        var role = $(this).attr('href').replace('#', '');
-        $('#role').val(role);
-      });
-
-      $('#role').val('adminpusat');
-    });
-
-    function generateRandomPassword() {
-      const characters = 'abcdefghijklmnopqrstuvwxyz1234567890';
-      let password = '';
-      for (let i = 0; i < 8; i++) {
-        password += characters.charAt(Math.floor(Math.random() * characters.length));
-      }
-      document.getElementById('password').value = password;
-    }
-
-    generateRandomPassword();
-
-    document.addEventListener("DOMContentLoaded", function() {
-      // Tangkap elemen form
-      let formDefault = document.getElementById("form-default");
-      let formVerifikator = document.getElementById("form-verifikator");
-
-      // Tambahkan event listener untuk tab change
-      document.querySelectorAll(".nav-link").forEach(tab => {
-        tab.addEventListener("shown.bs.tab", function(event) {
-          let targetTab = event.target.getAttribute("href"); // Ambil ID tab aktif
-
-          if (targetTab === "#verifikator") {
-            formDefault.style.display = "none";
-            formVerifikator.style.display = "block";
-          } else {
-            formDefault.style.display = "block";
-            formVerifikator.style.display = "none";
-          }
-        });
-      });
-    });
-  </script>
+  <x-cs.scriptcs></x-cs.scriptcs>
 @endsection

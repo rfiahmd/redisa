@@ -77,6 +77,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/', [UserController::class, 'store'])->name('users.store');
             Route::post('/{users}', [UserController::class, 'update'])->name('users.update');
             Route::get('/{users}/delete', [UserController::class, 'destroy'])->name('users.destroy');
+            Route::get('/desa/search', [UserController::class, 'search'])->name('desa.search');
         });
     });
 
