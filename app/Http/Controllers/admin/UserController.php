@@ -163,11 +163,30 @@ class UserController extends Controller
         return response()->json($desa);
     }
 
-    public function destroy($user)
+    public function destroy($users)
     {
-        $user = User::findOrFail($user);
-        $user->delete();
+        DB::beginTransaction();
 
-        return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
+        try {
+            // Cari user berdasarkan token_users, bukan id
+            $user = User::where('token_users', $users)->firstOrFail();
+
+            // Hapus data di tabel pivot jika user adalah verifikator
+            if ($user->hasRole('verifikator')) {
+                VerifikatorDesa::where('user_id', $user->id)->delete();
+            }
+
+            // Hapus user
+            $user->delete();
+
+            DB::commit();
+
+            return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()
+                ->back()
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }

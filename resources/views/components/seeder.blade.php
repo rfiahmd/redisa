@@ -10,6 +10,7 @@
           <span class="nav-text">Dashboard</span>
         </a>
       </li>
+      @if (auth()->user()->hasRole('superadmin') || auth()->user()->hasRole('adminpusat'))
       <li class="px-4 pt-4 mt-4 border-top border-primary">
         <h4 class="fw-bold nav-text">Master</h4>
       </li>
@@ -19,12 +20,14 @@
           <span class="nav-text">Suctomer Service</span>
         </a>
       </li>
+      @if (auth()->user()->hasRole('superadmin'))  
       <li>
         <a href="{{ route('jenis.index') }}" aria-expanded="false">
           <i class="la la-wheelchair" style="font-size: 24px;"></i>
           <span class="nav-text">Jenis Disabilitas</span>
         </a>
       </li>
+      @endif
       <li>
         <a href="{{ route('desa') }}" aria-expanded="false">
           <i class="la la-map-marker" style="font-size: 24px;"></i>
@@ -37,6 +40,7 @@
           <span class="nav-text">Pendidikan</span>
         </a>
       </li>
+      @endif
       <li class="px-4 pt-4 mt-4 border-top border-primary">
         <h4 class="fw-bold nav-text">Operasional</h4>
       </li>

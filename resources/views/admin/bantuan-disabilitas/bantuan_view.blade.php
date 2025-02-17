@@ -6,6 +6,52 @@ $breadcrumb = 'Jenis Disabilitas';
 @extends('layout.template')
 
 @section('content')
+  <div class="filter cm-content-box box-primary">
+    <div class="content-title SlideToolHeader">
+      <div class="cpa">
+        <i class="fa-sharp fa-solid fa-filter me-2"></i>Filter
+      </div>
+      <div class="tools">
+        <a href="javascript:void(0);" class="expand handle"><i class="fal fa-angle-down"></i></a>
+      </div>
+    </div>
+    <div class="cm-content-body form excerpt">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xl-4  col-sm-6 mb-3 mb-xl-0">
+            <label for="exampleDataList" class="form-label">Desa</label>
+            <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Cari Desa...">
+            <datalist id="datalistOptions">
+              <option value="San Francisco">
+              <option value="New York">
+              <option value="Seattle">
+              <option value="Los Angeles">
+              <option value="Chicago">
+            </datalist>
+          </div>
+          <div class="col-xl-4  col-sm-6 mb-3 mb-xl-0">
+            <label for="exampleDataList" class="form-label">Kecamatan</label>
+            <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Cari Kecamatan...">
+            <datalist id="datalistOptions">
+              <option value="San Francisco">
+              <option value="New York">
+              <option value="Seattle">
+              <option value="Los Angeles">
+              <option value="Chicago">
+            </datalist>
+          </div>
+          <div class="col-xl-3 col-sm-6 align-self-end">
+            <div>
+              <button class="btn btn-primary me-2" title="Click here to Search" type="button"><i
+                  class="fa fa-filter me-1"></i>Filter</button>
+              <button class="btn btn-danger light" title="Click here to remove filter" type="button">Remove
+                Filter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="card">
     <div class="card-body">
       <div class="default-tab">
@@ -44,7 +90,7 @@ $breadcrumb = 'Jenis Disabilitas';
                     ];
                     foreach ($dataMenerima as $index => $data) : ?>
                     <tr>
-                      <td class="text-center">{{ $index + 1 }}</td>
+                      <td class="text-center">{{ $index + 1 }}.</td>
                       <td>{{ $data['nama'] }}</td>
                       <td>{{ $data['nik'] }}</td>
                       <td>{{ $data['disabilitas'] }}</td>
@@ -82,7 +128,7 @@ $breadcrumb = 'Jenis Disabilitas';
                     ];
                     foreach ($dataBelum as $index => $data) : ?>
                     <tr>
-                      <td class="text-center">{{ $index + 1 }}</td>
+                      <td class="text-center">{{ $index + 1 }}.</td>
                       <td>{{ $data['nama'] }}</td>
                       <td>{{ $data['nik'] }}</td>
                       <td>{{ $data['disabilitas'] }}</td>
@@ -155,4 +201,8 @@ $breadcrumb = 'Jenis Disabilitas';
       </div>
     </div>
   @endforeach --}}
+@endsection
+
+@section('script')
+  <script src="{{ asset('assets') }}/js/dashboard/cms.js"></script>
 @endsection

@@ -25,6 +25,10 @@
       entityName = 'Desa';
       entityRoute = '/desa/delete/' + token;
       warningText = entityName + " '" + name + "' akan dihapus secara permanen!";
+    } else if (entity === 'users') {
+      entityName = 'Users';
+      entityRoute = '/users/' + token + '/delete';
+      warningText = entityName + " '" + name + "' akan dihapus secara permanen!";
     }
 
     // Konfirmasi penghapusan
