@@ -77,43 +77,74 @@ $breadcrumb = 'Customer Service';
                             aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-                          <form method="POST" action="{{ route('users.update', $user->id) }}" class="needs-validation"
-                            novalidate>
+                          <!-- Edit CS Form -->
+                          <form method="POST" action="{{ route('users.update', $user->id) }}"
+                            class="form-valide-with-icon needs-validation" novalidate>
                             @csrf
-                            <input type="hidden" name="role" value="{{ auth()->user()->getRoleNames()->first() }}">
+                            @method('PUT')
 
-                            <div class="mb-3">
-                              <label class="form-label">Nama</label>
-                              <input type="text" name="nama_lengkap" class="form-control"
-                                value="{{ $user->nama_lengkap }}" required>
-                            </div>
-                            
-                            <div class="mb-3">
-                              <label class="form-label">Username</label>
-                              <input type="text" name="username" class="form-control"
-                                value="{{ $user->username }}" required>
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Nama</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <input type="text" name="nama_lengkap" class="form-control"
+                                  value="{{ $user->nama_lengkap }}" placeholder="Masukkan Nama Anda.." required>
+                              </div>
+                              @error('nama_lengkap')
+                                <div class="text-danger">{{ $message }}</div>
+                              @enderror
+                              <div class="invalid-feedback">Masukkan Nama Anda</div>
                             </div>
 
-                            <div class="mb-3">
-                              <label class="form-label">Email</label>
-                              <input type="email" name="email" class="form-control" value="{{ $user->email }}"
-                                required>
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Username</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <input type="text" name="username" class="form-control" value="{{ $user->username }}"
+                                  placeholder="Masukkan Username Anda.." required>
+                              </div>
+                              @error('username')
+                                <div class="text-danger">{{ $message }}</div>
+                              @enderror
+                              <div class="invalid-feedback">Masukkan Username Anda</div>
+                            </div>
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Email</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                <input type="email" name="email" class="form-control" value="{{ $user->email }}"
+                                  placeholder="Masukkan Email Anda.." required>
+                              </div>
+                              @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                              @enderror
+                              <div class="invalid-feedback">Harap Masukkan Email Dengan Benar</div>
                             </div>
 
                             <div class="form-check mb-3">
                               <input class="form-check-input" type="checkbox" id="ubahSandi{{ $user->id }}"
                                 onchange="togglePasswordInput({{ $user->id }})">
-                              <label class="form-check-label" for="ubahSandi{{ $user->id }}">
+                              <label class="form-check-label" for="ubahSandi{{ $user->id }}" class="d-inline">
                                 Ubah Sandi
                               </label>
+                              <span class="ms-1 position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Centang jika ingin mengubah sandi, jika tidak biarkan saja."
+                                style="cursor: pointer; top: -3px;">
+                                <i class="fas fa-exclamation-circle text-warning"
+                                  style="font-size: 0.7rem; vertical-align: middle;"></i>
+                              </span>
                             </div>
-
                             <div class="mb-3" id="passwordInput{{ $user->id }}" style="display: none;">
-                              <label class="form-label">Password Baru</label>
-                              <input type="password" name="password" class="form-control">
+                              <label class="text-label form-label">Password Baru</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                <input type="password" name="password" class="form-control"
+                                  placeholder="Masukkan Password Baru">
+                              </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100">Simpan</button>
+                            <button type="submit" class="btn btn-primary w-100 mt-3">Simpan</button>
                           </form>
                         </div>
                       </div>
@@ -142,14 +173,126 @@ $breadcrumb = 'Customer Service';
                         <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
-                            data-user='@json($user)'>
+                          <a type="button" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
+                            data-bs-toggle="offcanvas" data-bs-target="#editCSverifikator{{ $user->id }}">
                             <i class="fas fa-pencil-alt"></i>
                           </a>
-                          <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
-                              class="fas fa-trash-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp">
+                            <i class="fas fa-trash-alt"></i>
+                          </a>
                         </td>
                       </tr>
+                      <div class="offcanvas offcanvas-end" tabindex="-1" id="editCSverifikator{{ $user->id }}"
+                        aria-labelledby="offcanvasLabel">
+                        <div class="offcanvas-header">
+                          <h5 class="offcanvas-title" id="offcanvasLabel">Edit CS</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                          <!-- Edit CS Form -->
+                          <form method="POST" action="{{ route('users.update', $user->id) }}"
+                            id="form-verifikator-edit" class="form-valide-with-icon needs-validation" novalidate>
+                            @csrf
+                            @method('PUT')
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Nama</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <input type="text" name="nama_lengkap" id="nama_lengkap_verifikator_edit"
+                                  class="form-control" placeholder="Masukkan Nama Anda.."
+                                  value="{{ old('nama_lengkap', $user->nama_lengkap) }}" required>
+                              </div>
+                              <div class="invalid-feedback">Masukkan Nama Anda</div>
+                            </div>
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Username</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <input type="text" name="username" class="form-control"
+                                  value="{{ $user->username }}" placeholder="Masukkan Username Anda.." required>
+                              </div>
+                              @error('username')
+                                <div class="text-danger">{{ $message }}</div>
+                              @enderror
+                              <div class="invalid-feedback">Masukkan Username Anda</div>
+                            </div>
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Email</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                <input type="email" name="email" id="email_verifikator_edit" class="form-control"
+                                  placeholder="Masukkan Email Anda.." value="{{ old('email', $user->email) }}"
+                                  required>
+                              </div>
+                              <div class="invalid-feedback">Harap Masukkan Email Dengan Benar</div>
+                            </div>
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Jabatan</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                                <input type="text" name="jabatan" id="jabatan_edit" class="form-control"
+                                  placeholder="Masukkan Jabatan Anda.." value="{{ optional($user->verifikatorDesa->first())->jabatan }}"
+                                  required>
+                              </div>
+                              <div class="invalid-feedback">Masukkan Jabatan Anda</div>
+                            </div>
+
+                            <!-- Input untuk pencarian desa -->
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Desa</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
+                                <input type="text" id="search-desa-edit" class="form-control"
+                                  placeholder="Cari desa..." autocomplete="off">
+                              </div>
+                              <div id="desa-list-edit" class="dropdown-menu show" style="display: none; width: 100%;">
+                              </div>
+
+                              <!-- Daftar desa yang sudah dipilih sebelumnya -->
+                              <div id="selected-desa-edit" class="mt-2">
+                                @foreach ($user->verifikatorDesa as $desa)
+                                  <span class="badge bg-primary me-1 selected-item-edit" data-id="{{ $desa->id }}">
+                                    {{ $desa->desa->nama_desa }} - {{ $desa->desa->nama_kecamatan }}
+                                    <button type="button" class="btn-close btn-close-white remove-desa-edit"
+                                      data-id="{{ $desa->id }}" aria-label="Close"></button>
+                                  </span>
+                                  <input type="hidden" name="desa_id[]" value="{{ $desa->id }}"
+                                    id="desa-hidden-edit-{{ $desa->id }}">
+                                @endforeach
+                              </div>
+                            </div>
+
+                            <div class="form-check mb-3">
+                              <input class="form-check-input" type="checkbox" id="ubahSandi{{ $user->id }}"
+                                onchange="togglePasswordInput({{ $user->id }})">
+                              <label class="form-check-label" for="ubahSandi{{ $user->id }}" class="d-inline">
+                                Ubah Sandi
+                              </label>
+                              <span class="ms-1 position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Centang jika ingin mengubah sandi, jika tidak biarkan saja."
+                                style="cursor: pointer; top: -3px;">
+                                <i class="fas fa-exclamation-circle text-warning"
+                                  style="font-size: 0.7rem; vertical-align: middle;"></i>
+                              </span>
+                            </div>
+                            <div class="mb-3" id="passwordInput{{ $user->id }}" style="display: none;">
+                              <label class="text-label form-label">Password Baru</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                <input type="password" name="password" class="form-control"
+                                  placeholder="Masukkan Password Baru">
+                              </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 mt-3">Update</button>
+                          </form>
+                        </div>
+                      </div>
                     @endforeach
                   </tbody>
                 </table>
@@ -175,14 +318,94 @@ $breadcrumb = 'Customer Service';
                         <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
-                            data-user='@json($user)'>
+                          <a type="button" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
+                            data-bs-toggle="offcanvas" data-bs-target="#editCSpetugasdesa{{ $user->id }}">
                             <i class="fas fa-pencil-alt"></i>
                           </a>
-                          <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
-                              class="fas fa-trash-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp">
+                            <i class="fas fa-trash-alt"></i>
+                          </a>
                         </td>
                       </tr>
+                      <div class="offcanvas offcanvas-end" tabindex="-1" id="editCSpetugasdesa{{ $user->id }}"
+                        aria-labelledby="offcanvasLabel">
+                        <div class="offcanvas-header">
+                          <h5 class="offcanvas-title" id="offcanvasLabel">Edit CS</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                          <!-- Edit CS Form -->
+                          <form method="POST" action="{{ route('users.update', $user->id) }}"
+                            class="form-valide-with-icon needs-validation" novalidate>
+                            @csrf
+                            @method('PUT')
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Nama</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <input type="text" name="nama_lengkap" class="form-control"
+                                  value="{{ $user->nama_lengkap }}" placeholder="Masukkan Nama Anda.." required>
+                              </div>
+                              @error('nama_lengkap')
+                                <div class="text-danger">{{ $message }}</div>
+                              @enderror
+                              <div class="invalid-feedback">Masukkan Nama Anda</div>
+                            </div>
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Username</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <input type="text" name="username" class="form-control"
+                                  value="{{ $user->username }}" placeholder="Masukkan Username Anda.." required>
+                              </div>
+                              @error('username')
+                                <div class="text-danger">{{ $message }}</div>
+                              @enderror
+                              <div class="invalid-feedback">Masukkan Username Anda</div>
+                            </div>
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Email</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                <input type="email" name="email" class="form-control" value="{{ $user->email }}"
+                                  placeholder="Masukkan Email Anda.." required>
+                              </div>
+                              @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                              @enderror
+                              <div class="invalid-feedback">Harap Masukkan Email Dengan Benar</div>
+                            </div>
+
+                            <div class="form-check mb-3">
+                              <input class="form-check-input" type="checkbox" id="ubahSandi{{ $user->id }}"
+                                onchange="togglePasswordInput({{ $user->id }})">
+                              <label class="form-check-label" for="ubahSandi{{ $user->id }}" class="d-inline">
+                                Ubah Sandi
+                              </label>
+                              <span class="ms-1 position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Centang jika ingin mengubah sandi, jika tidak biarkan saja."
+                                style="cursor: pointer; top: -3px;">
+                                <i class="fas fa-exclamation-circle text-warning"
+                                  style="font-size: 0.7rem; vertical-align: middle;"></i>
+                              </span>
+                            </div>
+                            <div class="mb-3" id="passwordInput{{ $user->id }}" style="display: none;">
+                              <label class="text-label form-label">Password Baru</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                <input type="password" name="password" class="form-control"
+                                  placeholder="Masukkan Password Baru">
+                              </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 mt-3">Simpan</button>
+                          </form>
+                        </div>
+                      </div>
                     @endforeach
                   </tbody>
                 </table>
@@ -208,14 +431,94 @@ $breadcrumb = 'Customer Service';
                         <td>@formatNama($user->nama_lengkap)</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                          <a href="javascript:void(0);" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
-                            data-user='@json($user)'>
+                          <a type="button" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit"
+                            data-bs-toggle="offcanvas" data-bs-target="#editCSkadis{{ $user->id }}">
                             <i class="fas fa-pencil-alt"></i>
                           </a>
-                          <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp"><i
-                              class="fas fa-trash-alt"></i></a>
+                          <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp">
+                            <i class="fas fa-trash-alt"></i>
+                          </a>
                         </td>
                       </tr>
+                      <div class="offcanvas offcanvas-end" tabindex="-1" id="editCSkadis{{ $user->id }}"
+                        aria-labelledby="offcanvasLabel">
+                        <div class="offcanvas-header">
+                          <h5 class="offcanvas-title" id="offcanvasLabel">Edit CS</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                          <!-- Edit CS Form -->
+                          <form method="POST" action="{{ route('users.update', $user->id) }}"
+                            class="form-valide-with-icon needs-validation" novalidate>
+                            @csrf
+                            @method('PUT')
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Nama</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <input type="text" name="nama_lengkap" class="form-control"
+                                  value="{{ $user->nama_lengkap }}" placeholder="Masukkan Nama Anda.." required>
+                              </div>
+                              @error('nama_lengkap')
+                                <div class="text-danger">{{ $message }}</div>
+                              @enderror
+                              <div class="invalid-feedback">Masukkan Nama Anda</div>
+                            </div>
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Username</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                <input type="text" name="username" class="form-control"
+                                  value="{{ $user->username }}" placeholder="Masukkan Username Anda.." required>
+                              </div>
+                              @error('username')
+                                <div class="text-danger">{{ $message }}</div>
+                              @enderror
+                              <div class="invalid-feedback">Masukkan Username Anda</div>
+                            </div>
+
+                            <div class="mb-3 vertical-radius">
+                              <label class="text-label form-label required">Email</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                <input type="email" name="email" class="form-control" value="{{ $user->email }}"
+                                  placeholder="Masukkan Email Anda.." required>
+                              </div>
+                              @error('email')
+                                <div class="text-danger">{{ $message }}</div>
+                              @enderror
+                              <div class="invalid-feedback">Harap Masukkan Email Dengan Benar</div>
+                            </div>
+
+                            <div class="form-check mb-3">
+                              <input class="form-check-input" type="checkbox" id="ubahSandi{{ $user->id }}"
+                                onchange="togglePasswordInput({{ $user->id }})">
+                              <label class="form-check-label" for="ubahSandi{{ $user->id }}" class="d-inline">
+                                Ubah Sandi
+                              </label>
+                              <span class="ms-1 position-relative" data-bs-toggle="tooltip" data-bs-placement="top"
+                                title="Centang jika ingin mengubah sandi, jika tidak biarkan saja."
+                                style="cursor: pointer; top: -3px;">
+                                <i class="fas fa-exclamation-circle text-warning"
+                                  style="font-size: 0.7rem; vertical-align: middle;"></i>
+                              </span>
+                            </div>
+                            <div class="mb-3" id="passwordInput{{ $user->id }}" style="display: none;">
+                              <label class="text-label form-label">Password Baru</label>
+                              <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                                <input type="password" name="password" class="form-control"
+                                  placeholder="Masukkan Password Baru">
+                              </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100 mt-3">Simpan</button>
+                          </form>
+                        </div>
+                      </div>
                     @endforeach
                   </tbody>
                 </table>
@@ -324,6 +627,13 @@ $breadcrumb = 'Customer Service';
   </div>
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+      var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    });
+  </script>
   <x-cs.scriptcs></x-cs.scriptcs>
 @endsection

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('token_verifikator', 12)->unique();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('desa_id');
+            $table->string('jabatan', 100);
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('desa_id')->references('id')->on('desa')->onDelete('cascade');
             $table->timestamps();

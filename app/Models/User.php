@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasOne(Desa::class, 'user_id', 'id');
     }
 
+    public function verifikatorDesa()
+    {
+        return $this->hasMany(VerifikatorDesa::class, 'user_id');
+    }
+
     /**
      * Event: Beri role default saat user baru dibuat.
      */

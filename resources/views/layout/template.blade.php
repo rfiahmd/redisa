@@ -125,7 +125,7 @@
     <div class="footer">
       <div class="copyright">
         <p>Copyright © Designed &amp; Developed by <a href="http://turbo-main.com/" target="_blank">TurboMain</a>
-          <span class="current-year">2024</span>
+          <span class="current-year">{{ date('Y') }}</span>
         </p>
       </div>
     </div>

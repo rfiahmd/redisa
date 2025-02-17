@@ -52,7 +52,7 @@
       });
     });
 
-    // Multi select desa
+    // Multi select
     $(document).ready(function() {
       $("#search-desa").on("keyup", function() {
         let query = $(this).val();
@@ -129,6 +129,72 @@
         }
       });
     });
+
+    $(document).ready(function() {
+  // Pencarian desa
+  $("#search-desa-edit").on("keyup", function() {
+    let query = $(this).val();
+    if (query.length > 1) {
+      $.ajax({
+        url: "{{ route('desa.search') }}",
+        type: "GET",
+        data: { q: query },
+        success: function(data) {
+          let desaList = $("#desa-list-edit");
+          desaList.empty().show();
+          if (data.length > 0) {
+            data.forEach(function(desa) {
+              desaList.append(`
+                <button type="button" class="dropdown-item desa-option" data-id="${desa.id}" data-name="${desa.nama_desa}" data-kecamatan="${desa.nama_kecamatan}">
+                  ${desa.nama_desa} - ${desa.nama_kecamatan}
+                </button>
+              `);
+            });
+          } else {
+            desaList.append('<button type="button" class="dropdown-item disabled">Tidak ditemukan</button>');
+          }
+        },
+      });
+    } else {
+      $("#desa-list-edit").hide();
+    }
+  });
+
+  // Menangani pemilihan desa
+  $(document).on("click", ".desa-option", function() {
+    let desaId = $(this).data("id");
+    let desaName = $(this).data("name");
+    let desaKec = $(this).data("kecamatan");
+
+    let selectedContainer = $("#selected-desa-edit");
+
+    // Cek apakah desa sudah dipilih
+    if ($(`.selected-item-edit[data-id="${desaId}"]`).length === 0) {
+      selectedContainer.append(`
+        <span class="badge bg-primary me-1 selected-item-edit" data-id="${desaId}">
+          ${desaName} - ${desaKec}
+          <button type="button" class="btn-close btn-close-white remove-desa-edit" data-id="${desaId}" aria-label="Close"></button>
+        </span>
+      `);
+
+      // Tambahkan input hidden untuk desa yang dipilih
+      $("#selected-desa-edit").append(`
+        <input type="hidden" name="desa_id[]" value="${desaId}" id="desa-hidden-edit-${desaId}">
+      `);
+    }
+
+    $("#desa-list-edit").hide();
+    $("#search-desa-edit").val("");
+  });
+
+  // Menghapus desa yang dipilih
+  $(document).on("click", ".remove-desa-edit", function() {
+    let desaId = $(this).data("id");
+    $(this).closest(".selected-item-edit").remove();
+    $(`#desa-hidden-edit-${desaId}`).remove();
+  });
+});
+
 
     function togglePasswordInput(userId) {
       let passwordInput = document.getElementById('passwordInput' + userId);

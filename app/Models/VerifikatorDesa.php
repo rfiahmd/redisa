@@ -16,4 +16,9 @@ class VerifikatorDesa extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function desa()
+    {
+        return $this->belongsTo(Desa::class, 'desa_id', 'id');
+    }
 }
