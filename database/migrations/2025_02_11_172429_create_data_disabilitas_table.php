@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('desa_id')->constrained('desa')->cascadeOnDelete();
             $table->enum('status', ['diterima', 'ditolak', 'direvisi', 'diproses'])->default('diproses');
-            $table->string('nik')->unique();
+            $table->string('nik');
             $table->string('nama');
             $table->enum('kelamin', ['laki-laki', 'perempuan']);
             $table->text('alamat');
