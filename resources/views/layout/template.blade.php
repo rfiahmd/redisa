@@ -154,6 +154,7 @@
   <x-datetime></x-datetime>
   <x-delete></x-delete>
   <x-script></x-script>
+  @yield('script')
 
 </body>
 

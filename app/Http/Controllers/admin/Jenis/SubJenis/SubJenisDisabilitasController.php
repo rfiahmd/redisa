@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin\Jenis\SubJenis;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Jenis\SubJenis\SubJenisDisabilitasRequest;
+use App\Models\DisabilitasModel;
 use App\Models\Jenis\JenisDisabilitas;
 use App\Models\Jenis\SubJenis\SubJenisDisabilitas;
 use Illuminate\Http\Request;
@@ -39,6 +40,15 @@ class SubJenisDisabilitasController extends Controller
     public function destroy(JenisDisabilitas $jenisDisabilitas, $token)
     {
         $subJenisDisabilitas = SubJenisDisabilitas::where('token_sub_jenis', $token)->firstOrFail();
+
+        // Cek apakah sub jenis disabilitas masih digunakan di data_disabilitas
+        $isUsedInDataDisabilitas = DisabilitasModel::where('id_sub_jenis_disabilitas', $subJenisDisabilitas->id)->exists();
+
+        if ($isUsedInDataDisabilitas) {
+            return redirect()->route('subjenis.index', $jenisDisabilitas)
+                ->with('delete_error', 'Sub Jenis Disabilitas ini sedang digunakan dalam data disabilitas dan tidak bisa dihapus.');
+        }
+
         $subJenisDisabilitas->delete();
 
         return redirect()->route('subjenis.index', $jenisDisabilitas)->with('delete_success', 'Sub Jenis Disabilitas berhasil dihapus.');
