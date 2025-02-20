@@ -25,9 +25,9 @@
       entityName = 'Desa';
       entityRoute = '/desa/delete/' + token;
       warningText = entityName + " '" + name + "' akan dihapus secara permanen!";
-    } else if (entity === 'users') {
-      entityName = 'Users';
-      entityRoute = '/users/' + token + '/delete';
+    } else if (entity === 'disabilitas') {
+      entityName = 'Data Disabilitas';
+      entityRoute = '/disabilitas-delete/' + token;
       warningText = entityName + " '" + name + "' akan dihapus secara permanen!";
     }
 

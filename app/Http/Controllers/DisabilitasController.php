@@ -86,4 +86,55 @@ class DisabilitasController extends Controller
         DisabilitasModel::create($data);
         return redirect('/datadisabilitas')->with('success', 'Berhasil Menambahkan data');
     }
+
+    public function edit($id)
+    {
+        $data = [
+            'disabilitas' => DisabilitasModel::where('nik', $id)->first(),
+            'jenis' => JenisDisabilitas::all(),
+            'sub' => SubJenisDisabilitas::all(),
+        ];
+
+        return view('petugas-desa.disabilitas.disabilitas-edit', $data);
+    }
+
+    public function update(Request $request, $nik)
+    {
+        $request->validate([
+            'nik' => 'required|min:16',
+            'nama' => 'required',
+            'jeniskelamin' => 'required',
+            'alamat' => 'required',
+            'usia' => 'required',
+            'pendidikan' => 'required',
+            'tingkat' => 'required',
+            'jenis' => 'required',
+            'subjenis' => 'required',
+        ]);
+
+        $disabilitas = DisabilitasModel::where('nik', $nik)->first();
+
+        if (!$disabilitas) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan!');
+        }
+
+        $disabilitas->update([
+            'nik' => $request->nik,
+            'nama' => $request->nama,
+            'kelamin' => $request->jeniskelamin,
+            'alamat' => $request->alamat,
+            'usia' => $request->usia,
+            'pendidikan' => $request->pendidikan,
+            'tingkat_disabilitas' => $request->tingkat,
+            'id_jenis_disabilitas' => $request->jenis,
+            'id_sub_jenis_disabilitas' => $request->subjenis,
+        ]);
+
+        return redirect()->route('disabilitas')->with('success', 'Data berhasil diperbarui!');
+    }
+
+    public function delete($id){
+        DisabilitasModel::where('nik', $id)->delete();
+        return redirect('/datadisabilitas')->with('delete_success', 'Berhasil Menghapus Data');
+    }
 }

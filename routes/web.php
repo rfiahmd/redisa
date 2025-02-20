@@ -96,10 +96,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/disabilitas-create', [DisabilitasController::class, 'create'])->name('disabilitas.create');
         Route::post('/disabilitas-create', [DisabilitasController::class, 'store'])->name('disabilitas.store');
         Route::post('/getsubjenis', [DisabilitasController::class, 'getSubJenis'])->name('getSubJenis');
+        Route::get('/disabilitas-edit/{nik}', [DisabilitasController::class, 'edit'])->name('disabilitas.edit');
+        Route::put('/disabilitas/update/{nik}', [DisabilitasController::class, 'update'])->name('disabilitas.update');
+        Route::get('/disabilitas-delete/{nik}', [DisabilitasController::class, 'delete'])->name('disabilitas.delete');
 
-        Route::get('/disabilitas-edit', function () {
-            return view('petugas-desa.disabilitas.disabilitas-edit');
-        })->name('disabilitas.edit');
     });
 
     // Route untuk verifikator
