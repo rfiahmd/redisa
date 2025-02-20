@@ -147,35 +147,6 @@ class UserController extends Controller
         }
     }
 
-
-    public function search(Request $request)
-    {
-        $query = $request->q;
-
-        $desaTerverifikasi = VerifikatorDesa::pluck('desa_id')->toArray();
-
-        $desa = Desa::where('nama_desa', 'like', "%{$query}%")
-            ->whereNotIn('id', $desaTerverifikasi)
-            ->limit(10)
-            ->get();
-
-        return response()->json($desa);
-    }
-
-    public function searchEdit(Request $request)
-    {
-        $query = $request->q;
-
-        $desaTerverifikasi = VerifikatorDesa::pluck('desa_id')->toArray();
-
-        $desa = Desa::where('nama_desa', 'like', "%{$query}%")
-            ->whereNotIn('id', $desaTerverifikasi)
-            ->limit(10)
-            ->get();
-
-        return response()->json($desa);
-    }
-
     public function destroy($users)
     {
         DB::beginTransaction();
@@ -191,7 +162,7 @@ class UserController extends Controller
 
             DB::commit();
 
-            return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
+            return redirect()->route('users.index')->with('delete_success', 'User berhasil dihapus.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()

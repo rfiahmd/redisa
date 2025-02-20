@@ -112,10 +112,13 @@ class VerifikasiController extends Controller
 
     public function bulkAction(Request $request, $action)
     {
+        $user = auth()->user(); // Ambil user yang sedang login
+
         if (!in_array($action, ['terima', 'tolak', 'revisi'])) {
             return response()->json(['success' => false, 'message' => 'Aksi tidak valid.'], 400);
         }
 
+        // Tentukan status baru berdasarkan aksi
         switch ($action) {
             case 'terima':
                 $status = 'diterima';
@@ -130,14 +133,35 @@ class VerifikasiController extends Controller
                 $status = 'diproses';
         }
 
+        // Jika user adalah verifikator desa, hanya bisa update data dari desa yang terkait
+        if ($user->hasRole('verifikatordesa')) {
+            $desaIds = VerifikatorDesa::where('user_id', $user->id)->pluck('desa_id');
+
+            $query = DisabilitasModel::whereIn('desa_id', $desaIds)->where('status', '!=', $status);
+        } elseif ($user->hasRole('superadmin')) {
+            // Jika superadmin, update semua data tanpa filter desa
+            $query = DisabilitasModel::where('status', '!=', $status);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Anda tidak memiliki izin untuk melakukan aksi ini.'], 403);
+        }
+
+        // Cek apakah ada data yang bisa diperbarui
+        $count = $query->count();
+
+        if ($count === 0) {
+            return response()->json(['success' => false, 'message' => 'Tidak ada data yang dapat diperbarui.'], 400);
+        }
+
+        // Siapkan data update
         $updateData = ['status' => $status];
 
         if ($action === 'revisi') {
             $updateData['keterangan'] = $request->keterangan;
         }
 
-        DisabilitasModel::query()->update($updateData);
+        // Update data
+        $query->update($updateData);
 
-        return response()->json(['success' => true, 'message' => 'Semua data berhasil diperbarui.']);
+        return response()->json(['success' => true, 'message' => "Sebanyak $count data berhasil diperbarui."]);
     }
 }

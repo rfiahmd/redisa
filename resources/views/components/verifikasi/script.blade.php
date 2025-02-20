@@ -228,15 +228,27 @@
           .then((response) => response.json())
           .then((data) => {
             if (data.success) {
-              Swal.fire("Berhasil!", data.message, "success").then(() => {
+              Swal.fire({
+                title: "Berhasil!",
+                text: data.message,
+                icon: "success",
+              }).then(() => {
                 location.reload();
               });
             } else {
-              Swal.fire("Gagal!", data.message, "error");
+              Swal.fire({
+                title: "Peringatan!",
+                text: data.message,
+                icon: "warning",
+              });
             }
           })
           .catch((error) => {
-            Swal.fire("Error!", "Terjadi kesalahan pada server.", "error");
+            Swal.fire({
+              title: "Error!",
+              text: "Terjadi kesalahan pada server.",
+              icon: "error",
+            });
           });
       }
     });

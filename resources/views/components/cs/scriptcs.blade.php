@@ -1,43 +1,34 @@
   <script>
-    $(document).ready(function() {
-      $('.nav-link').on('click', function() {
-        var role = $(this).attr('href').replace('#', '');
-        $('#role').val(role);
-      });
-
-      $('#role').val('adminpusat');
-    });
-
     document.addEventListener("DOMContentLoaded", function() {
-    let formDefault = document.getElementById("form-default");
-    let formVerifikator = document.getElementById("form-verifikator");
+      let formDefault = document.getElementById("form-default");
+      let formVerifikator = document.getElementById("form-verifikator");
 
-    // Cek apakah user adalah admin pusat
-    let isAdminPusat = @json(auth()->user()->hasRole('adminpusat'));
+      // Cek apakah user adalah admin pusat
+      let isAdminPusat = @json(auth()->user()->hasRole('adminpusat'));
 
-    // Jika admin pusat, langsung tampilkan form verifikator
-    if (isAdminPusat) {
+      // Jika admin pusat, langsung tampilkan form verifikator
+      if (isAdminPusat) {
         formDefault.style.display = "none";
         formVerifikator.style.display = "block";
         generateRandomPassword();
-    }
+      }
 
-    // Tambahkan event listener untuk tab change
-    document.querySelectorAll(".nav-link").forEach(tab => {
+      // Tambahkan event listener untuk tab change
+      document.querySelectorAll(".nav-link").forEach(tab => {
         tab.addEventListener("shown.bs.tab", function(event) {
-            let targetTab = event.target.getAttribute("href");
+          let targetTab = event.target.getAttribute("href");
 
-            if (targetTab === "#verifikator") {
-                formDefault.style.display = "none";
-                formVerifikator.style.display = "block";
-                generateRandomPassword();
-            } else {
-                formDefault.style.display = "block";
-                formVerifikator.style.display = "none";
-            }
+          if (targetTab === "#verifikator") {
+            formDefault.style.display = "none";
+            formVerifikator.style.display = "block";
+            generateRandomPassword();
+          } else {
+            formDefault.style.display = "block";
+            formVerifikator.style.display = "none";
+          }
         });
+      });
     });
-});
 
 
     function generateRandomPassword() {
