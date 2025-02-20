@@ -15,40 +15,29 @@
           <h4 class="fw-bold nav-text">Master</h4>
         </li>
         <li>
-          <a href="{{ route('users.index') }}" aria-expanded="false">
-            <i class="la la-user-check" style="font-size: 24px;"></i>
-            <span class="nav-text">Suctomer Service</span>
-          </a>
-        </li>
-        @if (auth()->user()->hasRole('superadmin'))
-          <li>
-            <a href="{{ route('jenis.index') }}" aria-expanded="false">
-              <i class="la la-wheelchair" style="font-size: 24px;"></i>
-              <span class="nav-text">Jenis Disabilitas</span>
-            </a>
-          </li>
-        @endif
-        <li>
           <a href="{{ route('desa') }}" aria-expanded="false">
             <i class="la la-map-marker" style="font-size: 24px;"></i>
             <span class="nav-text">Data Desa</span>
           </a>
         </li>
+
         <li>
-          <a href="{{ route('pendidikan') }}" aria-expanded="false">
-            <i class="fa-solid fa-book" style="font-size: 20px;"></i>
-            <span class="nav-text">Pendidikan</span>
+          <a href="{{ route('jenis.index') }}" aria-expanded="false">
+            <i class="la la-wheelchair" style="font-size: 24px;"></i>
+            <span class="nav-text">Jenis Disabilitas</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ route('users.index') }}" aria-expanded="false">
+            <i class="la la-user-check" style="font-size: 24px;"></i>
+            <span class="nav-text">Suctomer Service</span>
           </a>
         </li>
       @endif
+      
       <li class="px-4 pt-4 mt-4 border-top border-primary">
         <h4 class="fw-bold nav-text">Operasional</h4>
-      </li>
-      <li>
-        <a href="{{ route('disabilitas') }}" aria-expanded="false">
-          <i class="la la-users" style="font-size: 24px;"></i>
-          <span class="nav-text">Data Disabilitas</span>
-        </a>
       </li>
       <li>
         <a href="{{ route('bantuan_disabilitas') }}" aria-expanded="false">
@@ -56,6 +45,14 @@
           <span class="nav-text">Bantuan</span>
         </a>
       </li>
+
+      <li>
+        <a href="{{ route('disabilitas') }}" aria-expanded="false">
+          <i class="la la-users" style="font-size: 24px;"></i>
+          <span class="nav-text">Data Disabilitas</span>
+        </a>
+      </li>
+
       @if (auth()->user()->hasRole('superadmin'))
         <li>
           <a href="/verifikasi" aria-expanded="false">
@@ -64,6 +61,7 @@
           </a>
         </li>
       @endif
+
       @if (auth()->user()->hasRole('verifikator'))
         <li>
           <a class="has-arrow ai-icon" href="javascript:void(0);" aria-expanded="false">
@@ -86,12 +84,6 @@
           </ul>
         </li>
       @endif
-      <li>
-        <a href="#" aria-expanded="false">
-          <i class="la la-chart-bar" style="font-size: 24px;"></i>
-          <span class="nav-text">Laporan</span>
-        </a>
-      </li>
     </ul>
 
     <div class="copyright">

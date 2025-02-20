@@ -6,28 +6,46 @@ use App\Models\Desa;
 use App\Models\DisabilitasModel;
 use App\Models\Jenis\JenisDisabilitas;
 use App\Models\Jenis\SubJenis\SubJenisDisabilitas;
+use App\Models\VerifikatorDesa;
 use Illuminate\Http\Request;
 
 class DisabilitasController extends Controller
 {
     public function index()
     {
-        $userId = auth()->user()->id; // Ambil ID user yang sedang login
+        $user = auth()->user(); // Ambil user yang sedang login
+        $userId = $user->id;
 
-        // Ambil desa yang terkait dengan user
-        $desa = Desa::where('user_id', $userId)->first();
+        if ($user->hasRole('petugasdesa')) {
+            // ✅ Jika petugas desa, tampilkan semua data disabilitas di desanya
+            $desa = Desa::where('user_id', $userId)->first();
 
-        if (!$desa) {
+            if (!$desa) {
+                return abort(403, 'Anda tidak memiliki akses ke data ini.');
+            }
+
+            $disabilitas = DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas')
+                ->where('desa_id', $desa->id)
+                ->get();
+        } elseif ($user->hasRole('verifikator')) {
+            // ✅ Jika verifikator desa, cari semua desa yang terhubung dengan user ini
+            $verifikator = VerifikatorDesa::where('user_id', $userId)->pluck('desa_id');
+
+            // ✅ Ambil hanya disabilitas yang "diterima" dan berasal dari desa-desa yang terhubung dengan verifikator
+            $disabilitas = DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas')
+                ->whereIn('desa_id', $verifikator)
+                ->where('status', 'diterima')
+                ->get();
+        } elseif ($user->hasRole('superadmin') || $user->hasRole('adminpusat') || $user->hasRole('kadis')) {
+            // ✅ Jika superadmin, tampilkan semua disabilitas yang berstatus diterima dari semua desa
+            $disabilitas = DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas')
+                ->where('status', 'diterima')
+                ->get();
+        } else {
             return abort(403, 'Anda tidak memiliki akses ke data ini.');
         }
 
-        $data = [
-            'disabilitas' => DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas')
-                ->where('desa_id', $desa->id) // Gunakan desa_id untuk filter
-                ->get(),
-        ];
-
-        return view('petugas-desa.disabilitas.disabilitas-view', $data);
+        return view('petugas-desa.disabilitas.disabilitas-view', compact('disabilitas'));
     }
 
     public function create()
@@ -63,9 +81,8 @@ class DisabilitasController extends Controller
             'subjenis' => 'required',
         ]);
 
-        $desa = Desa::where('user_id', auth()->id())
-            ->first();
-            
+        $desa = Desa::where('user_id', auth()->id())->first();
+
         // dd($desa);
 
         $data = [
@@ -80,8 +97,6 @@ class DisabilitasController extends Controller
             'id_jenis_disabilitas' => $request->jenis,
             'id_sub_jenis_disabilitas' => $request->subjenis,
         ];
-
-        // dd($data);
 
         DisabilitasModel::create($data);
         return redirect('/datadisabilitas')->with('success', 'Berhasil Menambahkan data');
@@ -118,6 +133,13 @@ class DisabilitasController extends Controller
             return redirect()->back()->with('error', 'Data tidak ditemukan!');
         }
 
+        // Jika status saat ini adalah "direvisi", ubah ke "diproses"
+        if ($disabilitas->status == 'direvisi') {
+            $status = 'diproses';
+        } else {
+            $status = $disabilitas->status; // Biarkan status tetap jika bukan "direvisi"
+        }
+
         $disabilitas->update([
             'nik' => $request->nik,
             'nama' => $request->nama,
@@ -128,12 +150,14 @@ class DisabilitasController extends Controller
             'tingkat_disabilitas' => $request->tingkat,
             'id_jenis_disabilitas' => $request->jenis,
             'id_sub_jenis_disabilitas' => $request->subjenis,
+            'status' => $status, // Simpan status baru
         ]);
 
         return redirect()->route('disabilitas')->with('success', 'Data berhasil diperbarui!');
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         DisabilitasModel::where('nik', $id)->delete();
         return redirect('/datadisabilitas')->with('delete_success', 'Berhasil Menghapus Data');
     }

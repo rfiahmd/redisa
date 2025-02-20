@@ -20,7 +20,8 @@ $breadcrumb = ' Verifikator';
               <label class="text-label form-label required">Masukkan NIK</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fa fa-user"></i></span>
-                <input type="text" class="form-control" placeholder="Masukkan NIK.." name="nik" required>
+                <input type="text" class="form-control" placeholder="Masukkan NIK.." name="nik"
+                  value="{{ old('nik') }}" required>
               </div>
             </div>
 
@@ -28,7 +29,8 @@ $breadcrumb = ' Verifikator';
               <label class="text-label form-label required">Masukkan Nama</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fa fa-user"></i></span>
-                <input type="text" class="form-control" name="nama" placeholder="Masukkan Nama.." required>
+                <input type="text" class="form-control" name="nama" placeholder="Masukkan Nama.."
+                  value="{{ old('nama') }}" required>
               </div>
             </div>
 
@@ -36,11 +38,13 @@ $breadcrumb = ' Verifikator';
               <label class="text-label form-label required">Pilih Jenis Kelamin</label>
               <div class="input-group">
                 <div class="form-check me-3">
-                  <input class="form-check-input" value="laki-laki" type="radio" name="jeniskelamin" id="laki-laki">
+                  <input class="form-check-input" value="laki-laki" type="radio" name="jeniskelamin" id="laki-laki"
+                    {{ old('jeniskelamin') == 'laki-laki' ? 'checked' : '' }}>
                   <label class="form-check-label" for="laki-laki">Laki-laki</label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="radio" value="perempuan" name="jeniskelamin" id="perempuan">
+                  <input class="form-check-input" type="radio" value="perempuan" name="jeniskelamin" id="perempuan"
+                    {{ old('jeniskelamin') == 'perempuan' ? 'checked' : '' }}>
                   <label class="form-check-label" for="perempuan">Perempuan</label>
                 </div>
               </div>
@@ -50,7 +54,8 @@ $breadcrumb = ' Verifikator';
               <label class="text-label form-label required">Masukkan Alamat</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fa-solid fa-house"></i></span>
-                <input type="text" class="form-control" name="alamat" placeholder="Masukkan Alamat.." required>
+                <input type="text" class="form-control" name="alamat" placeholder="Masukkan Alamat.."
+                  value="{{ old('alamat') }}" required>
               </div>
             </div>
 
@@ -58,10 +63,10 @@ $breadcrumb = ' Verifikator';
               <label class="text-label form-label required">Masukkan Usia</label>
               <div class="input-group">
                 <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                <input type="number" class="form-control" name="usia" placeholder="Masukkan Usia.." required>
+                <input type="number" class="form-control" name="usia" placeholder="Masukkan Usia.."
+                  value="{{ old('usia') }}" required>
               </div>
             </div>
-
           </div>
 
           <!-- Bagian Kanan -->
@@ -72,18 +77,10 @@ $breadcrumb = ' Verifikator';
                 <span class="input-group-text"><i class="fa-solid fa-school"></i></span>
                 <select class="form-control" name="pendidikan" required>
                   <option value="">-- Pilih Jenjang Pendidikan --</option>
-                  <option value="PAUD">PAUD</option>
-                  <option value="TK">TK</option>
-                  <option value="SD">SD</option>
-                  <option value="SMP">SMP</option>
-                  <option value="SMA">SMA</option>
-                  <option value="S1">S1</option>
-                  <option value="S2">S2</option>
-                  <option value="S3">S3</option>
-                  <option value="D1">D1</option>
-                  <option value="D2">D2</option>
-                  <option value="D3">D3</option>
-                  <option value="Tidak">Tidak Dalam Pendidikan</option>
+                  @foreach (['PAUD', 'TK', 'SD', 'SMP', 'SMA', 'S1', 'S2', 'S3', 'D1', 'D2', 'D3', 'Tidak'] as $edu)
+                    <option value="{{ $edu }}" {{ old('pendidikan') == $edu ? 'selected' : '' }}>
+                      {{ $edu }}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
@@ -94,9 +91,10 @@ $breadcrumb = ' Verifikator';
                 <span class="input-group-text"><i class="fa-solid fa-wheelchair"></i></span>
                 <select class="form-control" name="tingkat" required>
                   <option value="">-- Pilih Tingkat Disabilitas --</option>
-                  <option value="Kecil">Kecil</option>
-                  <option value="Sedang">Sedang</option>
-                  <option value="Besar">Besar</option>
+                  @foreach (['Kecil', 'Sedang', 'Besar'] as $level)
+                    <option value="{{ $level }}" {{ old('tingkat') == $level ? 'selected' : '' }}>
+                      {{ $level }}</option>
+                  @endforeach
                 </select>
               </div>
             </div>
@@ -108,7 +106,8 @@ $breadcrumb = ' Verifikator';
                 <select class="form-control" name="jenis" id="jenis">
                   <option value="">-- Pilih Jenis Disabilitas --</option>
                   @foreach ($jenis as $get)
-                    <option value="{{ $get->id }}">{{ $get->nama_jenis }}</option>
+                    <option value="{{ $get->id }}" {{ old('jenis') == $get->id ? 'selected' : '' }}>
+                      {{ $get->nama_jenis }}</option>
                   @endforeach
                 </select>
               </div>
@@ -120,24 +119,18 @@ $breadcrumb = ' Verifikator';
                 <span class="input-group-text"><i class="fa-solid fa-wheelchair"></i></span>
                 <select class="form-control" name="subjenis" required id="subjenis">
                   <option value="">-- Pilih Sub Jenis Disabilitas --</option>
+                  {{-- Sub jenis akan dimuat menggunakan AJAX berdasarkan jenis yang dipilih --}}
                 </select>
               </div>
             </div>
-
-            {{-- <div class="mb-3">
-              <label class="text-label form-label required">Masukkan Keterangan</label>
-              <div class="input-group">
-                <span class="input-group-text"><i class="fa-solid fa-exclamation"></i></span>
-                <textarea name="keterangan" class="form-control" rows="9" placeholder="Masukkan Keterangan"></textarea>
-              </div>
-            </div>
           </div>
-        </div> --}}
+        </div>
 
         <div class="text-end mt-3">
           <button class="btn btn-primary" type="submit">Submit</button>
         </div>
       </form>
+
     </div>
   </div>
 

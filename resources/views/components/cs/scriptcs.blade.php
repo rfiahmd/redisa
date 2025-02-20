@@ -8,6 +8,38 @@
       $('#role').val('adminpusat');
     });
 
+    document.addEventListener("DOMContentLoaded", function() {
+    let formDefault = document.getElementById("form-default");
+    let formVerifikator = document.getElementById("form-verifikator");
+
+    // Cek apakah user adalah admin pusat
+    let isAdminPusat = @json(auth()->user()->hasRole('adminpusat'));
+
+    // Jika admin pusat, langsung tampilkan form verifikator
+    if (isAdminPusat) {
+        formDefault.style.display = "none";
+        formVerifikator.style.display = "block";
+        generateRandomPassword();
+    }
+
+    // Tambahkan event listener untuk tab change
+    document.querySelectorAll(".nav-link").forEach(tab => {
+        tab.addEventListener("shown.bs.tab", function(event) {
+            let targetTab = event.target.getAttribute("href");
+
+            if (targetTab === "#verifikator") {
+                formDefault.style.display = "none";
+                formVerifikator.style.display = "block";
+                generateRandomPassword();
+            } else {
+                formDefault.style.display = "block";
+                formVerifikator.style.display = "none";
+            }
+        });
+    });
+});
+
+
     function generateRandomPassword() {
       const characters = 'abcdefghijklmnopqrstuvwxyz1234567890';
       let password = '';
@@ -19,28 +51,6 @@
     }
 
     generateRandomPassword();
-
-    document.addEventListener("DOMContentLoaded", function() {
-      // Tangkap elemen form
-      let formDefault = document.getElementById("form-default");
-      let formVerifikator = document.getElementById("form-verifikator");
-
-      // Tambahkan event listener untuk tab change
-      document.querySelectorAll(".nav-link").forEach(tab => {
-        tab.addEventListener("shown.bs.tab", function(event) {
-          let targetTab = event.target.getAttribute("href"); // Ambil ID tab aktif
-
-          if (targetTab === "#verifikator") {
-            formDefault.style.display = "none";
-            formVerifikator.style.display = "block";
-            generateRandomPassword();
-          } else {
-            formDefault.style.display = "block";
-            formVerifikator.style.display = "none";
-          }
-        });
-      });
-    });
 
     $(document).ready(function() {
       $('.nav-link').on('shown.bs.tab', function(e) {

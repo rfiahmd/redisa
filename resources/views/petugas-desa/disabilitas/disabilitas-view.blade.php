@@ -54,152 +54,38 @@ $breadcrumb = 'Data Disabilitas';
           </div>
         </div>
       </div>
-      <div class="mb-4 pb-3">
-        <a href="content-add.html" class="btn btn-primary btn-sm">Add Content</a>
-      </div>
-      <div class="filter cm-content-box box-primary">
-        <div class="content-title SlideToolHeader">
-          <div class="cpa">
-            <i class="fa-solid fa-file-lines me-1"></i>Contact List
-          </div>
-          <div class="tools">
-            <a href="javascript:void(0);" class="expand handle"><i class="fal fa-angle-down"></i></a>
-          </div>
-        </div>
-        <div class="cm-content-body form excerpt">
-          <div class="card-body pb-4">
-            <div class="table-responsive">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th>S.No</th>
-                    <th>Title</th>
-                    <th>Status</th>
-                    <th>Modified</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>About Us</td>
-                    <td>Published</td>
-                    <td>18 Feb, 2024</td>
-                    <td class="text-nowrap">
-                      <a href="javascript:void(0);" class="btn btn-warning btn-sm content-icon">
-                        <i class="fa fa-edit"></i>
-                      </a>
-                      <a href="javascript:void(0);" class="btn btn-danger btn-sm content-icon">
-                        <i class="fa fa-times"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>FAQ</td>
-                    <td>Published</td>
-                    <td>13 Jan, 2024</td>
-                    <td class="text-nowrap">
-
-                      <a href="javascript:void(0);" class="btn btn-warning btn-sm content-icon">
-                        <i class="fa fa-edit"></i>
-                      </a>
-                      <a href="javascript:void(0);" class="btn btn-danger btn-sm content-icon">
-                        <i class="fa fa-times"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>3</td>
-                    <td>Pricing</td>
-                    <td>Published</td>
-                    <td>13 Jan, 2024</td>
-                    <td class="text-nowrap">
-
-                      <a href="javascript:void(0);" class="btn btn-warning btn-sm content-icon">
-                        <i class="fa fa-edit"></i>
-                      </a>
-                      <a href="javascript:void(0);" class="btn btn-danger btn-sm content-icon">
-                        <i class="fa fa-times"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>4</td>
-                    <td>Schedule</td>
-                    <td>Published</td>
-                    <td>13 Jan, 2024</td>
-                    <td class="text-nowrap">
-
-                      <a href="javascript:void(0);" class="btn btn-warning btn-sm content-icon">
-                        <i class="fa fa-edit"></i>
-                      </a>
-                      <a href="javascript:void(0);" class="btn btn-danger btn-sm content-icon">
-                        <i class="fa fa-times"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>5</td>
-                    <td>Under Maintenance</td>
-                    <td>Published</td>
-                    <td>25 Jan, 2024</td>
-                    <td class="text-nowrap">
-
-                      <a href="javascript:void(0);" class="btn btn-warning btn-sm content-icon">
-                        <i class="fa fa-edit"></i>
-                      </a>
-                      <a href="javascript:void(0);" class="btn btn-danger btn-sm content-icon">
-                        <i class="fa fa-times"></i>
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="d-flex align-items-center justify-content-between flex-wrap">
-                <small class="mb-2 me-3">Page 1 of 5, showing 2 records out of 8 total, starting
-                  on record 1, ending on 2</small>
-                <nav aria-label="Page navigation example mb-2">
-                  <ul class="pagination mb-2 mb-sm-0">
-                    <li class="page-item"><a class="page-link" href="javascript:void(0);"><i
-                          class="fa-solid fa-angle-left"></i></a></li>
-                    <li class="page-item"><a class="page-link" href="javascript:void(0);">1</a></li>
-                    <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                    <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                    <li class="page-item"><a class="page-link " href="javascript:void(0);"><i
-                          class="fa-solid fa-angle-right"></i></a></li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
   <div class="card">
     <div class="card-header">
       <h3>Data Disabilitas</h3>
-      <a class="btn btn-primary" href="{{ route('disabilitas.create') }}">Tambah Data</a>
+      @if (Auth::user()->hasRole('petugasdesa'))
+        <a class="btn btn-primary" href="{{ route('disabilitas.create') }}">+ Tambah Data</a>
+      @endif
     </div>
     <div class="card-body">
       <div class="table-responsive">
         <table id="example" class="display min-w850">
           <thead>
             <tr>
-              <th>#</th>
+              <th>No</th>
               <th>NIK</th>
               <th>Nama</th>
               <th>Usia</th>
               <th>Tingkat Kecacatan</th>
+              @if (!Auth::user()->hasRole('petugasdesa'))
+                <th>Desa</th>
+              @endif
               <th>Status</th>
+              @if (Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('petugasdesa') || Auth::user()->hasRole('verifikator'))
               <th>Action</th>
+              @endif
             </tr>
           </thead>
           <tbody>
             @foreach ($disabilitas as $get)
               <tr>
-                <td>{{ $loop->iteration }}</td>
+                <td>{{ $loop->iteration }}.</td>
                 <td>{{ $get->nik }}</td>
                 <td>
                   <strong>{{ $get->nama }}</strong><br>
@@ -208,6 +94,9 @@ $breadcrumb = 'Data Disabilitas';
                 </td>
                 <td>{{ $get->usia }} tahun</td>
                 <td>{{ $get->tingkat_disabilitas }}</td>
+                @if (!Auth::user()->hasRole('petugasdesa'))
+                  <td>{{ $get->desa->nama_desa }} - {{ $get->desa->nama_kecamatan }}</td>
+                @endif
                 <td>
                   @if ($get->status == 'diproses')
                     <p><span class="bg-warning text-light px-2" style="border-radius: 5px;">Diproses</span></p>
@@ -219,16 +108,31 @@ $breadcrumb = 'Data Disabilitas';
                     <p><span class="bg-info text-light px-2" style="border-radius: 5px;">Direvisi</span></p>
                   @endif
                 </td>
-                <td>
-                  <div class="d-flex">
-                    <a href="{{ route('disabilitas.edit',  $get->nik ) }}" class="btn btn-primary shadow btn-xs sharp me-1">
-                      <i class="fas fa-pencil-alt"></i>
-                    </a>
-                    <a onclick="deleteEntity('disabilitas', '{{ $get->nik }}', '{{ $get->nama }}', null, null)" class="btn btn-danger shadow btn-xs sharp">
-                      <i class="fas fa-trash-alt"></i>
-                    </a>
-                  </div>
-                </td>
+                @if (Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('petugasdesa') || Auth::user()->hasRole('verifikator'))
+                  <td>
+                    <div class="d-flex">
+                      @if (Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('petugasdesa'))
+                        <a href="{{ route('disabilitas.edit', $get->nik) }}"
+                          class="btn btn-primary shadow btn-xs sharp me-1">
+                          <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a onclick="deleteEntity('disabilitas', '{{ $get->nik }}', '{{ $get->nama }}', null, null)"
+                          class="btn btn-danger shadow btn-xs sharp">
+                          <i class="fas fa-trash-alt"></i>
+                        </a>
+                      @else
+                        <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp me-1 reject-button"
+                          data-id="{{ $get->id }}" data-name="{{ $get->nama }}">
+                          <i class="fas fa-times"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="btn btn-warning shadow btn-xs sharp me-1 revise-button"
+                          data-id="{{ $get->id }}" data-name="{{ $get->nama }}">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                      @endif
+                    </div>
+                  </td>
+                @endif
               </tr>
 
               {{-- Modal Detail (Tanpa Tabel) --}}
@@ -287,4 +191,5 @@ $breadcrumb = 'Data Disabilitas';
       </div>
     </div>
   </div>
+  <x-verifikasi.script></x-verifikasi.script>
 @endsection

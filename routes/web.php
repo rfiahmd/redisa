@@ -43,9 +43,6 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk adminpusat dan superadmin
     Route::middleware(['role:adminpusat|superadmin'])->group(function () {
         Route::get('/verifikator', [VerifikatorController::class, 'index'])->name('data.verifikator');
-        Route::get('/bantuan', function () {
-            return view('admin.bantuan-disabilitas.bantuan_view');
-        })->name('bantuan_disabilitas');
 
         //desa
         Route::get('/desa', [DesaController::class, 'index'])->name('desa');
@@ -86,26 +83,36 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk petugasdesa
     Route::middleware(['role:petugasdesa'])->group(function () {
         Route::get('/dashboard/petugasdesa', [DashboardController::class, 'dspetugasdesa'])->name('petugasdesa.dashboard');
+
+        Route::get('/disabilitas-create', [DisabilitasController::class, 'create'])->name('disabilitas.create');
+        Route::post('/disabilitas-create', [DisabilitasController::class, 'store'])->name('disabilitas.store');
+    });
+
+    // Route untuk all role
+    Route::middleware(['role:petugasdesa|superadmin|verifikator|adminpusat|kadis'])->group(function () { 
+        Route::get('/datadisabilitas', [DisabilitasController::class, 'index'])->name('disabilitas');
+        Route::get('/bantuan', function () {
+            return view('admin.bantuan-disabilitas.bantuan_view');
+        })->name('bantuan_disabilitas');
     });
 
     // Route untuk petugasdesa dan superadmin
     Route::middleware(['role:petugasdesa|superadmin'])->group(function () {
         Route::get('/dashboard/petugasdesa', [DashboardController::class, 'dspetugasdesa'])->name('petugasdesa.dashboard');
-
-        Route::get('/datadisabilitas', [DisabilitasController::class, 'index'])->name('disabilitas');
-        Route::get('/disabilitas-create', [DisabilitasController::class, 'create'])->name('disabilitas.create');
-        Route::post('/disabilitas-create', [DisabilitasController::class, 'store'])->name('disabilitas.store');
+        
         Route::post('/getsubjenis', [DisabilitasController::class, 'getSubJenis'])->name('getSubJenis');
+        Route::get('/disabilitas-delete/{nik}', [DisabilitasController::class, 'delete'])->name('disabilitas.delete');
         Route::get('/disabilitas-edit/{nik}', [DisabilitasController::class, 'edit'])->name('disabilitas.edit');
         Route::put('/disabilitas/update/{nik}', [DisabilitasController::class, 'update'])->name('disabilitas.update');
-        Route::get('/disabilitas-delete/{nik}', [DisabilitasController::class, 'delete'])->name('disabilitas.delete');
-
     });
 
     // Route untuk verifikator
     Route::middleware(['role:verifikator'])->group(function () {
         Route::get('/dashboard/verifikator', [DashboardController::class, 'dsverifikator'])->name('verifikator.dashboard');
         Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
+        Route::post('/verifikasi/{id}/{action}', [VerifikasiController::class, 'updateStatus']);
+        Route::post('/update-revision', [VerifikasiController::class, 'updateRevision'])->name('update.revision');
+        Route::post('/verifikasi-all/{action}', [VerifikasiController::class, 'bulkAction']);
     });
 
     // Route untuk kadis
