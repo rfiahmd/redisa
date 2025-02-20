@@ -63,7 +63,10 @@ class DisabilitasController extends Controller
             'subjenis' => 'required',
         ]);
 
-        $desa = Desa::where('nama_desa', auth()->user()->nama_lengkap)->first();
+        $desa = Desa::where('user_id', auth()->id())
+            ->first();
+            
+        // dd($desa);
 
         $data = [
             'desa_id' => $desa->id,

@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DesaController;
 use App\Http\Controllers\DisabilitasController;
+use App\Http\Controllers\VerifikasiController;
 use App\Http\Controllers\VerifikatorController;
 
 // Route untuk guest (pengguna yang belum login)
@@ -78,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/{users}', [UserController::class, 'update'])->name('users.update');
             Route::get('/{users}/delete', [UserController::class, 'destroy'])->name('users.destroy');
             Route::get('/desa/search', [UserController::class, 'search'])->name('desa.search');
+            Route::get('/desa/search-edit', [UserController::class, 'searchEdit'])->name('desa.search.edit');
         });
     });
 
@@ -103,6 +105,7 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk verifikator
     Route::middleware(['role:verifikator'])->group(function () {
         Route::get('/dashboard/verifikator', [DashboardController::class, 'dsverifikator'])->name('verifikator.dashboard');
+        Route::get('/verifikasi', [VerifikasiController::class, 'index'])->name('verifikasi.index');
     });
 
     // Route untuk kadis

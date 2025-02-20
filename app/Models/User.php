@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function verifikatorDesa()
     {
-        return $this->hasMany(VerifikatorDesa::class, 'user_id');
+        return $this->hasOne(VerifikatorDesa::class, 'user_id', 'id');
     }
 
     /**

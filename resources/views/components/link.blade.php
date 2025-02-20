@@ -15,7 +15,7 @@
 <link href="{{ asset('assets') }}/vendor/clockpicker/css/bootstrap-clockpicker.min.css" rel="stylesheet">
 <!-- Material color picker -->
 <link href="{{ asset('assets') }}/vendor/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"
-  rel="stylesheet">
+rel="stylesheet">
 <!-- Pick date -->
 <link rel="stylesheet" href="{{ asset('assets') }}/vendor/pickadate/themes/default.css">
 <link rel="stylesheet" href="{{ asset('assets') }}/vendor/pickadate/themes/default.date.css">
@@ -23,3 +23,6 @@
 
 <!-- SweetAlert CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/css/multi-select-tag.css"> --}}
+{{-- <link rel="stylesheet" href="{{ asset('assets') }}/vendor/select2/css/select2.min.css"> --}}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />

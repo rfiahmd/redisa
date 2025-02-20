@@ -52,7 +52,7 @@
       });
     });
 
-    // Multi select
+    // Multi select 
     $(document).ready(function() {
       $("#search-desa").on("keyup", function() {
         let query = $(this).val();
@@ -134,32 +134,36 @@
       // Pencarian desa
       $("#search-desa-edit").on("keyup", function() {
         let query = $(this).val();
+        let desaList = $("#desa-list-edit");
+
         if (query.length > 1) {
           $.ajax({
-            url: "{{ route('desa.search') }}",
+            url: "{{ route('desa.search.edit') }}",
             type: "GET",
             data: {
               q: query
             },
             success: function(data) {
-              let desaList = $("#desa-list-edit");
-              desaList.empty().show();
+              desaList.empty(); // Kosongkan list sebelum menambah data baru
+
               if (data.length > 0) {
+                desaList.show(); // Tampilkan dropdown jika ada data
                 data.forEach(function(desa) {
                   desaList.append(`
-                <button type="button" class="dropdown-item desa-option" data-id="${desa.id}" data-name="${desa.nama_desa}" data-kecamatan="${desa.nama_kecamatan}">
-                  ${desa.nama_desa} - ${desa.nama_kecamatan}
-                </button>
-              `);
+              <button type="button" class="dropdown-item desa-option" data-id="${desa.id}" data-name="${desa.nama_desa}" data-kecamatan="${desa.nama_kecamatan}">
+                ${desa.nama_desa} - ${desa.nama_kecamatan}
+              </button>
+            `);
                 });
               } else {
+                desaList.hide(); // Sembunyikan dropdown jika tidak ada data
                 desaList.append(
                   '<button type="button" class="dropdown-item disabled">Tidak ditemukan</button>');
               }
             },
           });
         } else {
-          $("#desa-list-edit").hide();
+          desaList.hide(); // Sembunyikan dropdown jika query terlalu pendek
         }
       });
 
@@ -181,23 +185,24 @@
       `);
 
           // Tambahkan input hidden untuk desa yang dipilih
-          $("#selected-desa-edit").append(`
+          selectedContainer.append(`
         <input type="hidden" name="desa_id[]" value="${desaId}" id="desa-hidden-edit-${desaId}">
       `);
         }
 
-        $("#desa-list-edit").hide();
-        $("#search-desa-edit").val("");
+        $("#desa-list-edit").hide(); // Sembunyikan dropdown setelah memilih desa
+        $("#search-desa-edit").val(""); // Kosongkan input pencarian
       });
 
       // Menghapus desa yang dipilih
       $(document).on("click", ".remove-desa-edit", function() {
         let desaId = $(this).data("id");
+
+        // Hapus elemen badge dan input hidden yang terkait
         $(this).closest(".selected-item-edit").remove();
         $(`#desa-hidden-edit-${desaId}`).remove();
       });
     });
-
 
     function togglePasswordInput(userId) {
       let passwordInput = document.getElementById('passwordInput' + userId);

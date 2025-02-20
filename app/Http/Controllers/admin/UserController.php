@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\Console\Input\Input;
 
 class UserController extends Controller
 {
@@ -23,6 +24,9 @@ class UserController extends Controller
             'verifikator' => User::role('verifikator')->get(),
             'petugasdesa' => User::role('petugasdesa')->get(),
             'kadis' => User::role('kadis')->get(),
+            'datadesa' => DB::table('desa')->get(),
+            'desa_terpilih' => VerifikatorDesa::pluck('desa_id')->toArray(),
+            'verifikator_desa' => VerifikatorDesa::all(),
         ];
 
         return view('admin.customer-service.cs_view', $data);
@@ -33,7 +37,6 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-            // Generate username unik
             $baseUsername = strtolower(str_replace(' ', '', $request->nama_lengkap));
             $username = $baseUsername;
             $counter = 1;
@@ -42,7 +45,6 @@ class UserController extends Controller
                 $counter++;
             }
 
-            // Simpan user
             $user = User::create([
                 'token_users' => Str::random(12),
                 'username' => $username,
@@ -51,10 +53,8 @@ class UserController extends Controller
                 'password' => $request->password,
             ]);
 
-            // Menetapkan role
             $user->assignRole($request->role);
 
-            // Jika role verifikator, simpan ke tabel pivot
             if ($request->role === 'verifikator' && isset($request->desa_id)) {
                 foreach ($request->desa_id as $desaId) {
                     VerifikatorDesa::create([
@@ -68,7 +68,6 @@ class UserController extends Controller
                 }
             }
 
-            // Kirim email dengan kredensial login
             Mail::to($user->email)->send(new UserCreatedMail($user, $request->password));
 
             DB::commit();
@@ -87,57 +86,57 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
+            dd($request->all());
             $user = User::findOrFail($user);
 
             // Siapkan data untuk update
             $data = $request->only(['nama_lengkap', 'username', 'email']);
 
-            // Update password jika diisi
             if ($request->filled('password')) {
                 $data['password'] = $request->password;
             }
 
-            // Update user
             $user->update($data);
 
             // Ambil role lama
             $currentRole = $user->getRoleNames()->first();
-
-            // Ambil role baru (default ke role lama jika kosong)
             $newRole = $request->input('role', $currentRole);
 
-            // Update role hanya jika berubah
-            if ($currentRole !== $newRole) {
-                $user->syncRoles([$newRole]);
-            }
-
-            // Update tabel pivot jika role adalah verifikator
             if ($newRole === 'verifikator') {
-                // Menghapus data desa yang dihapus oleh user
-                $currentDesaIds = VerifikatorDesa::where('user_id', $user->id)->pluck('desa_id')->toArray();
-                $updatedDesaIds = $request->desa_id;
+                // Pastikan $updatedDesaIds selalu berupa array
+                $updatedDesaIds = $request->input('states', []);
 
-                // Desa yang dihapus
+                // Ambil desa_id yang sudah ada di database
+                $currentDesaIds = VerifikatorDesa::where('user_id', $user->id)->pluck('desa_id')->toArray();
+
+                // Menghapus desa yang tidak lagi dipilih
                 $desaToDelete = array_diff($currentDesaIds, $updatedDesaIds);
                 VerifikatorDesa::whereIn('desa_id', $desaToDelete)->where('user_id', $user->id)->delete();
 
-                // Desa yang baru atau yang belum ada
+                // Menambahkan desa yang baru dipilih
                 $desaToAdd = array_diff($updatedDesaIds, $currentDesaIds);
+                foreach ($desaToAdd as $desaId) {
+                    if (!VerifikatorDesa::where('user_id', $user->id)->where('desa_id', $desaId)->exists()) {
+                        VerifikatorDesa::create([
+                            'token_verifikator' => Str::random(12),
+                            'user_id' => $user->id,
+                            'desa_id' => $desaId,
+                            'jabatan' => $request->jabatan,
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    }
+                }
 
-                // Mengupdate atau menambah desa yang baru
-                $desaData = collect($updatedDesaIds)->map(
-                    fn($desaId) => [
-                        'token_verifikator' => Str::random(12),
-                        'user_id' => $user->id,
-                        'desa_id' => $desaId,
-                        'jabatan' => $request->jabatan,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ],
-                );
-
-                // Menambahkan desa baru ke pivot
-                VerifikatorDesa::insert($desaData->toArray());
+                // Update jabatan untuk desa yang masih ada
+                foreach ($updatedDesaIds as $desaId) {
+                    $verifikatorDesa = VerifikatorDesa::where('user_id', $user->id)->where('desa_id', $desaId)->first();
+                    if ($verifikatorDesa) {
+                        $verifikatorDesa->update([
+                            'jabatan' => $request->jabatan
+                        ]);
+                    }
+                }
             }
 
             DB::commit();
@@ -148,13 +147,27 @@ class UserController extends Controller
         }
     }
 
+
     public function search(Request $request)
     {
         $query = $request->q;
 
         $desaTerverifikasi = VerifikatorDesa::pluck('desa_id')->toArray();
 
-        // Cari desa yang belum ada di verifikator_desa
+        $desa = Desa::where('nama_desa', 'like', "%{$query}%")
+            ->whereNotIn('id', $desaTerverifikasi)
+            ->limit(10)
+            ->get();
+
+        return response()->json($desa);
+    }
+
+    public function searchEdit(Request $request)
+    {
+        $query = $request->q;
+
+        $desaTerverifikasi = VerifikatorDesa::pluck('desa_id')->toArray();
+
         $desa = Desa::where('nama_desa', 'like', "%{$query}%")
             ->whereNotIn('id', $desaTerverifikasi)
             ->limit(10)
@@ -168,15 +181,12 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-            // Cari user berdasarkan token_users, bukan id
             $user = User::where('token_users', $users)->firstOrFail();
 
-            // Hapus data di tabel pivot jika user adalah verifikator
             if ($user->hasRole('verifikator')) {
                 VerifikatorDesa::where('user_id', $user->id)->delete();
             }
 
-            // Hapus user
             $user->delete();
 
             DB::commit();

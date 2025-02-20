@@ -23,6 +23,10 @@
 <script src="{{ asset('assets') }}/vendor/jquery-validation/jquery.validate.min.js"></script>
 <!-- Form validate init -->
 <script src="{{ asset('assets') }}/js/plugins-init/jquery.validate-init.js"></script>
+{{-- <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@3.1.0/dist/js/multi-select-tag.js"></script> --}}
+{{-- <script src="{{ asset('assets') }}/vendor/select2/js/select2.full.min.js"></script>
+<script src="{{ asset('assets') }}/js/plugins-init/select2-init.js"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script src="{{ asset('assets') }}/js/custom.min.js"></script>
 <script src="{{ asset('assets') }}/js/deznav-init.js"></script>

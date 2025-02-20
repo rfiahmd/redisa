@@ -22,11 +22,12 @@ $breadcrumb = 'Customer Service';
               </a>
             </li>
           @endif
-            <li class="nav-item">
-              <a class="nav-link text-success @if (auth()->user()->hasRole('adminpusat')) active @endif" data-bs-toggle="tab" href="#verifikator">
-                <i class="la la-user-check me-2 text-success"></i> Verifikator
-              </a>
-            </li>
+          <li class="nav-item">
+            <a class="nav-link text-success @if (auth()->user()->hasRole('adminpusat')) active @endif" data-bs-toggle="tab"
+              href="#verifikator">
+              <i class="la la-user-check me-2 text-success"></i> Verifikator
+            </a>
+          </li>
           {{-- @endif --}}
           <li class="nav-item">
             <a class="nav-link text-warning" data-bs-toggle="tab" href="#petugasdesa">
@@ -160,7 +161,8 @@ $breadcrumb = 'Customer Service';
               </div>
             </div>
           @endif
-          <div class="tab-pane fade {{ auth()->user()->hasRole('adminpusat') ? 'show active' : '' }}" role="{{ auth()->user()->hasRole('adminpusat') ? 'tabpanel' : '' }}" id="verifikator">
+          <div class="tab-pane fade {{ auth()->user()->hasRole('adminpusat') ? 'show active' : '' }}"
+            role="{{ auth()->user()->hasRole('adminpusat') ? 'tabpanel' : '' }}" id="verifikator">
             <div class="pt-4">
               <div class="table-responsive table-hover">
                 <table id="example3" class="display min-w850 mb-4 border-bottom border-top">
@@ -244,35 +246,34 @@ $breadcrumb = 'Customer Service';
                                 <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
                                 <input type="text" name="jabatan" id="jabatan_edit" class="form-control"
                                   placeholder="Masukkan Jabatan Anda.."
-                                  value="{{ optional($user->verifikatorDesa->first())->jabatan }}" required>
+                                  value="{{ optional($user->verifikatorDesa)->jabatan }}" required>
                               </div>
                               <div class="invalid-feedback">Masukkan Jabatan Anda</div>
                             </div>
 
-                            <!-- Input untuk pencarian desa -->
+                            <!-- Input untuk pencarian edit -->
                             <div class="mb-3 vertical-radius">
                               <label class="text-label form-label required">Desa</label>
-                              <div class="input-group">
-                                <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
-                                <input type="text" id="search-desa-edit" class="form-control"
-                                  placeholder="Cari desa..." autocomplete="off">
-                              </div>
-                              <div id="desa-list-edit" class="dropdown-menu show" style="display: none; width: 100%;">
-                              </div>
+                              <select class="js-example-basic-multiple" name="states[]" multiple="multiple">
+                                @foreach ($datadesa as $desa)
+                                  @php
+                                    // Memeriksa apakah desa sudah dipilih atau tidak
+                                    $sudahDipilih = in_array($desa->id, $desa_terpilih);
+                                    // Memeriksa apakah desa sudah dimiliki oleh user ini dalam verifikator_desa
+                                    $milikUserIni = $verifikator_desa
+                                        ->where('user_id', $user->id)
+                                        ->pluck('desa_id')
+                                        ->contains($desa->id);
+                                  @endphp
 
-                              <!-- Daftar desa yang sudah dipilih sebelumnya -->
-                              <div id="selected-desa-edit" class="mt-2">
-                                @foreach ($user->verifikatorDesa as $desa)
-                                  <span class="badge bg-primary me-1 selected-item-edit" data-id="{{ $desa->id }}">
-                                    {{ $desa->desa->nama_desa }} - {{ $desa->desa->nama_kecamatan }}
-                                    <button type="button" class="btn-close btn-close-white remove-desa-edit"
-                                      data-id="{{ $desa->id }}" aria-label="Close"></button>
-                                  </span>
-                                  <input type="hidden" name="desa_id[]" value="{{ $desa->id }}"
-                                    id="desa-hidden-edit-{{ $desa->id }}">
+                                  <option value="{{ $desa->id }}" @if ($sudahDipilih && !$milikUserIni) disabled @endif
+                                    @if ($milikUserIni) selected @endif>
+                                    {{ $desa->nama_desa }} - {{ $desa->nama_kecamatan }}
+                                  </option>
                                 @endforeach
-                              </div>
+                              </select>
                             </div>
+
 
                             <div class="form-check mb-3">
                               <input class="form-check-input" type="checkbox" id="ubahSandi{{ $user->id }}"
@@ -620,14 +621,13 @@ $breadcrumb = 'Customer Service';
 
         <div class="mb-3 vertical-radius">
           <label class="text-label form-label required">Desa</label>
-          <div class="input-group">
-            <span class="input-group-text"><i class="fa fa-map-marker"></i></span>
-            <input type="text" id="search-desa" class="form-control" placeholder="Cari desa..."
-              autocomplete="off">
-          </div>
-          <div id="desa-list" class="dropdown-menu show" style="display: none; width: 100%;"></div>
-          <div id="selected-desa" class="mt-2"></div>
-          <div id="selected-desa-container"></div>
+          <select class="js-example-basic-multiple" name="desa_id[]" multiple="multiple">
+            @foreach ($datadesa as $desa)
+              <option value="{{ $desa->id }}" @if (in_array($desa->id, $desa_terpilih)) disabled @endif>
+                {{ $desa->nama_desa }} - {{ $desa->nama_kecamatan }}
+              </option>
+            @endforeach
+          </select>
         </div>
 
         <button type="submit" class="btn btn-primary w-100 mt-3">Simpan</button>
@@ -641,6 +641,19 @@ $breadcrumb = 'Customer Service';
       var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
       var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      $('.js-example-basic-multiple').select2({
+        placeholder: "Pilih desa...",
+        allowClear: true,
+        language: {
+          noResults: function() {
+            return "Tidak ada hasil yang ditemukan";
+          }
+        }
       });
     });
   </script>

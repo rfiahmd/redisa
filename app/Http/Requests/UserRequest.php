@@ -7,17 +7,11 @@ use Illuminate\Validation\Rule;
 
 class UserRequest extends FormRequest
 {
-    /**
-     * Tentukan apakah pengguna diizinkan untuk membuat permintaan ini.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Aturan validasi yang berlaku untuk permintaan ini.
-     */
     public function rules(): array
     {
         $rules = [
@@ -40,9 +34,6 @@ class UserRequest extends FormRequest
         return $rules;
     }
 
-    /**
-     * Pesan error kustom untuk validasi.
-     */
     public function messages(): array
     {
         return [
