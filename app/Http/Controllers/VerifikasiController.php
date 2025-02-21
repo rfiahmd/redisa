@@ -73,6 +73,7 @@ class VerifikasiController extends Controller
 
             case 'tolak':
                 $disabilitas->status = 'ditolak';
+                $disabilitas->keterangan = '';
                 $message = 'Data berhasil ditolak.';
                 break;
 
@@ -112,7 +113,7 @@ class VerifikasiController extends Controller
 
     public function bulkAction(Request $request, $action)
     {
-        $user = auth()->user(); // Ambil user yang sedang login
+        $user = auth()->user();
 
         if (!in_array($action, ['terima', 'tolak', 'revisi'])) {
             return response()->json(['success' => false, 'message' => 'Aksi tidak valid.'], 400);
@@ -130,38 +131,37 @@ class VerifikasiController extends Controller
                 $status = 'direvisi';
                 break;
             default:
-                $status = 'diproses';
+                return response()->json(['success' => false, 'message' => 'Aksi tidak valid.'], 400);
         }
 
-        // Jika user adalah verifikator desa, hanya bisa update data dari desa yang terkait
-        if ($user->hasRole('verifikatordesa')) {
+        if ($user->hasRole('verifikator')) {
             $desaIds = VerifikatorDesa::where('user_id', $user->id)->pluck('desa_id');
-
-            $query = DisabilitasModel::whereIn('desa_id', $desaIds)->where('status', '!=', $status);
+            $query = DisabilitasModel::whereIn('desa_id', $desaIds);
         } elseif ($user->hasRole('superadmin')) {
-            // Jika superadmin, update semua data tanpa filter desa
-            $query = DisabilitasModel::where('status', '!=', $status);
+            $query = DisabilitasModel::query();
         } else {
             return response()->json(['success' => false, 'message' => 'Anda tidak memiliki izin untuk melakukan aksi ini.'], 403);
         }
 
-        // Cek apakah ada data yang bisa diperbarui
+        if (in_array($action, ['terima', 'tolak', 'revisi'])) {
+            $query->where('status', 'diproses');
+        }
+
         $count = $query->count();
 
         if ($count === 0) {
             return response()->json(['success' => false, 'message' => 'Tidak ada data yang dapat diperbarui.'], 400);
         }
 
-        // Siapkan data update
         $updateData = ['status' => $status];
 
         if ($action === 'revisi') {
             $updateData['keterangan'] = $request->keterangan;
         }
 
-        // Update data
         $query->update($updateData);
 
         return response()->json(['success' => true, 'message' => "Sebanyak $count data berhasil diperbarui."]);
     }
+
 }

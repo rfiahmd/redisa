@@ -27,15 +27,20 @@
             <span class="nav-text">Jenis Disabilitas</span>
           </a>
         </li>
-
         <li>
-          <a href="{{ route('users.index') }}" aria-expanded="false">
+          <a class="has-arrow ai-icon" href="javascript:void(0);" aria-expanded="false">
             <i class="la la-user-check" style="font-size: 24px;"></i>
             <span class="nav-text">Suctomer Service</span>
           </a>
+          <ul aria-expanded="false">
+            <li><a href="/users/adminpusat-cs">Admin Pusat</a></li>
+            <li><a href="{{ route('users.verifikator') }}">Verifikator</a></li>
+            <li><a href="{{ route('users.petugasdesa') }}">Petugas Desa</a></li>
+            <li><a href="{{ route('users.kadis') }}">Kepala Dinas</a></li>
+          </ul>
         </li>
       @endif
-      
+
       <li class="px-4 pt-4 mt-4 border-top border-primary">
         <h4 class="fw-bold nav-text">Operasional</h4>
       </li>

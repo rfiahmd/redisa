@@ -72,8 +72,13 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('users')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('users.index');
+            Route::get('/adminpusat-cs', [UserController::class, 'adminpusat'])->name('users.adminpusat');
+            Route::get('/verifikator-cs', [UserController::class, 'verifikator'])->name('users.verifikator');
+            Route::get('/petugasdesa-cs', [UserController::class, 'petugasdesa'])->name('users.petugasdesa');
+            Route::get('/kadis-cs', [UserController::class, 'kadis'])->name('users.kadis');
             Route::post('/', [UserController::class, 'store'])->name('users.store');
             Route::put('/{users}', [UserController::class, 'update'])->name('users.update');
+            // Route::post('/{users}/update', [UserController::class, 'update'])->name('users.update');
             Route::get('/{users}/delete', [UserController::class, 'destroy'])->name('users.destroy');
             Route::get('/desa/search', [UserController::class, 'search'])->name('desa.search');
             Route::get('/desa/search-edit', [UserController::class, 'searchEdit'])->name('desa.search.edit');

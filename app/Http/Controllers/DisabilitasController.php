@@ -134,7 +134,7 @@ class DisabilitasController extends Controller
         }
 
         // Jika status saat ini adalah "direvisi", ubah ke "diproses"
-        if ($disabilitas->status == 'direvisi') {
+        if ($disabilitas->status == 'direvisi' || $disabilitas->status == 'ditolak') {
             $status = 'diproses';
         } else {
             $status = $disabilitas->status; // Biarkan status tetap jika bukan "direvisi"
