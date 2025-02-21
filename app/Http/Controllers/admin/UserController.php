@@ -9,25 +9,11 @@ use App\Models\User;
 use App\Models\VerifikatorDesa;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
-    public function index()
-    {
-        $data = [
-            'adminpusat' => User::role('adminpusat')->get(),
-            'verifikator' => User::role('verifikator')->get(),
-            'petugasdesa' => User::role('petugasdesa')->get(),
-            'kadis' => User::role('kadis')->get(),
-            'datadesa' => DB::table('desa')->get(),
-            'desa_terpilih' => VerifikatorDesa::pluck('desa_id')->toArray(),
-            'verifikator_desa' => VerifikatorDesa::all(),
-        ];
-
-        return view('admin.customer-service.cs_view', $data);
-    }
-
     public function adminpusat()
     {
         $data = [
@@ -133,14 +119,14 @@ class UserController extends Controller
         DB::beginTransaction();
 
         try {
-            dd($request->all());
+            // dd($request->all());
             $user = User::findOrFail($users);
 
             // Ambil data yang boleh diperbarui
             $data = $request->only(['nama_lengkap', 'username', 'email']);
 
             if ($request->filled('password')) {
-                $data['password'] = bcrypt($request->password);
+                $data['password'] = $request->password;
             }
 
             $user->update($data);

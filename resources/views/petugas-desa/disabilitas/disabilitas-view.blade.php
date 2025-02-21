@@ -193,3 +193,8 @@ $breadcrumb = 'Data Disabilitas';
   </div>
   <x-verifikasi.script></x-verifikasi.script>
 @endsection
+
+@section('script')
+  <script src="{{ asset('assets') }}/js/dashboard/cms.js"></script>
+@endsection
+
