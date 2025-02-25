@@ -51,7 +51,7 @@
 
           Swal.fire({
             title: "Revisi Data",
-            text: `Masukkan keterangan revisi untuk ${name}:`,
+            text: `Masukkan Catatan revisi untuk ${name}:`,
             input: "text",
             inputPlaceholder: "Masukkan alasan revisi...",
             showCancelButton: true,

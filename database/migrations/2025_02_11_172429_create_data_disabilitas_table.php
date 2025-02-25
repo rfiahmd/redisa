@@ -25,6 +25,7 @@ return new class extends Migration
             $table->foreignId('id_jenis_disabilitas')->constrained('jenis_disabilitas')->cascadeOnDelete();
             $table->foreignId('id_sub_jenis_disabilitas')->constrained('sub_jenis_disabilitas')->cascadeOnDelete();
             $table->text('keterangan')->nullable();
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }

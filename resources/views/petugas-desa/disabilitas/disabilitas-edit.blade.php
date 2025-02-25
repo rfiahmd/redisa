@@ -104,9 +104,12 @@ $breadcrumb = ' Verifikator';
                 <span class="input-group-text"><i class="fa-solid fa-wheelchair"></i></span>
                 <select class="form-control" name="tingkat" required>
                   <option value="">-- Pilih Tingkat Disabilitas --</option>
-                  <option value="Kecil" {{ $disabilitas->tingkat_disabilitas == 'Kecil' ? 'selected' : '' }}>Kecil</option>
-                  <option value="Sedang" {{ $disabilitas->tingkat_disabilitas == 'Sedang' ? 'selected' : '' }}>Sedang</option>
-                  <option value="Besar" {{ $disabilitas->tingkat_disabilitas == 'Besar' ? 'selected' : '' }}>Besar</option>
+                  <option value="Kecil" {{ $disabilitas->tingkat_disabilitas == 'Kecil' ? 'selected' : '' }}>Kecil
+                  </option>
+                  <option value="Sedang" {{ $disabilitas->tingkat_disabilitas == 'Sedang' ? 'selected' : '' }}>Sedang
+                  </option>
+                  <option value="Besar" {{ $disabilitas->tingkat_disabilitas == 'Besar' ? 'selected' : '' }}>Besar
+                  </option>
                 </select>
               </div>
             </div>
@@ -118,7 +121,9 @@ $breadcrumb = ' Verifikator';
                 <select class="form-control" name="jenis" id="jenis">
                   <option value="">-- Pilih Jenis Disabilitas --</option>
                   @foreach ($jenis as $get)
-                    <option value="{{ $get->id }}" {{ $disabilitas->id_jenis_disabilitas == $get->id ? 'selected' : '' }}>{{ $get->nama_jenis }}</option>
+                    <option value="{{ $get->id }}"
+                      {{ $disabilitas->id_jenis_disabilitas == $get->id ? 'selected' : '' }}>{{ $get->nama_jenis }}
+                    </option>
                   @endforeach
                 </select>
               </div>
@@ -131,7 +136,8 @@ $breadcrumb = ' Verifikator';
                 <select class="form-control" name="subjenis" required id="subjenis">
                   <option value="">-- Pilih Sub Jenis Disabilitas --</option>
                   @foreach ($sub as $get)
-                    <option value="{{ $get->id }}" {{ old('id_sub_jenis_disabilitas', $disabilitas->id_sub_jenis_disabilitas) == $get->id ? 'selected' : '' }}>
+                    <option value="{{ $get->id }}"
+                      {{ old('id_sub_jenis_disabilitas', $disabilitas->id_sub_jenis_disabilitas) == $get->id ? 'selected' : '' }}>
                       {{ $get->nama_sub_jenis }}
                     </option>
                   @endforeach
@@ -149,9 +155,19 @@ $breadcrumb = ' Verifikator';
           </div>
         </div> --}}
 
-            <div class="text-end mt-3">
-              <button class="btn btn-primary" type="submit">Submit</button>
+            <div class="mb-3">
+              <label class="text-label form-label">Deskripsi</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fa-solid fa-info"></i></span>
+                <textarea class="form-control" name="deskripsi" placeholder="Masukkan Deskripsi.." required>{{ old('deskripsi', $disabilitas->deskripsi) }}</textarea>
+              </div>
             </div>
+          </div>
+        </div>
+
+        <div class="text-end mt-3">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
       </form>
     </div>
   </div>

@@ -10,7 +10,7 @@ class BantuanController extends Controller
     public function index()
     {
         $data = [
-            'desa' => ,
+            'disabilitas' => ,
         ];
         return view('admin.bantuan-disabilitas.bantuan_view', $data);
     }

@@ -96,6 +96,7 @@ class DisabilitasController extends Controller
             'tingkat_disabilitas' => $request->tingkat,
             'id_jenis_disabilitas' => $request->jenis,
             'id_sub_jenis_disabilitas' => $request->subjenis,
+            'deskripsi' => $request->deskripsi
         ];
 
         DisabilitasModel::create($data);
@@ -150,6 +151,7 @@ class DisabilitasController extends Controller
             'tingkat_disabilitas' => $request->tingkat,
             'id_jenis_disabilitas' => $request->jenis,
             'id_sub_jenis_disabilitas' => $request->subjenis,
+            'deskripsi' => $request->deskripsi,
             'status' => $status, // Simpan status baru
         ]);
 

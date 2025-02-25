@@ -78,7 +78,7 @@ $breadcrumb = 'Data Disabilitas';
               @endif
               <th>Status</th>
               @if (Auth::user()->hasRole('superadmin') || Auth::user()->hasRole('petugasdesa') || Auth::user()->hasRole('verifikator'))
-              <th>Action</th>
+                <th>Action</th>
               @endif
             </tr>
           </thead>
@@ -117,9 +117,36 @@ $breadcrumb = 'Data Disabilitas';
                           <i class="fas fa-pencil-alt"></i>
                         </a>
                         <a onclick="deleteEntity('disabilitas', '{{ $get->nik }}', '{{ $get->nama }}', null, null)"
-                          class="btn btn-danger shadow btn-xs sharp">
+                          class="btn btn-danger shadow btn-xs sharp me-1">
                           <i class="fas fa-trash-alt"></i>
                         </a>
+                        @if ($get->keterangan != null)
+                          <a role="button" data-bs-toggle="modal" data-bs-target="#revisi{{ $get->nik }}"
+                            class="btn btn-warning shadow btn-xs sharp">
+                            <i class="fas fa-edit"></i>
+                          </a>
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="revisi{{ $get->nik }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Data Yang Direvisi</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <h4>Revisi Data:</h4>
+                                  <h5>{{ $get->keterangan }}</h5>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        @endif
                       @else
                         <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp me-1 reject-button"
                           data-id="{{ $get->id }}" data-name="{{ $get->nama }}">
@@ -197,4 +224,3 @@ $breadcrumb = 'Data Disabilitas';
 @section('script')
   <script src="{{ asset('assets') }}/js/dashboard/cms.js"></script>
 @endsection
-

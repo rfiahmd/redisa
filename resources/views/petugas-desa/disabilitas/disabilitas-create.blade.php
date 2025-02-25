@@ -123,6 +123,14 @@ $breadcrumb = ' Verifikator';
                 </select>
               </div>
             </div>
+
+            <div class="mb-3">
+              <label class="text-label form-label">Deskripsi</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fa-solid fa-info"></i></span>
+                <textarea class="form-control" name="deskripsi" placeholder="Masukkan Deskripsi.." required></textarea>
+              </div>
+            </div>
           </div>
         </div>
 

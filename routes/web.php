@@ -94,7 +94,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Route untuk all role
-    Route::middleware(['role:petugasdesa|superadmin|verifikator|adminpusat|kadis'])->group(function () { 
+    Route::middleware(['role:petugasdesa|superadmin|verifikator|adminpusat|kadis'])->group(function () {
         Route::get('/datadisabilitas', [DisabilitasController::class, 'index'])->name('disabilitas');
         Route::get('/bantuan', function () {
             return view('admin.bantuan-disabilitas.bantuan_view');
@@ -104,7 +104,7 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk petugasdesa dan superadmin
     Route::middleware(['role:petugasdesa|superadmin'])->group(function () {
         Route::get('/dashboard/petugasdesa', [DashboardController::class, 'dspetugasdesa'])->name('petugasdesa.dashboard');
-        
+
         Route::post('/getsubjenis', [DisabilitasController::class, 'getSubJenis'])->name('getSubJenis');
         Route::get('/disabilitas-delete/{nik}', [DisabilitasController::class, 'delete'])->name('disabilitas.delete');
         Route::get('/disabilitas-edit/{nik}', [DisabilitasController::class, 'edit'])->name('disabilitas.edit');
