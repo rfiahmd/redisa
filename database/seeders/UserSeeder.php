@@ -45,16 +45,16 @@ class UserSeeder extends Seeder
         //     ]
         // );
         // $petugasdesa->assignRole('petugasdesa');
-        $verifikator = User::create(
-            [
-                'token_users' => Str::random(12),
-                'nama_lengkap' => 'Verifikator',
-                'username' => 'verifikator',
-                'email' => 'verifikator@gmail.com',
-                'password' => '123',
-            ]
-        );
-        $verifikator->assignRole('verifikator');
+        // $verifikator = User::create(
+        //     [
+        //         'token_users' => Str::random(12),
+        //         'nama_lengkap' => 'Verifikator',
+        //         'username' => 'verifikator',
+        //         'email' => 'verifikator@gmail.com',
+        //         'password' => '123',
+        //     ]
+        // );
+        // $verifikator->assignRole('verifikator');
         $kadis = User::create(
             [
                 'token_users' => Str::random(12),

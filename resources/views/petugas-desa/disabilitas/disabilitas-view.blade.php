@@ -20,38 +20,35 @@ $breadcrumb = 'Data Disabilitas';
           </div>
           <div class="cm-content-body form excerpt">
             <div class="card-body">
-              <div class="row">
-                <div class="col-xl-4  col-sm-6 mb-3 mb-xl-0">
-                  <label for="exampleDataList" class="form-label">Desa</label>
-                  <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Cari Desa...">
-                  <datalist id="datalistOptions">
-                    <option value="San Francisco">
-                    <option value="New York">
-                    <option value="Seattle">
-                    <option value="Los Angeles">
-                    <option value="Chicago">
-                  </datalist>
-                </div>
-                <div class="col-xl-4  col-sm-6 mb-3 mb-xl-0">
-                  <label for="exampleDataList" class="form-label">Kecamatan</label>
-                  <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Cari Kecamatan...">
-                  <datalist id="datalistOptions">
-                    <option value="San Francisco">
-                    <option value="New York">
-                    <option value="Seattle">
-                    <option value="Los Angeles">
-                    <option value="Chicago">
-                  </datalist>
-                </div>
-                <div class="col-xl-3 col-sm-6 align-self-end">
-                  <div>
-                    <button class="btn btn-primary me-2" title="Click here to Search" type="button"><i
-                        class="fa fa-filter me-1"></i>Filter</button>
-                    <button class="btn btn-danger light" title="Click here to remove filter" type="button">Remove
-                      Filter</button>
+              <form method="GET" action="{{ route('disabilitas') }}">
+                <div class="row">
+                  <div class="col-xl-4 col-sm-6 mb-3 mb-xl-0">
+                    <label for="desaFilter" class="form-label">Desa</label>
+                    <input class="form-control" list="desaOptions" id="desaFilter" name="desa" placeholder="Cari Desa..."
+                      value="{{ request('desa') }}">
+                    <datalist id="desaOptions">
+                      @foreach ($desaList as $desa)
+                        <option value="{{ $desa->nama_desa }}">
+                      @endforeach
+                    </datalist>
+                  </div>
+                  <div class="col-xl-4 col-sm-6 mb-3 mb-xl-0">
+                    <label for="kecamatanFilter" class="form-label">Kecamatan</label>
+                    <input class="form-control" list="kecamatanOptions" id="kecamatanFilter" name="kecamatan"
+                      placeholder="Cari Kecamatan..." value="{{ request('kecamatan') }}">
+                    <datalist id="kecamatanOptions">
+                      @foreach ($kecamatanList as $kecamatan)
+                        <option value="{{ $kecamatan->nama_kecamatan }}">
+                      @endforeach
+                    </datalist>
+                  </div>
+                  <div class="col-xl-3 col-sm-6 align-self-end">
+                    <button class="btn btn-primary me-2" type="submit"><i class="fa fa-filter me-1"></i>Filter</button>
+                    <a href="{{ route('disabilitas') }}" class="btn btn-danger light">Remove Filter</a>
                   </div>
                 </div>
-              </div>
+              </form>
+
             </div>
           </div>
         </div>
@@ -225,4 +222,17 @@ $breadcrumb = 'Data Disabilitas';
 
 @section('script')
   <script src="{{ asset('assets') }}/js/dashboard/cms.js"></script>
+  <script>
+     document.querySelector("form").addEventListener("submit", function(event) {
+      let desa = document.getElementById("desaFilter").value.trim();
+      let kecamatan = document.getElementById("kecamatanFilter").value.trim();
+
+      if (!desa) {
+          document.getElementById("desaFilter").removeAttribute("name");
+      }
+      if (!kecamatan) {
+          document.getElementById("kecamatanFilter").removeAttribute("name");
+      }
+  });
+  </script>
 @endsection

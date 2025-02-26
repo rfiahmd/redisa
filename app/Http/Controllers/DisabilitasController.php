@@ -11,42 +11,63 @@ use Illuminate\Http\Request;
 
 class DisabilitasController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->user(); // Ambil user yang sedang login
+        $user = auth()->user();
         $userId = $user->id;
 
-        if ($user->hasRole('petugasdesa')) {
-            // ✅ Jika petugas desa, tampilkan semua data disabilitas di desanya
-            $desa = Desa::where('user_id', $userId)->first();
+        // Ambil daftar desa & kecamatan untuk filter
+        $desaList = Desa::select('nama_desa')->distinct()->get();
+        $kecamatanList = Desa::select('nama_kecamatan')->distinct()->get();
 
+        // Query dasar
+        $query = DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas');
+
+        if ($user->hasRole('petugasdesa')) {
+            $desa = Desa::where('user_id', $userId)->first();
             if (!$desa) {
                 return abort(403, 'Anda tidak memiliki akses ke data ini.');
             }
-
-            $disabilitas = DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas')
-                ->where('desa_id', $desa->id)
-                ->get();
+            $query->where('desa_id', $desa->id);
         } elseif ($user->hasRole('verifikator')) {
-            // ✅ Jika verifikator desa, cari semua desa yang terhubung dengan user ini
-            $verifikator = VerifikatorDesa::where('user_id', $userId)->pluck('desa_id');
-
-            // ✅ Ambil hanya disabilitas yang "diterima" dan berasal dari desa-desa yang terhubung dengan verifikator
-            $disabilitas = DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas')
-                ->whereIn('desa_id', $verifikator)
-                ->where('status', 'diterima')
-                ->get();
-        } elseif ($user->hasRole('superadmin') || $user->hasRole('adminpusat') || $user->hasRole('kadis')) {
-            // ✅ Jika superadmin, tampilkan semua disabilitas yang berstatus diterima dari semua desa
-            $disabilitas = DisabilitasModel::with('jenisDisabilitas', 'subJenisDisabilitas')
-                ->where('status', 'diterima')
-                ->get();
+            $desaIds = VerifikatorDesa::where('user_id', $userId)->pluck('desa_id');
+            $query->whereIn('desa_id', $desaIds)->where('status', 'diterima');
+        } elseif ($user->hasRole(['superadmin', 'adminpusat', 'kadis'])) {
+            $query->where('status', 'diterima');
         } else {
             return abort(403, 'Anda tidak memiliki akses ke data ini.');
         }
 
-        return view('petugas-desa.disabilitas.disabilitas-view', compact('disabilitas'));
+        // Tambahkan filter berdasarkan desa dan/atau kecamatan
+        if ($request->filled('desa') && $request->filled('kecamatan')) {
+            // Filter berdasarkan desa & kecamatan yang sesuai
+            $desaIds = Desa::where('nama_desa', $request->desa)
+                ->where('nama_kecamatan', $request->kecamatan)
+                ->pluck('id');
+
+            $query->whereIn('desa_id', $desaIds);
+        } elseif ($request->filled('desa')) {
+            // Jika hanya filter desa
+            $desaIds = Desa::where('nama_desa', $request->desa)->pluck('id');
+
+            if ($desaIds->isNotEmpty()) {
+                $query->whereIn('desa_id', $desaIds);
+            }
+        } elseif ($request->filled('kecamatan')) {
+            // Jika hanya filter kecamatan
+            $desaIds = Desa::where('nama_kecamatan', $request->kecamatan)->pluck('id');
+
+            if ($desaIds->isNotEmpty()) {
+                $query->whereIn('desa_id', $desaIds);
+            }
+        }
+
+
+        $disabilitas = $query->get();
+
+        return view('petugas-desa.disabilitas.disabilitas-view', compact('disabilitas', 'desaList', 'kecamatanList'));
     }
+
 
     public function create()
     {
@@ -96,7 +117,7 @@ class DisabilitasController extends Controller
             'tingkat_disabilitas' => $request->tingkat,
             'id_jenis_disabilitas' => $request->jenis,
             'id_sub_jenis_disabilitas' => $request->subjenis,
-            'deskripsi' => $request->deskripsi
+            'deskripsi' => $request->deskripsi,
         ];
 
         DisabilitasModel::create($data);

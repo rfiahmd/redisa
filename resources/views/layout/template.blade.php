@@ -11,6 +11,13 @@
 
 
   <style>
+    datalist {
+      max-height: 100px;
+      /* Batasi tinggi maksimal */
+      overflow-y: auto;
+      /* Tambahkan scroll jika terlalu panjang */
+    }
+
     textarea {
       resize: none !important;
       overflow: auto;

@@ -56,9 +56,7 @@ $breadcrumb = 'Verifikasi » Data Disabilitas';
                         <th>Desa</th>
                       @endif
                       <th>Status</th>
-                      @if ($status == 'diproses' || $status == 'direvisi')
-                        <th>Action</th>
-                      @endif
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -83,36 +81,40 @@ $breadcrumb = 'Verifikasi » Data Disabilitas';
                             {{ $status == 'diproses' ? 'Diproses' : ($status == 'direvisi' ? 'Direvisi' : 'Ditolak') }}
                           </span>
                         </td>
-                        @if ($status == 'diproses' || $status == 'direvisi')
-                          <td>
-                            <div class="d-flex">
-                              @if ($status == 'diproses')
-                                <a href="javascript:void(0);"
-                                  class="btn btn-success shadow btn-xs sharp me-1 accept-button"
-                                  data-id="{{ $data->id }}" data-name="{{ $data->nama }}">
-                                  <i class="fas fa-check"></i>
-                                </a>
-                                <a href="javascript:void(0);"
-                                  class="btn btn-danger shadow btn-xs sharp me-1 reject-button"
-                                  data-id="{{ $data->id }}" data-name="{{ $data->nama }}">
-                                  <i class="fas fa-times"></i>
-                                </a>
-                                <a href="javascript:void(0);"
-                                  class="btn btn-warning shadow btn-xs sharp me-1 revise-button"
-                                  data-id="{{ $data->id }}" data-name="{{ $data->nama }}">
-                                  <i class="fas fa-edit"></i>
-                                </a>
-                              @elseif ($status == 'direvisi')
-                                <a href="javascript:void(0);"
-                                  class="btn btn-primary shadow btn-xs sharp me-1 edit-revision-button"
-                                  data-id="{{ $data->id }}" data-name="{{ $data->nama }}"
-                                  data-keterangan="{{ $data->keterangan }}">
-                                  <i class="fas fa-pencil-alt"></i>
-                                </a>
-                              @endif
-                            </div>
-                          </td>
-                        @endif
+                        <td>
+                          <div class="d-flex">
+                            @if ($status == 'diproses')
+                              <a href="javascript:void(0);" class="btn btn-success shadow btn-xs sharp me-1 accept-button"
+                                data-id="{{ $data->id }}" data-name="{{ $data->nama }}">
+                                <i class="fas fa-check"></i>
+                              </a>
+                              <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp me-1 reject-button"
+                                data-id="{{ $data->id }}" data-name="{{ $data->nama }}">
+                                <i class="fas fa-times"></i>
+                              </a>
+                              <a href="javascript:void(0);" class="btn btn-warning shadow btn-xs sharp me-1 revise-button"
+                                data-id="{{ $data->id }}" data-name="{{ $data->nama }}">
+                                <i class="fas fa-edit"></i>
+                              </a>
+                            @elseif ($status == 'ditolak')
+                              <a href="javascript:void(0);" class="btn btn-success shadow btn-xs sharp me-1 accept-button"
+                                data-id="{{ $data->id }}" data-name="{{ $data->nama }}">
+                                <i class="fas fa-check"></i>
+                              </a>
+                              <a href="javascript:void(0);" class="btn btn-warning shadow btn-xs sharp me-1 revise-button"
+                                data-id="{{ $data->id }}" data-name="{{ $data->nama }}">
+                                <i class="fas fa-edit"></i>
+                              </a>
+                            @elseif ($status == 'direvisi')
+                              <a href="javascript:void(0);"
+                                class="btn btn-primary shadow btn-xs sharp me-1 edit-revision-button"
+                                data-id="{{ $data->id }}" data-name="{{ $data->nama }}"
+                                data-keterangan="{{ $data->keterangan }}">
+                                <i class="fas fa-pencil-alt"></i>
+                              </a>
+                            @endif
+                          </div>
+                        </td>
                       </tr>
 
                       {{-- Modal Detail --}}
