@@ -82,7 +82,7 @@ if (!empty($key)) {
                         <div class="modal-dialog modal-lg">
                           <div class="modal-content">
                             <div class="modal-header bg-primary">
-                              <h3 class="modal-title text-light" id="modalLabel{{ $data->id }}">Detail Data
+                              <h3 class="modal-title text-light" id="modalLabel{{ $data->id }}">Detail Data Bantuan :
                                 {{ $data->nama }}</h3>
                               <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
                                 aria-label="Close"></button>

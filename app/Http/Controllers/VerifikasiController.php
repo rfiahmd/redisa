@@ -6,6 +6,7 @@ use App\Models\DisabilitasModel;
 use App\Models\VerifikatorDesa;
 use Illuminate\Http\Request;
 use App\Http\Controllers\match;
+use App\Models\Bantuan;
 
 class VerifikasiController extends Controller
 {
@@ -64,6 +65,9 @@ class VerifikasiController extends Controller
             return response()->json(['success' => false, 'message' => 'Data tidak ditemukan.']);
         }
 
+        // Cek apakah data sudah ada di tabel bantuan
+        $bantuanExists = Bantuan::where('disabilitas_id', $id)->exists();
+
         switch ($action) {
             case 'terima':
                 $disabilitas->status = 'diterima';
@@ -72,6 +76,9 @@ class VerifikasiController extends Controller
                 break;
 
             case 'tolak':
+                if ($bantuanExists) {
+                    return response()->json(['success' => false, 'message' => 'Data tidak bisa ditolak karena sudah menerima bantuan.']);
+                }
                 $disabilitas->status = 'ditolak';
                 $disabilitas->keterangan = '';
                 $message = 'Data berhasil ditolak.';
@@ -163,5 +170,4 @@ class VerifikasiController extends Controller
 
         return response()->json(['success' => true, 'message' => "Sebanyak $count data berhasil diperbarui."]);
     }
-
 }

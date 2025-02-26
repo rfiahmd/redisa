@@ -75,7 +75,7 @@
             Nav header start
         ***********************************-->
     <div class="nav-header">
-      <a href="index.html" class="brand-logo">
+      <a type="button" class="brand-logo">
         <img class="logo-abbr" src="{{ asset('assets') }}/images/logo1.png" alt="">
         <img class="logo-compact" src="{{ asset('assets') }}/images/text.png" alt="">
         <img class="brand-title" src="{{ asset('assets') }}/images/text.png" alt="">
