@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\admin\BantuanController;
 use App\Http\Controllers\admin\Jenis\JenisDisabilitasController;
 use App\Http\Controllers\admin\Jenis\SubJenis\SubJenisDisabilitasController;
 use App\Http\Controllers\admin\ProfilController;
@@ -61,7 +62,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('subjenis/{jenisDisabilitas}')->group(function () {
             Route::get('/', [SubJenisDisabilitasController::class, 'index'])->name('subjenis.index');
             Route::post('/', [SubJenisDisabilitasController::class, 'store'])->name('subjenis.store');
-            Route::post('/{subJenisDisabilitas}', [SubJenisDisabilitasController::class, 'update'])->name('subjenis.update');
+            Route::put('/{subJenisDisabilitas}', [SubJenisDisabilitasController::class, 'update'])->name('subjenis.update');
             Route::get('/{token}/delete', [SubJenisDisabilitasController::class, 'destroy'])->name('subjenis.destroy');
         });
 
@@ -96,9 +97,15 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk all role
     Route::middleware(['role:petugasdesa|superadmin|verifikator|adminpusat|kadis'])->group(function () {
         Route::get('/datadisabilitas', [DisabilitasController::class, 'index'])->name('disabilitas');
-        Route::get('/bantuan', function () {
-            return view('admin.bantuan-disabilitas.bantuan_view');
-        })->name('bantuan_disabilitas');
+
+        // Bantuan
+        Route::prefix('bantuan')->name('bantuan.')->group(function () {
+            Route::get('/', [BantuanController::class, 'index'])->name('bantuan_disabilitas');
+            Route::post('/', [BantuanController::class, 'store'])->name('store');
+            Route::put('/{id}', [BantuanController::class, 'update'])->name('update');
+            Route::get('/{id}/delete', [BantuanController::class, 'destroy'])->name('destroy');
+        });
+
     });
 
     // Route untuk petugasdesa dan superadmin

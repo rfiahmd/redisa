@@ -33,6 +33,10 @@
       entityName = 'Users';
       entityRoute = '/users/' + token + '/delete';
       warningText = entityName + " '" + name + "' akan dihapus secara permanen!";
+    } else if (entity === 'bantuan') {
+      entityName = 'Bantuan';
+      entityRoute = '/bantuan/' + token + '/delete';
+      warningText = entityName + " '" + name + "' akan dihapus secara permanen!";
     }
 
     // Konfirmasi penghapusan

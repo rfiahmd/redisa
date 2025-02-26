@@ -98,9 +98,11 @@ $breadcrumb = 'Customer Service » Verifikator';
         <table id="example3" class="display min-w850 mb-4 border-bottom border-top">
           <thead>
             <tr>
-              <th>#</th>
+              <th>No</th>
               <th>Nama</th>
               <th>Email</th>
+              <th>Jabatan</th>
+              <th>Desa</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -110,6 +112,19 @@ $breadcrumb = 'Customer Service » Verifikator';
                 <td>{{ $loop->iteration }}.</td>
                 <td>@formatNama($user->nama_lengkap)</td>
                 <td>{{ $user->email }}</td>
+
+                @php
+                  $jabatan = optional($user->verifikatorDesa->first())->jabatan ?? '-';
+                  $desaArray = $user->verifikatorDesa->pluck('desa.nama_desa')->toArray();
+                  $desaList =
+                      count($desaArray) > 2
+                          ? implode(', ', array_slice($desaArray, 0, 2)) . ' ...'
+                          : implode(', ', $desaArray);
+                @endphp
+
+                <td>{{ $jabatan }}</td>
+                <td>{{ $desaList }}</td>
+
                 <td>
                   <a type="button" class="btn btn-primary shadow btn-xs sharp me-1 btn-edit" data-bs-toggle="offcanvas"
                     data-bs-target="#editCSverifikator{{ $user->id }}">
@@ -130,7 +145,7 @@ $breadcrumb = 'Customer Service » Verifikator';
                 </div>
                 <div class="offcanvas-body">
                   <!-- Edit CS Form -->
-                    <form method="POST" action="{{ route('users.update', $user->id) }}"
+                  <form method="POST" action="{{ route('users.update', $user->id) }}"
                     class="form-valide-with-icon needs-validation" novalidate>
                     @csrf
                     @method('PUT')
@@ -138,9 +153,9 @@ $breadcrumb = 'Customer Service » Verifikator';
                     <div class="mb-3">
                       <label class="form-label required">Nama</label>
                       <div class="input-group">
-                      <span class="input-group-text"><i class="fa fa-user"></i></span>
-                      <input type="text" name="nama_lengkap" class="form-control"
-                        value="{{ old('nama_lengkap', $user->nama_lengkap) }}" required>
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                        <input type="text" name="nama_lengkap" class="form-control"
+                          value="{{ old('nama_lengkap', $user->nama_lengkap) }}" required>
                       </div>
                       <div class="invalid-feedback">Masukkan Nama Anda</div>
                     </div>
@@ -148,9 +163,9 @@ $breadcrumb = 'Customer Service » Verifikator';
                     <div class="mb-3">
                       <label class="form-label required">Username</label>
                       <div class="input-group">
-                      <span class="input-group-text"><i class="fa fa-user"></i></span>
-                      <input type="text" name="username" class="form-control"
-                        value="{{ old('username', $user->username) }}" required>
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                        <input type="text" name="username" class="form-control"
+                          value="{{ old('username', $user->username) }}" required>
                       </div>
                       <div class="invalid-feedback">Masukkan Username Anda</div>
                     </div>
@@ -158,9 +173,9 @@ $breadcrumb = 'Customer Service » Verifikator';
                     <div class="mb-3">
                       <label class="form-label required">Email</label>
                       <div class="input-group">
-                      <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                      <input type="email" name="email" class="form-control"
-                        value="{{ old('email', $user->email) }}" required>
+                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                        <input type="email" name="email" class="form-control"
+                          value="{{ old('email', $user->email) }}" required>
                       </div>
                       <div class="invalid-feedback">Harap Masukkan Email Dengan Benar</div>
                     </div>
@@ -168,9 +183,9 @@ $breadcrumb = 'Customer Service » Verifikator';
                     <div class="mb-3">
                       <label class="form-label required">Jabatan</label>
                       <div class="input-group">
-                      <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
-                      <input type="text" name="jabatan" class="form-control"
-                        value="{{ optional($user->verifikatorDesa)->jabatan }}" required>
+                        <span class="input-group-text"><i class="fa fa-briefcase"></i></span>
+                        <input type="text" name="jabatan" class="form-control"
+                          value="{{ optional($user->verifikatorDesa->first())->jabatan }}" required>
                       </div>
                       <div class="invalid-feedback">Masukkan Jabatan Anda</div>
                     </div>
@@ -178,44 +193,47 @@ $breadcrumb = 'Customer Service » Verifikator';
                     <div class="mb-3">
                       <label class="form-label required">Desa</label>
                       <select class="js-example-basic-multiple form-control" name="desa_id[]" multiple>
-                      @foreach ($datadesa as $desa)
-                        @php
-                        $milikUserIni = in_array(
-                          $desa->id,
-                          $verifikator_desa->where('user_id', $user->id)->pluck('desa_id')->toArray(),
-                        );
-                        @endphp
+                        @foreach ($datadesa as $desa)
+                          @php
+                            $sudahDimiliki = in_array($desa->id, $desa_terpilih);
+                            $milikUserIni = in_array(
+                                $desa->id,
+                                $verifikator_desa->where('user_id', $user->id)->pluck('desa_id')->toArray(),
+                            );
+                          @endphp
 
-                        <option value="{{ $desa->id }}" @if ($milikUserIni) selected @endif>
-                        {{ $desa->nama_desa }} - {{ $desa->nama_kecamatan }}
-                        </option>
-                      @endforeach
+                          <option value="{{ $desa->id }}" @if ($milikUserIni) selected @endif
+                            @if ($sudahDimiliki && !$milikUserIni) disabled @endif>
+                            {{ $desa->nama_desa }} - {{ $desa->nama_kecamatan }}
+                          </option>
+                        @endforeach
                       </select>
                     </div>
 
                     <div class="form-check mb-3">
                       <input class="form-check-input" type="checkbox" id="ubahSandi{{ $user->id }}"
-                      onchange="togglePasswordInput({{ $user->id }})">
+                        onchange="togglePasswordInput({{ $user->id }})">
                       <label class="form-check-label" for="ubahSandi{{ $user->id }}">Ubah Sandi</label>
                     </div>
 
                     <div class="mb-3" id="passwordInput{{ $user->id }}" style="display: none;">
                       <label class="form-label">Password Baru</label>
                       <div class="input-group">
-                      <span class="input-group-text"><i class="fa fa-lock"></i></span>
-                      <input type="password" name="password" class="form-control"
-                        placeholder="Masukkan Password Baru">
+                        <span class="input-group-text"><i class="fa fa-lock"></i></span>
+                        <input type="password" name="password" class="form-control"
+                          placeholder="Masukkan Password Baru">
                       </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 mt-3" onclick="this.form.submit()">Update</button>
-                    </form>
+                    <button type="submit" class="btn btn-primary w-100 mt-3"
+                      onclick="this.form.submit()">Update</button>
+                  </form>
                 </div>
               </div>
             @endforeach
           </tbody>
-
         </table>
+
       </div>
     </div>
   </div>

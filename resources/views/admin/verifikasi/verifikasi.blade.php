@@ -64,10 +64,10 @@ $breadcrumb = 'Verifikasi » Data Disabilitas';
                   <tbody>
                     @foreach ($disabilitas->where('status', $status) as $index => $data)
                       <tr>
-                        <td>{{ $index + 1 }}.</td>
+                        <td>{{ $loop->iteration }}.</td>
                         <td>{{ $data->nik }}</td>
                         <td>
-                          <strong>@formatNama($data->nama)</strong>
+                          <strong>@formatNama($data->nama)</strong><br>
                           <a role="button" data-bs-toggle="modal" data-bs-target="#detail{{ $data->nik }}"
                             class="text-primary">Selengkapnya...</a>
                         </td>

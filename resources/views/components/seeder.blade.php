@@ -10,7 +10,7 @@
           <span class="nav-text">Dashboard</span>
         </a>
       </li>
-      @if (auth()->user()->hasRole('superadmin') || auth()->user()->hasRole('adminpusat'))
+      @if (auth()->user()->hasRole(['superadmin', 'adminpusat']))
         <li class="px-4 pt-4 mt-4 border-top border-primary">
           <h4 class="fw-bold nav-text">Master</h4>
         </li>
@@ -33,7 +33,9 @@
             <span class="nav-text">Suctomer Service</span>
           </a>
           <ul aria-expanded="false">
-            <li><a href="/users/adminpusat-cs">Admin Pusat</a></li>
+            @if (auth()->user()->hasRole('superadmin'))
+              <li><a href="/users/adminpusat-cs">Admin Pusat</a></li>
+            @endif
             <li><a href="{{ route('users.verifikator') }}">Verifikator</a></li>
             <li><a href="{{ route('users.petugasdesa') }}">Petugas Desa</a></li>
             <li><a href="{{ route('users.kadis') }}">Kepala Dinas</a></li>
@@ -44,12 +46,35 @@
       <li class="px-4 pt-4 mt-4 border-top border-primary">
         <h4 class="fw-bold nav-text">Operasional</h4>
       </li>
-      <li>
-        <a href="{{ route('bantuan_disabilitas') }}" aria-expanded="false">
-          <i class="la la-hand-holding-heart" style="font-size: 24px;"></i>
-          <span class="nav-text">Bantuan</span>
-        </a>
-      </li>
+      @unless (auth()->user()->hasRole('verifikator'))
+        <li>
+          <a href="/bantuan" aria-expanded="false">
+            <i class="la la-hand-holding-heart" style="font-size: 24px;"></i>
+            <span class="nav-text">Bantuan</span>
+          </a>
+        </li>
+      @else
+        <li>
+          <a class="has-arrow ai-icon" href="javascript:void(0);" aria-expanded="false">
+            <i class="la la-hand-holding-heart" style="font-size: 24px;"></i>
+            <span class="nav-text">Bantuan</span>
+          </a>
+          <ul aria-expanded="false">
+            <li>
+              <a href="/bantuan">
+                Semua
+              </a>
+            </li>
+            @foreach (get_desa_verifikator() as $verifikator)
+              <li>
+                <a href="/bantuan?key={{ $verifikator->token_verifikator }}">
+                  {{ ucfirst(strtolower($verifikator->desa->nama_desa)) }}
+                </a>
+              </li>
+            @endforeach
+          </ul>
+        </li>
+      @endunless
 
       <li>
         <a href="{{ route('disabilitas') }}" aria-expanded="false">

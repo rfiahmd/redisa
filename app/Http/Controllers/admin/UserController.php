@@ -26,7 +26,7 @@ class UserController extends Controller
     public function verifikator()
     {
         $data = [
-            'verifikator' => User::role('verifikator')->get(),
+            'verifikator' => User::role('verifikator')->with(['verifikatorDesa'])->get(),
             'datadesa' => DB::table('desa')->get(),
             'desa_terpilih' => VerifikatorDesa::pluck('desa_id')->toArray(),
             'verifikator_desa' => VerifikatorDesa::all(),

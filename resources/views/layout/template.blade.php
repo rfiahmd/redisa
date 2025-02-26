@@ -11,6 +11,11 @@
 
 
   <style>
+    textarea {
+      resize: none !important;
+      overflow: auto;
+    }
+
     .swal2-select {
       display: none !important;
     }
