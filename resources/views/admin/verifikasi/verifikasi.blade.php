@@ -106,6 +106,14 @@ $breadcrumb = 'Verifikasi » Data Disabilitas';
                                 <i class="fas fa-edit"></i>
                               </a>
                             @elseif ($status == 'direvisi')
+                            <a href="javascript:void(0);" class="btn btn-success shadow btn-xs sharp me-1 accept-button"
+                                data-id="{{ $data->id }}" data-name="{{ $data->nama }}">
+                                <i class="fas fa-check"></i>
+                              </a>
+                              <a href="javascript:void(0);" class="btn btn-danger shadow btn-xs sharp me-1 reject-button"
+                                data-id="{{ $data->id }}" data-name="{{ $data->nama }}">
+                                <i class="fas fa-times"></i>
+                              </a>
                               <a href="javascript:void(0);"
                                 class="btn btn-primary shadow btn-xs sharp me-1 edit-revision-button"
                                 data-id="{{ $data->id }}" data-name="{{ $data->nama }}"

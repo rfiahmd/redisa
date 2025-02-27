@@ -16,53 +16,50 @@ if (!empty($key)) {
 
 @section('content')
   @unless (auth()->user()->hasRole(['verifikator', 'petugasdesa']))
-    <div class="row">
-      <div class="col-xl-12">
-        <div class="filter cm-content-box box-primary">
-          <div class="content-title SlideToolHeader">
-            <div class="cpa">
-              <i class="fa-sharp fa-solid fa-filter me-2"></i>Filter
-            </div>
-            <div class="tools">
-              <a href="javascript:void(0);" class="expand handle"><i class="fal fa-angle-down"></i></a>
-            </div>
-          </div>
-          <div class="cm-content-body form excerpt">
-            <div class="card-body">
-              <div class="row">
-                <div class="col-xl-4  col-sm-6 mb-3 mb-xl-0">
-                  <label for="exampleDataList" class="form-label">Desa</label>
-                  <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Cari Desa...">
-                  <datalist id="datalistOptions">
-                    <option value="San Francisco">
-                    <option value="New York">
-                    <option value="Seattle">
-                    <option value="Los Angeles">
-                    <option value="Chicago">
-                  </datalist>
-                </div>
-                <div class="col-xl-4  col-sm-6 mb-3 mb-xl-0">
-                  <label for="exampleDataList" class="form-label">Kecamatan</label>
-                  <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Cari Kecamatan...">
-                  <datalist id="datalistOptions">
-                    <option value="San Francisco">
-                    <option value="New York">
-                    <option value="Seattle">
-                    <option value="Los Angeles">
-                    <option value="Chicago">
-                  </datalist>
-                </div>
-                <div class="col-xl-3 col-sm-6 align-self-end">
-                  <div>
-                    <button class="btn btn-primary me-2" title="Click here to Search" type="button"><i
-                        class="fa fa-filter me-1"></i>Filter</button>
-                    <button class="btn btn-danger light" title="Click here to remove filter" type="button">Remove
-                      Filter</button>
-                  </div>
+    <div class="filter cm-content-box box-primary">
+      <div class="content-title SlideToolHeader">
+        <div class="cpa">
+          <i class="fa-sharp fa-solid fa-filter me-2"></i>Filter
+        </div>
+        <div class="tools">
+          <a href="javascript:void(0);" class="expand handle"><i class="fal fa-angle-down"></i></a>
+        </div>
+      </div>
+      <div class="cm-content-body form excerpt">
+        <div class="card-body">
+          <form method="GET" action="/bantuan">
+            <div class="row">
+              <div class="col-xl-4  col-sm-6 mb-3 mb-xl-0">
+                <label for="desaFilter" class="form-label">Desa</label>
+                <input class="form-control" list="desaList" id="desaFilter" name="desa" placeholder="Cari Desa..."
+                  value="{{ request('desa') }}">
+                <datalist id="desaList">
+                  @foreach ($desaList as $desa)
+                    <option value="{{ $desa->nama_desa }}">
+                  @endforeach
+                </datalist>
+              </div>
+              <div class="col-xl-4  col-sm-6 mb-3 mb-xl-0">
+                <label for="kecamatanFilter" class="form-label">Kecamatan</label>
+                <input class="form-control" list="kecamatanList" id="kecamatanFilter" name="kecamatan"
+                  placeholder="Cari Kecamatan..." value="{{ request('kecamatan') }}">
+                <datalist id="kecamatanList">
+                  @foreach ($kecamatanList as $kecamatan)
+                    <option value="{{ $kecamatan->nama_kecamatan }}">
+                  @endforeach
+                </datalist>
+              </div>
+              <div class="col-xl-3 col-sm-6 align-self-end">
+                <div>
+                  <button class="btn btn-primary me-2" title="Click here to Search" type="submit">
+                    <i class="fa fa-filter me-1"></i>Filter
+                  </button>
+                  <a href="/bantuan" class="btn btn-danger light"
+                    title="Click here to remove filter">Remove Filter</a>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -109,7 +106,7 @@ if (!empty($key)) {
                         <td>{{ $data->jenis_disabilitas }}, {{ $data->sub_disabilitas }}</td>
                         <td>@cptl($data->type_bantuan)</td>
                         @if (empty($key) && !auth()->user()->hasRole('petugasdesa'))
-                          <td>{{ $data->nama_desa ?? '-' }}</td>
+                          <td>{{ $data->nama_desa}} - {{ $data->nama_kecamatan}}</td>
                         @endif
                         <td>
                           <a type="button" class="btn btn-info shadow btn-xs sharp me-1" data-bs-toggle="modal"
@@ -320,7 +317,7 @@ if (!empty($key)) {
                         <td>{{ $data->jenis_disabilitas }}, {{ $data->sub_disabilitas }}</td>
                         <td>{{ $data->tingkat_disabilitas }}</td>
                         @if (empty($key) && !auth()->user()->hasRole('petugasdesa'))
-                          <td>{{ $data->nama_desa }}, {{ $data->nama_desa }}</td>
+                          <td>{{ $data->nama_desa }} - {{ $data->nama_kecamatan }}</td>
                         @endif
                         @if (auth()->user()->hasRole(['superadmin', 'verifikator']))
                           <td>

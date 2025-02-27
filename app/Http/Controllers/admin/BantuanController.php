@@ -15,6 +15,8 @@ class BantuanController extends Controller
     {
         $user = auth()->user();
         $key = $request->query('key');
+        $desaFilter = $request->query('desa');
+        $kecamatanFilter = $request->query('kecamatan');
 
         $queryMenerima = DB::table('bantuan')
             ->join('data_disabilitas', 'bantuan.disabilitas_id', '=', 'data_disabilitas.id')
@@ -36,8 +38,8 @@ class BantuanController extends Controller
             ->join('sub_jenis_disabilitas', 'data_disabilitas.id_sub_jenis_disabilitas', '=', 'sub_jenis_disabilitas.id')
             ->join('desa', 'data_disabilitas.desa_id', '=', 'desa.id')
             ->leftJoin('bantuan', 'data_disabilitas.id', '=', 'bantuan.disabilitas_id')
-            ->whereNull('bantuan.id') // Pastikan belum ada di tabel bantuan
-            ->where('data_disabilitas.status', 'diterima') // Hanya yang statusnya diterima
+            ->whereNull('bantuan.id')
+            ->where('data_disabilitas.status', 'diterima')
             ->select(
                 'data_disabilitas.id',
                 'data_disabilitas.nama',
@@ -67,7 +69,7 @@ class BantuanController extends Controller
                 $queryBelum->whereIn('desa.id', $desaIds);
             }
         } elseif ($user->hasRole('petugasdesa')) {
-            $desa = $user->desa; 
+            $desa = $user->desa;
 
             if (!$desa) {
                 abort(403, 'User tidak memiliki desa terkait.');
@@ -75,11 +77,26 @@ class BantuanController extends Controller
 
             $queryMenerima->where('desa.id', $desa->id);
             $queryBelum->where('desa.id', $desa->id);
+        } else {
+            // Jika user bukan verifikator atau petugasdesa, terapkan filter desa dan kecamatan
+            if (!empty($desaFilter)) {
+                $queryMenerima->where('desa.nama_desa', 'LIKE', "%$desaFilter%");
+                $queryBelum->where('desa.nama_desa', 'LIKE', "%$desaFilter%");
+            }
+            if (!empty($kecamatanFilter)) {
+                $queryMenerima->where('desa.nama_kecamatan', 'LIKE', "%$kecamatanFilter%");
+                $queryBelum->where('desa.nama_kecamatan', 'LIKE', "%$kecamatanFilter%");
+            }
         }
+
+        $desaList = DB::table('desa')->select('nama_desa')->get();
+        $kecamatanList = DB::table('desa')->select('nama_kecamatan')->distinct()->get();
 
         return view('admin.bantuan-disabilitas.bantuan_view', [
             'dataMenerima' => $queryMenerima->get(),
             'dataBelum' => $queryBelum->get(),
+            'desaList' => $desaList,
+            'kecamatanList' => $kecamatanList,
             'key' => $key ?? '',
         ]);
     }
