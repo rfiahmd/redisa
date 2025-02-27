@@ -104,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/', [BantuanController::class, 'store'])->name('store');
             Route::put('/{id}', [BantuanController::class, 'update'])->name('update');
             Route::get('/{id}/delete', [BantuanController::class, 'destroy'])->name('destroy');
+            Route::get('/download-bantuan', [BantuanController::class, 'downloadBantuan'])->name('download');
         });
 
     });

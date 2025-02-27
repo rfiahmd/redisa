@@ -49,13 +49,12 @@ if (!empty($key)) {
                   @endforeach
                 </datalist>
               </div>
-              <div class="col-xl-3 col-sm-6 align-self-end">
+              <div class="col-xl-4 col-sm-6 align-self-end">
                 <div>
                   <button class="btn btn-primary me-2" title="Click here to Search" type="submit">
                     <i class="fa fa-filter me-1"></i>Filter
                   </button>
-                  <a href="/bantuan" class="btn btn-danger light"
-                    title="Click here to remove filter">Remove Filter</a>
+                  <a href="/bantuan" class="btn btn-danger light" title="Click here to remove filter">Remove Filter</a>
                 </div>
               </div>
             </div>
@@ -67,7 +66,7 @@ if (!empty($key)) {
   <div class="card">
     <div class="card-body">
       <div class="default-tab">
-        <ul class="nav nav-tabs" role="tablist">
+        <ul class="nav nav-tabs" role="tablist" style="margin-top: -5px">
           <li class="nav-item">
             <a class="nav-link text-success active" data-bs-toggle="tab" href="#menerima">
               <i class="la la-hand-holding-heart me-2 text-success"></i> Sudah Menerima Bantuan
@@ -76,6 +75,15 @@ if (!empty($key)) {
           <li class="nav-item">
             <a class="nav-link text-danger" data-bs-toggle="tab" href="#belum">
               <i class="la la-hourglass-half me-2 text-danger"></i> Belum Menerima Bantuan
+            </a>
+          </li>
+          <li class="nav-item ms-auto mb-2 me-3" style="margin-top: -3px">
+            <button type="button" class="btn light btn-danger btn-sm me-2" style="padding: 4px 9px;">
+              <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
+            </button>
+
+            <a href="{{ route('bantuan.download') }}" class="btn light btn-success btn-sm" style="padding: 4px 9px;">
+              <i class="fas fa-file-excel" style="font-size: 20px;"></i>
             </a>
           </li>
         </ul>
@@ -106,7 +114,7 @@ if (!empty($key)) {
                         <td>{{ $data->jenis_disabilitas }}, {{ $data->sub_disabilitas }}</td>
                         <td>@cptl($data->type_bantuan)</td>
                         @if (empty($key) && !auth()->user()->hasRole('petugasdesa'))
-                          <td>{{ $data->nama_desa}} - {{ $data->nama_kecamatan}}</td>
+                          <td>{{ $data->nama_desa }} - {{ $data->nama_kecamatan }}</td>
                         @endif
                         <td>
                           <a type="button" class="btn btn-info shadow btn-xs sharp me-1" data-bs-toggle="modal"
@@ -131,7 +139,8 @@ if (!empty($key)) {
                         <div class="modal-dialog modal-lg">
                           <div class="modal-content">
                             <div class="modal-header bg-primary">
-                              <h3 class="modal-title text-light" id="modalLabel{{ $data->id }}">Detail Data Bantuan :
+                              <h3 class="modal-title text-light" id="modalLabel{{ $data->id }}">Detail Data Bantuan
+                                :
                                 {{ $data->nama }}</h3>
                               <button type="button" class="btn-close text-white" data-bs-dismiss="modal"
                                 aria-label="Close"></button>

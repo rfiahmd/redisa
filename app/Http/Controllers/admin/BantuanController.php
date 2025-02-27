@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Exports\BantuanExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BantuanRequest;
 use App\Models\Bantuan;
+use App\Models\Desa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BantuanController extends Controller
 {
@@ -136,5 +139,26 @@ class BantuanController extends Controller
     {
         Bantuan::findOrFail($id)->delete();
         return redirect()->back()->with('success', 'Bantuan berhasil dibatalkan/dihapus!');
+    }
+
+    public function downloadBantuan()
+    {
+        $user = auth()->user();
+        $namaFile = 'data_bantuan.xlsx';
+
+        if ($user->hasRole('petugasdesa')) {
+            $desa = $user->desa->nama_desa;
+            $kecamatan = $user->desa->nama_kecamatan;
+
+            $desaDuplikat = Desa::where('nama_desa', $desa)->count() > 1;
+
+            if ($desaDuplikat) {
+                $namaFile = 'data_bantuan_' . str_replace(' ', '_', strtolower($desa)) . '_' . str_replace(' ', '_', strtolower($kecamatan)) . '.xlsx';
+            } else {
+                $namaFile = 'data_bantuan_' . str_replace(' ', '_', strtolower($desa)) . '.xlsx';
+            }
+        }
+
+        return Excel::download(new BantuanExport, $namaFile);
     }
 }
