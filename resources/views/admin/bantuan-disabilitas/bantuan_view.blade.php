@@ -27,7 +27,7 @@ if (!empty($key)) {
       </div>
       <div class="cm-content-body form excerpt">
         <div class="card-body">
-          <form method="GET" action="/bantuan">
+          <form method="GET" action="{{ route('bantuan.index') }}">
             <div class="row">
               <div class="col-xl-4  col-sm-6 mb-3 mb-xl-0">
                 <label for="desaFilter" class="form-label">Desa</label>
@@ -54,7 +54,7 @@ if (!empty($key)) {
                   <button class="btn btn-primary me-2" title="Click here to Search" type="submit">
                     <i class="fa fa-filter me-1"></i>Filter
                   </button>
-                  <a href="/bantuan" class="btn btn-danger light" title="Click here to remove filter">Remove Filter</a>
+                  <a href="{{ route('bantuan.index') }}" class="btn btn-danger light" title="Click here to remove filter">Remove Filter</a>
                 </div>
               </div>
             </div>
