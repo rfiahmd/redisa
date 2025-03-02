@@ -56,12 +56,21 @@ $breadcrumb = 'Data Disabilitas';
     </div>
   @endunless
   <div class="card">
-    <div class="card-header">
+    <div class="card-header d-flex justify-content-between align-items-center">
       <h3>Data Disabilitas</h3>
-      @if (Auth::user()->hasRole('petugasdesa'))
-        <a class="btn btn-primary" href="{{ route('disabilitas.create') }}">+ Tambah Data</a>
-      @endif
+      <div class="d-flex align-items-center">
+        <button type="button" class="btn light btn-danger btn-sm me-2" style="padding: 6px 9px;">
+          <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
+        </button>
+        <a href="{{ route('disabilitas.download') }}" class="btn light btn-success btn-sm me-2" style="padding: 6px 9px;">
+          <i class="fas fa-file-excel" style="font-size: 20px;"></i>
+        </a>
+        @if (Auth::user()->hasRole('petugasdesa'))
+          <a class="btn btn-primary btn-sm" href="{{ route('disabilitas.create') }}">+ Tambah Data</a>
+        @endif
+      </div>
     </div>
+
     <div class="card-body">
       <div class="table-responsive">
         <table id="example" class="display min-w850">
@@ -140,7 +149,8 @@ $breadcrumb = 'Data Disabilitas';
                                   <h5>{{ $get->keterangan }}</h5>
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close</button>
                                 </div>
                               </div>
                             </div>
@@ -223,16 +233,16 @@ $breadcrumb = 'Data Disabilitas';
 @section('script')
   <script src="{{ asset('assets') }}/js/dashboard/cms.js"></script>
   <script>
-     document.querySelector("form").addEventListener("submit", function(event) {
+    document.querySelector("form").addEventListener("submit", function(event) {
       let desa = document.getElementById("desaFilter").value.trim();
       let kecamatan = document.getElementById("kecamatanFilter").value.trim();
 
       if (!desa) {
-          document.getElementById("desaFilter").removeAttribute("name");
+        document.getElementById("desaFilter").removeAttribute("name");
       }
       if (!kecamatan) {
-          document.getElementById("kecamatanFilter").removeAttribute("name");
+        document.getElementById("kecamatanFilter").removeAttribute("name");
       }
-  });
+    });
   </script>
 @endsection

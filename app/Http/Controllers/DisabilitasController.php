@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\DisabilitasExport;
 use App\Models\Desa;
 use App\Models\DisabilitasModel;
 use App\Models\Jenis\JenisDisabilitas;
 use App\Models\Jenis\SubJenis\SubJenisDisabilitas;
 use App\Models\VerifikatorDesa;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DisabilitasController extends Controller
 {
@@ -67,7 +69,6 @@ class DisabilitasController extends Controller
 
         return view('petugas-desa.disabilitas.disabilitas-view', compact('disabilitas', 'desaList', 'kecamatanList'));
     }
-
 
     public function create()
     {
@@ -183,5 +184,26 @@ class DisabilitasController extends Controller
     {
         DisabilitasModel::where('nik', $id)->delete();
         return redirect('/datadisabilitas')->with('delete_success', 'Berhasil Menghapus Data');
+    }
+
+    public function exportExcel()
+    {
+        $user = auth()->user();
+        $namaFile = 'data_disabilitas.xlsx';
+
+        if ($user->hasRole('petugasdesa')) {
+            $desa = $user->desa->nama_desa;
+            $kecamatan = $user->desa->nama_kecamatan;
+
+            $desaDuplikat = Desa::where('nama_desa', $desa)->count() > 1;
+
+            if ($desaDuplikat) {
+                $namaFile = 'data_disabilitas_' . str_replace(' ', '_', strtolower($desa)) . '_' . str_replace(' ', '_', strtolower($kecamatan)) . '.xlsx';
+            } else {
+                $namaFile = 'data_disabilitas_' . str_replace(' ', '_', strtolower($desa)) . '.xlsx';
+            }
+        }
+
+        return Excel::download(new DisabilitasExport, $namaFile);
     }
 }

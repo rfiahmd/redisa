@@ -91,6 +91,7 @@ Route::middleware(['auth'])->group(function () {
     // Route untuk all role
     Route::middleware(['role:petugasdesa|superadmin|verifikator|adminpusat|kadis'])->group(function () {
         Route::get('/datadisabilitas', [DisabilitasController::class, 'index'])->name('disabilitas');
+        Route::get('/datadisabilitas/download', [DisabilitasController::class, 'exportExcel'])->name('disabilitas.download');
 
         // Bantuan
         Route::prefix('bantuan')->name('bantuan.')->group(function () {
