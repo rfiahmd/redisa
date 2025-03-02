@@ -26,4 +26,9 @@ class DisabilitasModel extends Model
     public function desa(){
         return $this->belongsTo(Desa::class, 'desa_id', 'id');
     }
+
+    public function bantuan()
+{
+    return $this->hasMany(Bantuan::class, 'disabilitas_id');
+}
 }

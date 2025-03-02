@@ -83,7 +83,7 @@ $breadcrumb = 'Dashboard';
         <div class="card-body">
           <div class="media align-items-center invoice-card">
             <div class="media-body">
-              <h2 class="text-black font-w600">582</h2>
+              <h2 class="text-black font-w600">{{ $bantuan }}</h2>
               <span>Total Data Disabilitas Yang Diberi Bantuan</span>
             </div>
             <span class="p-3 border ms-3 rounded-circle">
