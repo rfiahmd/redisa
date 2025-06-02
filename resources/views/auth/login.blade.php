@@ -13,32 +13,52 @@
     </div>
     <div class="mb-4 position-relative">
       <label class="mb-1 form-label">Password</label>
-      <input type="password" id="password-field" class="form-control @error('password') is-invalid @enderror"
-        placeholder="123456" name="password">
+      <div class="position-relative">
+        <input type="password" id="password-field" class="form-control @error('password') is-invalid @enderror"
+          placeholder="123456" name="password" style="padding-right: 40px;">
+        <span class="position-absolute"
+          style="right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10;" id="toggle-password">
+          <i class="fa fa-eye" id="eye-icon"></i>
+        </span>
+      </div>
       @error('password')
         <div class="invalid-feedback">{{ $message }}</div>
       @enderror
     </div>
-    <div class="form-row d-flex justify-content-between mt-4 mb-2">
-      <div class="mb-4">
-        <div class="form-check custom-checkbox mb-3">
-          <input type="checkbox" class="form-check-input" id="show-password">
-          <label class="form-check-label" for="show-password">Lihat Password</label>
-        </div>
-      </div>
-      <div class="mb-4">
-        <a href="{{ route('password.request') }}" class="btn-link text-primary">Lupa Password?</a>
-      </div>
-    </div>
+    {{-- <div class="mb-4">
+      <a href="{{ route('password.request') }}" class="btn-link text-primary">Lupa Password?</a>
+    </div> --}}
     <div class="row mb-4">
-      <div class="col-6">
+      {{-- <div class="col-6">
         <button type="reset" class="btn btn-light btn-block">Reset</button>
-      </div>
-      <div class="col-6">
+      </div> --}}
+      <div class="col-12">
         <button type="submit" class="btn btn-primary btn-block">Masuk</button>
       </div>
     </div>
   </form>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const togglePassword = document.getElementById('toggle-password');
+      const passwordField = document.getElementById('password-field');
+      const eyeIcon = document.getElementById('eye-icon');
+
+      togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+
+        // Toggle icon
+        if (type === 'text') {
+          eyeIcon.classList.remove('fa-eye');
+          eyeIcon.classList.add('fa-eye-slash');
+        } else {
+          eyeIcon.classList.remove('fa-eye-slash');
+          eyeIcon.classList.add('fa-eye');
+        }
+      });
+    });
+  </script>
 
 
   @if ($errors->any())

@@ -14,6 +14,10 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\VerifikasiController;
 
 Route::middleware(['guest'])->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('login');
+    });
+    
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'login_action'])->name('login.action');
 

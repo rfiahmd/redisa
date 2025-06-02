@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-light">
     <div class="container">
@@ -30,8 +31,13 @@
                             
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password Baru</label>
-                                <input type="password" class="form-control @error('password') is-invalid @enderror" 
-                                       name="password" required minlength="8">
+                                <div class="position-relative">
+                                    <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" 
+                                           name="password" required minlength="8" style="padding-right: 40px;">
+                                    <span class="position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10;" id="toggle-password">
+                                        <i class="fa fa-eye" id="eye-icon-password"></i>
+                                    </span>
+                                </div>
                                 @error('password')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -40,8 +46,13 @@
                             
                             <div class="mb-3">
                                 <label for="password_confirmation" class="form-label">Konfirmasi Password</label>
-                                <input type="password" class="form-control" 
-                                       name="password_confirmation" required minlength="8">
+                                <div class="position-relative">
+                                    <input type="password" id="password_confirmation" class="form-control" 
+                                           name="password_confirmation" required minlength="8" style="padding-right: 40px;">
+                                    <span class="position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 10;" id="toggle-confirmation">
+                                        <i class="fa fa-eye" id="eye-icon-confirmation"></i>
+                                    </span>
+                                </div>
                             </div>
                             
                             <button type="submit" class="btn btn-primary w-100">Update Password</button>
@@ -57,6 +68,33 @@
     </div>
 
     <script>
+        // Function untuk toggle password visibility
+        function setupPasswordToggle(toggleId, inputId, iconId) {
+            const toggle = document.getElementById(toggleId);
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+
+            toggle.addEventListener('click', function() {
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                
+                // Toggle icon
+                if (type === 'text') {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        }
+
+        // Setup toggle untuk kedua password field
+        document.addEventListener('DOMContentLoaded', function() {
+            setupPasswordToggle('toggle-password', 'password', 'eye-icon-password');
+            setupPasswordToggle('toggle-confirmation', 'password_confirmation', 'eye-icon-confirmation');
+        });
+
         // Validasi password confirmation
         const password = document.querySelector('input[name="password"]');
         const confirmation = document.querySelector('input[name="password_confirmation"]');

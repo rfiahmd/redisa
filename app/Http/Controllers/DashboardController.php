@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Bantuan;
 use App\Models\Desa;
 use App\Models\DisabilitasModel;
+use App\Models\Jenis\JenisDisabilitas;
+use App\Models\User;
 use App\Models\VerifikatorDesa;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,17 @@ class DashboardController extends Controller
 
     public function dsadminpusat()
     {
-        return view('admin-pusat.dashboard');
+        // Ambil data yang diperlukan untuk dashboard admin pusat
+        $data = [ 
+            'totalKategori' => JenisDisabilitas::count(),
+            'totalDesa' => Desa::count(),
+            'totalBantuan' => Bantuan::count(),
+            'totalVerifikator' => User::role('verifikator')->count(),
+            'disabilitasDiterima' => DisabilitasModel::where('status', 'diterima')->count(),
+            'disabilitas' => DisabilitasModel::orderBy('created_at', 'desc')->take(10)->get(),
+            'bantuan' => Bantuan::orderBy('created_at', 'desc')->take(10)->get(),
+        ];
+        return view('admin-pusat.dashboard', $data);
     }
 
     public function dsverifikator()

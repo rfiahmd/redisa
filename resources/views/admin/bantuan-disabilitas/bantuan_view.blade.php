@@ -78,9 +78,9 @@ if (!empty($key)) {
             </a>
           </li>
           <li class="nav-item ms-auto mb-2 me-3" style="margin-top: -3px">
-            <button type="button" class="btn light btn-danger btn-sm me-2" style="padding: 4px 9px;">
+            {{-- <button type="button" class="btn light btn-danger btn-sm me-2" style="padding: 4px 9px;">
               <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
-            </button>
+            </button> --}}
 
             <a href="{{ route('bantuan.download') }}" class="btn light btn-success btn-sm" style="padding: 4px 9px;">
               <i class="fas fa-file-excel" style="font-size: 20px;"></i>
