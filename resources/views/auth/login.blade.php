@@ -27,11 +27,16 @@
         </div>
       </div>
       <div class="mb-4">
-        <a href="page-forgot-password.html" class="btn-link text-primary">Lupa Password?</a>
+        <a href="{{ route('password.request') }}" class="btn-link text-primary">Lupa Password?</a>
       </div>
     </div>
-    <div class="text-center mb-4">
-      <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+    <div class="row mb-4">
+      <div class="col-6">
+        <button type="reset" class="btn btn-light btn-block">Reset</button>
+      </div>
+      <div class="col-6">
+        <button type="submit" class="btn btn-primary btn-block">Masuk</button>
+      </div>
     </div>
   </form>
 

@@ -7,12 +7,14 @@ $breadcrumb = 'Customer Service » Kepala Dinas';
 
 @section('content')
   <ul class="nav nav-tabs style-2 mb-4" id="pills-tab" role="tablist">
+    @if (auth()->user()->hasRole('superadmin'))
     <li class="nav-item" role="presentation">
       <a href="{{ route('users.adminpusat') }}" class="nav-link">
         <i class="la la-user-shield me-2 text-primary"></i>
         Admin
       </a>
     </li>
+    @endif
     <li class="nav-item" role="presentation">
       <a href="{{ route('users.verifikator') }}" class="nav-link">
         <i class="la la-user-check me-2 text-primary"></i>

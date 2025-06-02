@@ -10,12 +10,24 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DesaController;
 use App\Http\Controllers\DisabilitasController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\VerifikasiController;
-use App\Http\Controllers\VerifikatorController;
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'login_action'])->name('login.action');
+
+    Route::prefix('password')
+        ->name('password.')
+        ->group(function () {
+            Route::get('/forgot', [ForgotPasswordController::class, 'showEmailForm'])->name('request');
+            Route::post('/send-otp', [ForgotPasswordController::class, 'sendOtp'])->name('send-otp');
+            Route::get('/otp/{email}', [ForgotPasswordController::class, 'showOtpForm'])->name('otp-form');
+            Route::post('/verify-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('verify-otp');
+            Route::get('/reset/{email}/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('reset-form');
+            Route::post('/reset', [ForgotPasswordController::class, 'resetPassword'])->name('update');
+            Route::post('/resend-otp', [ForgotPasswordController::class, 'resendOtp'])->name('resend-otp');
+        });
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -40,8 +52,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Route untuk adminpusat dan superadmin
     Route::middleware(['role:adminpusat|superadmin'])->group(function () {
-        Route::get('/verifikator', [VerifikatorController::class, 'index'])->name('data.verifikator');
-
         // Desa
         Route::get('/desa', [DesaController::class, 'index'])->name('desa');
         Route::post('/desa-create', [DesaController::class, 'store'])->name('desa.store');
@@ -94,11 +104,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/datadisabilitas/download', [DisabilitasController::class, 'exportExcel'])->name('disabilitas.download');
 
         // Bantuan
-        Route::prefix('bantuan')->name('bantuan.')->group(function () {
-            Route::get('/', [BantuanController::class, 'index'])->name('index');
-            Route::get('/download', [BantuanController::class, 'downloadBantuan'])->name('download');
-        });
-
+        Route::prefix('bantuan')
+            ->name('bantuan.')
+            ->group(function () {
+                Route::get('/', [BantuanController::class, 'index'])->name('index');
+                Route::get('/download', [BantuanController::class, 'downloadBantuan'])->name('download');
+            });
     });
 
     // Route untuk petugasdesa dan superadmin
@@ -130,11 +141,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/verifikasi-all/{action}', [VerifikasiController::class, 'bulkAction']);
 
         // Bantuan
-        Route::prefix('bantuan')->name('bantuan.')->group(function () {
-            Route::post('/', [BantuanController::class, 'store'])->name('store');
-            Route::put('/{id}', [BantuanController::class, 'update'])->name('update');
-            Route::get('/{id}/delete', [BantuanController::class, 'destroy'])->name('destroy');
-        });
+        Route::prefix('bantuan')
+            ->name('bantuan.')
+            ->group(function () {
+                Route::post('/', [BantuanController::class, 'store'])->name('store');
+                Route::put('/{id}', [BantuanController::class, 'update'])->name('update');
+                Route::get('/{id}/delete', [BantuanController::class, 'destroy'])->name('destroy');
+            });
     });
 
     // Route untuk kadis

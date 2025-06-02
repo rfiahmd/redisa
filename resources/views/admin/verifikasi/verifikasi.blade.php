@@ -13,11 +13,11 @@ $breadcrumb = 'Verifikasi » Data Disabilitas';
           : {{ $key->desa->nama_desa }}
         @endisset
       </h4>
-      <div>
+      {{-- <div>
         <a class="btn btn-success btn-sm" href="javascript:void(0);" id="accept-all">Terima Semua</a>
         <a class="btn btn-danger btn-sm" href="javascript:void(0);" id="reject-all">Tolak Semua</a>
         <a class="btn btn-warning btn-sm" href="javascript:void(0);" id="revise-all">Revisi Semua</a>
-      </div>
+      </div> --}}
     </div>
     <div class="card-body">
       <ul class="nav nav-tabs" role="tablist">

@@ -1,6 +1,6 @@
 <?php
-$title = 'Data Verifikator » ' . Str::ucfirst(Auth::user()->nama_lengkap);
-$breadcrumb = ' Verifikator';
+$title = 'Data Disabilitas » ' . Str::ucfirst(Auth::user()->nama_lengkap);
+$breadcrumb = ' Disabilitas';
 ?>
 
 @extends('layout.template')
@@ -8,7 +8,7 @@ $breadcrumb = ' Verifikator';
 @section('content')
   <div class="card">
     <div class="card-header">
-      <h3>Data Disabilitas</h3>
+      <h3>Form Disabilitas</h3>
     </div>
     <div class="card-body">
       <form action="{{ route('disabilitas.store') }}" method="POST">

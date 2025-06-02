@@ -59,9 +59,9 @@ $breadcrumb = 'Data Disabilitas';
     <div class="card-header d-flex justify-content-between align-items-center">
       <h3>Data Disabilitas</h3>
       <div class="d-flex align-items-center">
-        <button type="button" class="btn light btn-danger btn-sm me-2" style="padding: 6px 9px;">
+        {{-- <button type="button" class="btn light btn-danger btn-sm me-2" style="padding: 6px 9px;">
           <i class="fas fa-file-pdf" style="font-size: 20px;"></i>
-        </button>
+        </button> --}}
         <a href="{{ route('disabilitas.download') }}" class="btn light btn-success btn-sm me-2" style="padding: 6px 9px;">
           <i class="fas fa-file-excel" style="font-size: 20px;"></i>
         </a>

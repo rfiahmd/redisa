@@ -6,7 +6,6 @@ $breadcrumb = 'Dashboard';
 @extends('layout.template')
 
 @section('content')
-  <h1>petugas desa</h1>
   <div class="row">
     <div class="col-xl-3 col-sm-6">
       <div class="card">
